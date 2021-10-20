@@ -1,0 +1,5 @@
+// Code Signing Settings
+
+CODE_SIGN_IDENTITY = -
+
+// OTHER_CODE_SIGN_FLAGS=--timestamp
