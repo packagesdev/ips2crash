@@ -32,6 +32,10 @@
 
     @property (readonly) pid_t parentProcessID;
 
+    @property (readonly,copy) NSString * responsibleProcessName;    // can be nil
+
+    @property (readonly) pid_t responsibleProcessID;
+
     @property (readonly) uid_t userID;
 
 
@@ -42,6 +46,10 @@
     @property (readonly) NSUInteger reportVersion;
 
     @property (readonly) NSUUID * crashReporterKey;
+
+
+    @property (readonly) NSUUID * sleepWakeUUID;
+
 
     @property (readonly) NSUInteger uptime;
 

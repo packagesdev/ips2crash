@@ -15,18 +15,21 @@
 
 #import "IPSObjectProtocol.h"
 
-#import "IPSRegisterState.h"
+@interface IPSRegisterState : NSObject <IPSObjectProtocol>
 
-extern NSString * const IPSThreadStateCpuKey;
+    @property (readonly) NSUInteger value;
 
-extern NSString * const IPSThreadStateErrKey;
+    @property (readonly,copy) NSString * symbol;    // can be nil
 
-extern NSString * const IPSThreadStateTrapKey;
+    @property (readonly) NSUInteger symbolLocation;
 
-@interface IPSThreadState : NSObject <IPSObjectProtocol>
+    @property (readonly,copy) NSString * sourceFile;    // can be nil
 
-    @property (readonly,copy) NSString * flavor;
+    @property (readonly) NSUInteger sourceLine;
 
-    @property (readonly) NSDictionary<NSString *,IPSRegisterState *> * registersStates;
+    @property (readonly) BOOL matchesCrashFrame;
+
+    @property (readonly,copy) NSString * r_description;    // can be nil
 
 @end
+

@@ -13,6 +13,8 @@
 
 #import "IPSThreadState.h"
 
+#import "NSDictionary+WBExtensions.h"
+
 NSString * const IPSThreadStateFlavorKey=@"flavor";
 
 NSString * const IPSThreadStateCpuKey=@"cpu";
@@ -25,11 +27,7 @@ NSString * const IPSThreadStateTrapKey=@"trap";
 
     @property (readwrite,copy) NSString * flavor;
 
-    @property (readwrite) NSUInteger cpu;
-
-    @property (readwrite) NSUInteger err;
-
-    @property (readwrite) NSUInteger trap;
+    @property (readwrite) NSDictionary<NSString *,IPSRegisterState *> * registersStates;
 
 @end
 
@@ -63,7 +61,31 @@ NSString * const IPSThreadStateTrapKey=@"trap";
         
         _flavor=[tString copy];
         
-        // A COMPLETER
+        __block BOOL tDidFail=NO;
+        __block NSError * tError=nil;
+        
+        _registersStates=[inRepresentation WB_dictionaryByMappingObjectsLenientlyUsingBlock:^IPSRegisterState *(NSString * bKey, NSDictionary * bThreadStateRepresentation) {
+            
+            if (tDidFail==YES)
+                return nil;
+            
+            if ([bKey isEqualToString:IPSThreadStateFlavorKey]==YES)
+                return nil;
+            
+            IPSRegisterState * tRegisterState=[[IPSRegisterState alloc] initWithRepresentation:bThreadStateRepresentation error:&tError];
+            
+            tDidFail=(tRegisterState==nil);
+            
+            return tRegisterState;
+        }];
+        
+        if (tDidFail==YES)
+        {
+            if (outError!=NULL)
+                *outError=tError;
+            
+            return nil;
+        }
     }
     
     return self;

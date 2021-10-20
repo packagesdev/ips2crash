@@ -15,18 +15,12 @@
 
 #import "IPSObjectProtocol.h"
 
-#import "IPSRegisterState.h"
+@interface IPSThreadInstructionStream : NSObject <IPSObjectProtocol>
 
-extern NSString * const IPSThreadStateCpuKey;
+    @property (readonly) uint8_t * bytes;
 
-extern NSString * const IPSThreadStateErrKey;
+    @property (readonly) NSUInteger bytesCount;
 
-extern NSString * const IPSThreadStateTrapKey;
-
-@interface IPSThreadState : NSObject <IPSObjectProtocol>
-
-    @property (readonly,copy) NSString * flavor;
-
-    @property (readonly) NSDictionary<NSString *,IPSRegisterState *> * registersStates;
+    @property (readonly) NSUInteger offset;
 
 @end

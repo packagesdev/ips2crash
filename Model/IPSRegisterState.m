@@ -11,37 +11,41 @@
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "IPSThreadFrame.h"
+#import "IPSRegisterState.h"
 
-NSString * const IPSThreadFrameImageIndexKey=@"imageIndex";
+NSString * const IPSRegisterStateValueKey=@"value";
 
-NSString * const IPSThreadFrameImageOffsetKey=@"imageOffset";
+NSString * const IPSRegisterStateSymbolKey=@"symbol";
 
-NSString * const IPSThreadFrameSymbolNameKey=@"symbol";
+NSString * const IPSRegisterStateSymbolLocationKey=@"symbolLocation";
 
-NSString * const IPSThreadFrameSymbolLocationKey=@"symbolLocation";
+NSString * const IPSRegisterStateSourceFileKey=@"sourceFile";
 
-NSString * const IPSThreadFrameSourceFileKey=@"sourceFile";
+NSString * const IPSRegisterStateSourceLineKey=@"sourceLine";
 
-NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
+NSString * const IPSRegisterStateMatchesCrashFrameKey=@"matchesCrashFrane";
 
-@interface IPSThreadFrame ()
+NSString * const IPSRegisterStateDescriptionKey=@"description";
 
-    @property (readwrite) NSUInteger imageIndex;
+@interface IPSRegisterState ()
 
-    @property (readwrite) NSUInteger imageOffset;
+    @property (readwrite) NSUInteger value;
 
     @property (readwrite,copy) NSString * symbol;    // can be nil
 
-    @property (readwrite) NSUInteger symbolLocation;    // can be nil
+    @property (readwrite) NSUInteger symbolLocation;
 
     @property (readwrite,copy) NSString * sourceFile;    // can be nil
 
     @property (readwrite) NSUInteger sourceLine;
 
+    @property (readwrite) BOOL matchesCrashFrame;
+
+    @property (readwrite,copy) NSString * r_description;    // can be nil
+
 @end
 
-@implementation IPSThreadFrame
+@implementation IPSRegisterState
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
@@ -65,46 +69,58 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
     
     if (self!=nil)
     {
-        NSNumber * tNumber=inRepresentation[IPSThreadFrameImageIndexKey];
+        NSNumber * tNumber=inRepresentation[IPSRegisterStateValueKey];
         
-        IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameImageIndexKey);
+        IPSFullCheckNumberValueForKey(tNumber,IPSRegisterStateValueKey);
         
-        _imageIndex=[tNumber unsignedIntegerValue];
+        _value=[tNumber unsignedIntegerValue];
         
-        tNumber=inRepresentation[IPSThreadFrameImageOffsetKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameImageOffsetKey);
-        
-        _imageOffset=[tNumber unsignedIntegerValue];
-        
-        NSString * tString=inRepresentation[IPSThreadFrameSymbolNameKey];
+        NSString * tString=inRepresentation[IPSRegisterStateSymbolKey];
         
         if (tString!=nil)
         {
-            IPSClassCheckStringValueForKey(tString,IPSThreadFrameSymbolNameKey);
-        
+            IPSClassCheckStringValueForKey(tString,IPSRegisterStateSymbolKey);
+            
             _symbol=[tString copy];
             
-            tNumber=inRepresentation[IPSThreadFrameSymbolLocationKey];
+            tNumber=inRepresentation[IPSRegisterStateSymbolLocationKey];
             
-            IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameSymbolLocationKey);
-                
+            IPSFullCheckNumberValueForKey(tNumber,IPSRegisterStateSymbolLocationKey);
+            
             _symbolLocation=[tNumber unsignedIntegerValue];
         }
         
-        tString=inRepresentation[IPSThreadFrameSourceFileKey];
+        tString=inRepresentation[IPSRegisterStateSourceFileKey];
         
         if (tString!=nil)
         {
-            IPSClassCheckStringValueForKey(tString,IPSThreadFrameSourceFileKey);
+            IPSClassCheckStringValueForKey(tString,IPSRegisterStateSourceFileKey);
             
             _sourceFile=[tString copy];
             
-            tNumber=inRepresentation[IPSThreadFrameSourceLineKey];
+            tNumber=inRepresentation[IPSRegisterStateSourceLineKey];
             
-            IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameSourceLineKey);
+            IPSFullCheckNumberValueForKey(tNumber,IPSRegisterStateSourceLineKey);
             
             _sourceLine=[tNumber unsignedIntegerValue];
+        }
+        
+        tNumber=inRepresentation[IPSRegisterStateMatchesCrashFrameKey];
+        
+        if (tNumber!=nil)
+        {
+            IPSClassCheckNumberValueForKey(tNumber,IPSRegisterStateMatchesCrashFrameKey);
+            
+            _matchesCrashFrame=[tNumber boolValue];
+        }
+        
+        tString=inRepresentation[IPSRegisterStateDescriptionKey];
+        
+        if (tString!=nil)
+        {
+            IPSClassCheckStringValueForKey(tString,IPSRegisterStateDescriptionKey);
+            
+            _r_description=[tString copy];
         }
     }
     
@@ -115,19 +131,7 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
 
 - (NSDictionary *)representation
 {
-    NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionary];
-    
-    tMutableDictionary[IPSThreadFrameImageIndexKey]=@(self.imageIndex);
-    tMutableDictionary[IPSThreadFrameImageOffsetKey]=@(self.imageOffset);
-    
-    if (self.symbol!=nil)
-    {
-        tMutableDictionary[IPSThreadFrameSymbolNameKey]=self.symbol;
-    
-        tMutableDictionary[IPSThreadFrameSymbolLocationKey]=@(self.symbolLocation);
-    }
-    
-    return [tMutableDictionary copy];
+    return @{};
 }
 
 @end

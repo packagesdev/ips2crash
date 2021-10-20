@@ -19,6 +19,8 @@
 
 #import "IPSThreadState.h"
 
+#import "IPSThreadInstructionState.h"
+
 @interface IPSThread : NSObject <IPSObjectProtocol>
 
     @property (readonly,copy) NSString * queue;     // can be nil
@@ -29,6 +31,8 @@
 
     @property (readonly) BOOL triggered;
 
-     @property (readonly) IPSThreadState * threadState;
+    @property (readonly) IPSThreadState * threadState;  // can be nil
+
+    @property (readonly) IPSThreadInstructionState * instructionState;  // can be nil
 
 @end

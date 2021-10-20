@@ -21,6 +21,10 @@ NSString * const IPSTerminationIndicatorKey=@"indicator";
 
 NSString * const IPSTerminationNamespaceKey=@"namespace";
 
+NSString * const IPSTerminationByProcKey=@"byProc";
+
+NSString * const IPSTerminationByPidKey=@"byPid";
+
 @interface IPSTermination ()
 
     @property (readwrite) NSUInteger code;
@@ -30,6 +34,10 @@ NSString * const IPSTerminationNamespaceKey=@"namespace";
     @property (readwrite,copy) NSString * indicator;
 
     @property (readwrite,copy) NSString * namespace;
+
+    @property (readwrite,copy) NSString * byProc;
+
+    @property (readwrite) pid_t byPid;
 
 @end
 
@@ -80,6 +88,21 @@ NSString * const IPSTerminationNamespaceKey=@"namespace";
         IPSFullCheckStringValueForKey(tString,IPSTerminationNamespaceKey);
         
         _namespace=[tString copy];
+        
+        tString=inRepresentation[IPSTerminationByProcKey];
+        
+        if (tString!=nil)
+        {
+            IPSClassCheckStringValueForKey(tString,IPSTerminationByProcKey);
+            
+            _byProc=[tString copy];
+            
+            tNumber=inRepresentation[IPSTerminationByPidKey];
+            
+            IPSFullCheckNumberValueForKey(tNumber,IPSTerminationByPidKey);
+            
+            _byPid=[tNumber intValue];
+        }
     }
     
     return self;
@@ -89,12 +112,20 @@ NSString * const IPSTerminationNamespaceKey=@"namespace";
 
 - (NSDictionary *)representation
 {
-    return @{
-             IPSTerminationCodeKey:@(self.code),
-             IPSTerminationFlagsKey:@(self.flags),
-             IPSTerminationIndicatorKey:self.indicator,
-             IPSTerminationNamespaceKey:self.namespace
-             };
+    NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionaryWithDictionary:@{
+                                                                                             IPSTerminationCodeKey:@(self.code),
+                                                                                             IPSTerminationFlagsKey:@(self.flags),
+                                                                                             IPSTerminationIndicatorKey:self.indicator,
+                                                                                             IPSTerminationNamespaceKey:self.namespace
+                                                                                             }];
+    
+    if (self.byProc!=nil)
+    {
+        tMutableDictionary[IPSTerminationByProcKey]=self.byProc;
+        tMutableDictionary[IPSTerminationByPidKey]=@(self.byPid);
+    }
+    
+    return [tMutableDictionary copy];
 }
 
 @end

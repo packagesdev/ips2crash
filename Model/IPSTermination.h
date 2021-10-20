@@ -25,4 +25,8 @@
 
     @property (readonly,copy) NSString * namespace;
 
+    @property (readonly,copy) NSString * byProc;
+
+    @property (readonly) pid_t byPid;
+
 @end

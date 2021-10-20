@@ -25,6 +25,8 @@ NSString * const IPSThreadTriggeredKey=@"triggered";
 
 NSString * const IPSThreadThreadStateKey=@"threadState";
 
+NSString * const IPSThreadInstructionStateKey=@"instructionState";
+
 @interface IPSThread ()
 
     @property (readwrite,copy) NSString * queue;     // can be nil
@@ -34,6 +36,10 @@ NSString * const IPSThreadThreadStateKey=@"threadState";
     @property (readwrite) NSArray<IPSThreadFrame *> * frames;
 
     @property (readwrite) BOOL triggered;
+
+    @property (readwrite) IPSThreadState * threadState;  // can be nil
+
+    @property (readwrite) IPSThreadInstructionState * instructionState;  // can be nil
 
 @end
 
@@ -109,7 +115,14 @@ NSString * const IPSThreadThreadStateKey=@"threadState";
         
         if (tDictionary!=nil)
         {
-            _threadState=[[IPSThreadState alloc] initWithRepresentation:tDictionary error:nil];
+            _threadState=[[IPSThreadState alloc] initWithRepresentation:tDictionary error:outError];
+        }
+        
+        tDictionary=inRepresentation[IPSThreadInstructionStateKey];
+        
+        if (tDictionary!=nil)
+        {
+            _instructionState=[[IPSThreadInstructionState alloc] initWithRepresentation:tDictionary error:outError];
         }
     }
     

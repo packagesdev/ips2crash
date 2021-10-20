@@ -13,20 +13,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import "IPSThreadInstructionStream.h"
+
 #import "IPSObjectProtocol.h"
 
-#import "IPSRegisterState.h"
+@interface IPSThreadInstructionState : NSObject <IPSObjectProtocol>
 
-extern NSString * const IPSThreadStateCpuKey;
-
-extern NSString * const IPSThreadStateErrKey;
-
-extern NSString * const IPSThreadStateTrapKey;
-
-@interface IPSThreadState : NSObject <IPSObjectProtocol>
-
-    @property (readonly,copy) NSString * flavor;
-
-    @property (readonly) NSDictionary<NSString *,IPSRegisterState *> * registersStates;
+    @property (readonly) IPSThreadInstructionStream * instructionStream;
 
 @end
+

@@ -11,33 +11,23 @@
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "IPSException.h"
+#import "IPSThreadInstructionStream.h"
 
-NSString * const IPSExceptionTypeKey=@"type";
+NSString * const IPSThreadInstructionStreamBytesKey=@"bytes";
 
-NSString * const IPSExceptionSubtypeKey=@"subtype";
+NSString * const IPSThreadInstructionStreamOffsetKey=@"offset";
 
-NSString * const IPSExceptionSignalKey=@"signal";
+@interface IPSThreadInstructionStream ()
 
-NSString * const IPSExceptionCodesKey=@"codes";
+    @property (readwrite) uint8_t * bytes;
 
-NSString * const IPSExceptionRawCodesKey=@"rawCodes";
+    @property (readwrite) NSUInteger bytesCount;
 
-@interface IPSException ()
-
-    @property (readwrite,copy) NSString * type;
-
-    @property (readwrite,copy) NSString * subtype;
-
-    @property (readwrite,copy) NSString * signal;
-
-    @property (readwrite,copy) NSString * codes;
-
-    @property (readwrite) NSArray<NSNumber *> * rawCodes;
+    @property (readwrite) NSUInteger offset;
 
 @end
 
-@implementation IPSException
+@implementation IPSThreadInstructionStream
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
@@ -61,38 +51,27 @@ NSString * const IPSExceptionRawCodesKey=@"rawCodes";
     
     if (self!=nil)
     {
-        NSString * tString=inRepresentation[IPSExceptionTypeKey];
+        NSNumber * tNumber=inRepresentation[IPSThreadInstructionStreamOffsetKey];
         
-        IPSFullCheckStringValueForKey(tString,IPSExceptionTypeKey);
+        IPSFullCheckNumberValueForKey(tNumber,IPSThreadInstructionStreamOffsetKey);
         
-        _type=[tString copy];
+        _offset=[tNumber unsignedIntegerValue];
         
-        tString=inRepresentation[IPSExceptionSubtypeKey];
+        NSArray * tArray=inRepresentation[IPSThreadInstructionStreamBytesKey];
         
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSExceptionSubtypeKey);
+        IPSFullCheckArrayValueForKey(tArray,IPSThreadInstructionStreamBytesKey);
         
-            _subtype=[tString copy];
-        }
+        _bytesCount=tArray.count;
         
-        tString=inRepresentation[IPSExceptionSignalKey];
+        uint8_t * tBytes=(uint8_t *)malloc(_bytesCount*sizeof(uint8_t));
         
-        IPSFullCheckStringValueForKey(tString,IPSExceptionSignalKey);
+        [tArray enumerateObjectsUsingBlock:^(NSNumber * bByteNumber, NSUInteger bIndex, BOOL * bOutStop) {
+            
+            tBytes[bIndex]=[bByteNumber unsignedCharValue];
+            
+        }];
         
-        _signal=[tString copy];
-        
-        tString=inRepresentation[IPSExceptionCodesKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSExceptionCodesKey);
-        
-        _codes=[tString copy];
-        
-        NSArray * tArray=inRepresentation[IPSExceptionRawCodesKey];
-        
-        IPSFullCheckArrayValueForKey(tArray,IPSExceptionRawCodesKey);
-        
-        _rawCodes=[tArray copy];
+        _bytes=tBytes;
     }
     
     return self;
@@ -103,16 +82,8 @@ NSString * const IPSExceptionRawCodesKey=@"rawCodes";
 - (NSDictionary *)representation
 {
     NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionaryWithDictionary:@{
-                                                                                             IPSExceptionTypeKey:self.type,
-                                                                                             IPSExceptionSignalKey:self.signal,
-                                                                                             IPSExceptionCodesKey:self.codes,
-                                                                                             IPSExceptionRawCodesKey:self.rawCodes
+                                                                                             IPSThreadInstructionStreamOffsetKey:@(self.offset)
                                                                                              }];
-    
-    if (self.subtype!=nil)
-    {
-        tMutableDictionary[IPSExceptionSubtypeKey]=self.subtype;
-    }
     
     return [tMutableDictionary copy];
 }

@@ -27,6 +27,10 @@ NSString * const IPSIncidentHeaderParentProcessNameKey=@"parentProc";
 
 NSString * const IPSIncidentHeaderParentProcessIDKey=@"parentPid";
 
+NSString * const IPSIncidentHeaderResponsibleProcessNameKey=@"responsibleProc";
+
+NSString * const IPSIncidentHeaderResponsibleProcessIDKey=@"responsiblePid";
+
 NSString * const IPSIncidentHeaderUserIDKey=@"userID";
 
 
@@ -36,6 +40,9 @@ NSString * const IPSIncidentHeaderCaptureTimeKey=@"captureTime";
 NSString * const IPSIncidentHeaderOperatingSystemVersionKey=@"osVersion";
 
 NSString * const IPSIncidentHeaderCrashReporterKey=@"crashReporterKey";
+
+
+NSString * const IPSIncidentHeaderSleepWakeUUIDKey=@"sleepWakeUUID";
 
 
 NSString * const IPSIncidentHeaderUptimeKey=@"uptime";
@@ -59,6 +66,10 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
     @property (readwrite) pid_t parentProcessID;
 
+    @property (readwrite,copy) NSString * responsibleProcessName;    // can be nil
+
+    @property (readwrite) pid_t responsibleProcessID;
+
     @property (readwrite) uid_t userID;
 
 
@@ -69,6 +80,10 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
     @property (readwrite) NSUInteger reportVersion;
 
     @property (readwrite) NSUUID * crashReporterKey;
+
+
+    @property (readwrite) NSUUID * sleepWakeUUID;
+
 
     @property (readwrite) NSUInteger uptime;
 
@@ -140,26 +155,29 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
         
         tNumber=inRepresentation[IPSIncidentHeaderParentProcessIDKey];
         
-        if ([tNumber isKindOfClass:[NSNumber class]]==NO)
-        {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-            
-            return nil;
-        }
+        IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderParentProcessIDKey);
         
         _parentProcessID=[tNumber intValue];
         
         
+        tString=inRepresentation[IPSIncidentHeaderResponsibleProcessNameKey];
+        
+        if (tString!=nil)
+        {
+            IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderResponsibleProcessNameKey);
+            
+            _responsibleProcessName=[tString copy];
+            
+            tNumber=inRepresentation[IPSIncidentHeaderResponsibleProcessIDKey];
+            
+            IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderResponsibleProcessIDKey);
+            
+            _responsibleProcessID=[tNumber intValue];
+        }
+        
         tNumber=inRepresentation[IPSIncidentHeaderUserIDKey];
         
-        if ([tNumber isKindOfClass:[NSNumber class]]==NO)
-        {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-            
-            return nil;
-        }
+        IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderUserIDKey);
         
         _userID=[tNumber unsignedIntValue];
         
@@ -167,13 +185,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
         
         tString=inRepresentation[IPSIncidentHeaderCaptureTimeKey];
         
-        if ([tString isKindOfClass:[NSString class]]==NO)
-        {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-            
-            return nil;
-        }
+        IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderCaptureTimeKey);
         
         _captureTime=[[IPSDateFormatter sharedFormatter] dateFromString:tString];
         
@@ -214,6 +226,16 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
         
         _crashReporterKey=[[NSUUID alloc] initWithUUIDString:tString];
         
+        
+        
+        tString=inRepresentation[IPSIncidentHeaderSleepWakeUUIDKey];
+        
+        if (tString!=nil)
+        {
+            IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderSleepWakeUUIDKey);
+            
+            _sleepWakeUUID=[[NSUUID alloc] initWithUUIDString:tString];
+        }
         
         
         tNumber=inRepresentation[IPSIncidentHeaderUptimeKey];

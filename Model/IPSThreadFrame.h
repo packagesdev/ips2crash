@@ -25,5 +25,9 @@
 
     @property (readonly) NSUInteger symbolLocation;    // can be nil
 
+    @property (readonly,copy) NSString * sourceFile;    // can be nil
+
+    @property (readonly) NSUInteger sourceLine;
+
 @end
 

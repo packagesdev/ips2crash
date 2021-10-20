@@ -19,6 +19,8 @@
 
     @property (readonly,copy) NSString * type;
 
+    @property (readonly,copy) NSString * subtype;
+
     @property (readonly,copy) NSString * signal;
 
     @property (readonly,copy) NSString * codes;
