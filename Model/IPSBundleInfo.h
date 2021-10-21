@@ -15,13 +15,12 @@
 
 #import "IPSObjectProtocol.h"
 
-#import "IPSApplicationSpecificInformation.h"
+@interface IPSBundleInfo : NSObject <IPSObjectProtocol>
 
-@interface IPSIncidentDiagnosticMessage : NSObject <IPSObjectProtocol>
+    @property (readonly,copy) NSString * bundleShortVersionString;  // can be nil
 
-    @property (readonly) IPSApplicationSpecificInformation * asi;
+    @property (readonly,copy) NSString * bundleVersion;             // can be nil
 
-    @property (readonly,copy) NSString *vmregioninfo;
+    @property (readonly,copy) NSString * bundleIdentifier;          // can be nil
 
 @end
-

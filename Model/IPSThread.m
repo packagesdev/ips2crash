@@ -91,9 +91,14 @@ NSString * const IPSThreadInstructionStateKey=@"instructionState";
         {
             if ([tArray isKindOfClass:[NSArray class]]==NO)
             {
+                if (outError!=NULL)
+                    *outError=[NSError errorWithDomain:IPSErrorDomain
+                                                  code:IPSRepresentationInvalidTypeOfValueError
+                                              userInfo:@{IPSKeyPathErrorKey:(IPSThreadFramesKey)}];
+                
                 return nil;
             }
-        
+            
             _frames=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSThreadFrame *(NSDictionary * bBThreadFrameRepresentation, NSUInteger bIndex) {
                 
                 IPSThreadFrame * tThreadFrame=[[IPSThreadFrame alloc] initWithRepresentation:bBThreadFrameRepresentation error:NULL];

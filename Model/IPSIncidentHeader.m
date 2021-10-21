@@ -21,6 +21,8 @@ NSString * const IPSIncidentHeaderProcessIDKey=@"pid";
 
 NSString * const IPSIncidentHeaderProcessPathKey=@"procPath";
 
+NSString * const IPSIncidentHeaderBundleInfoKey=@"bundleInfo";
+
 NSString * const IPSIncidentHeaderCPUTypeKey=@"cpuType";
 
 NSString * const IPSIncidentHeaderParentProcessNameKey=@"parentProc";
@@ -58,7 +60,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
     @property (readwrite,copy) NSString * processPath;
 
-    @property (readwrite,copy) NSString * version;
+    @property (readwrite) IPSBundleInfo * bundleInfo;
 
     @property (readwrite,copy) NSString * cpuType;
 
@@ -124,13 +126,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
         
         NSNumber * tNumber=inRepresentation[IPSIncidentHeaderProcessIDKey];
         
-        if ([tNumber isKindOfClass:[NSNumber class]]==NO)
-        {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-            
-            return nil;
-        }
+        IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderProcessIDKey);
         
         _processID=[tNumber intValue];
         
@@ -140,6 +136,28 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
         
         _processPath=[tString copy];
         
+        NSError * tError=nil;
+        NSDictionary * tDictionary=inRepresentation[IPSIncidentHeaderBundleInfoKey];
+        
+        if (tDictionary!=nil)
+        {
+            _bundleInfo=[[IPSBundleInfo alloc] initWithRepresentation:tDictionary error:&tError];
+            
+            if (_bundleInfo==nil)
+            {
+                NSString * tPathError=IPSIncidentHeaderOperatingSystemVersionKey;
+                
+                if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+                    tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+
+                if (outError!=NULL)
+                    *outError=[NSError errorWithDomain:IPSErrorDomain
+                                                  code:tError.code
+                                              userInfo:@{IPSKeyPathErrorKey:tPathError}];
+                
+                return nil;
+            }
+        }
         
         tString=inRepresentation[IPSIncidentHeaderCPUTypeKey];
         
@@ -190,10 +208,10 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
         _captureTime=[[IPSDateFormatter sharedFormatter] dateFromString:tString];
         
         
-        NSDictionary * tDictionary=inRepresentation[IPSIncidentHeaderOperatingSystemVersionKey];
+        tDictionary=inRepresentation[IPSIncidentHeaderOperatingSystemVersionKey];
         
-        NSError * tError=nil;
         
+        tError=nil;
         _operatingSystemVersion=[[IPSOperatingSystemVersion alloc] initWithRepresentation:tDictionary error:&tError];
         
         if (_operatingSystemVersion==nil)
@@ -203,26 +221,17 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
             if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
                 tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
             
-            *outError=[NSError errorWithDomain:IPSErrorDomain
-                                          code:tError.code
-                                      userInfo:@{IPSKeyPathErrorKey:tPathError}];
-            
-            
             if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+                *outError=[NSError errorWithDomain:IPSErrorDomain
+                                              code:tError.code
+                                          userInfo:@{IPSKeyPathErrorKey:tPathError}];
             
             return nil;
         }
         
         tString=inRepresentation[IPSIncidentHeaderCrashReporterKey];
         
-        if ([tString isKindOfClass:[NSString class]]==NO)
-        {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-            
-            return nil;
-        }
+        IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderCrashReporterKey);
         
         _crashReporterKey=[[NSUUID alloc] initWithUUIDString:tString];
         
@@ -240,13 +249,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
         
         tNumber=inRepresentation[IPSIncidentHeaderUptimeKey];
         
-        if ([tNumber isKindOfClass:[NSNumber class]]==NO)
-        {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-            
-            return nil;
-        }
+        IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderUptimeKey);
         
         _uptime=[tNumber unsignedIntegerValue];
         
@@ -255,10 +258,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
         
         if (tString!=nil)
         {
-            if ([tString isKindOfClass:[NSString class]]==NO)
-            {
-                return nil;
-            }
+            IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderSystemIntegrityProtectionKey);
             
             _systemIntegrityProtectionEnable=[tString isEqualToString:@"enabled"];
         }
@@ -269,9 +269,9 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 #pragma mark -
 
-- (NSMutableDictionary *)representation
+- (NSDictionary *)representation
 {
-    return [NSMutableDictionary dictionary];
+    return @{};
 }
 
 @end

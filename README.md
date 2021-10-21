@@ -16,12 +16,14 @@ Minimum OS requirement is macOS 10.9 at this time.
 
 ## To do
 
-- Test more than 1 .ips file…
-- Handle errors
+- Test more than 3 .ips files…
+- Handle more errors
 - Unit tests
-- Full support for header fields
-- Support for Diagnostic Message
 - Support for summary
+
+## Note
+
+- The translation to a report version 12 looks to be more accurate than the one made by Apple in Monterey.
 
 ## License
 

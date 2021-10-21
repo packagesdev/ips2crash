@@ -140,8 +140,15 @@
         
         if (tIncidentString==nil)
         {
+            NSString * tPathError=@"{Summary}";
+            
+            if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+                tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+            
             if (outError!=NULL)
-                *outError=nil;  // A COMPLETER
+                *outError=[NSError errorWithDomain:IPSErrorDomain
+                                              code:tError.code
+                                          userInfo:@{IPSKeyPathErrorKey:tPathError}];
             
             return nil;
         }
@@ -164,8 +171,15 @@
         
         if (_incident==nil)
         {
+            NSString * tPathError=@"{Incident}";
+            
+            if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+                tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+            
             if (outError!=NULL)
-                *outError=tError;
+                *outError=[NSError errorWithDomain:IPSErrorDomain
+                                              code:tError.code
+                                          userInfo:@{IPSKeyPathErrorKey:tPathError}];
             
             return nil;
         }

@@ -17,5 +17,7 @@
 
 @interface IPSApplicationSpecificInformation : NSObject <IPSObjectProtocol>
 
+    @property (readonly) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
+
 @end
 

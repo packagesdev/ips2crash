@@ -46,9 +46,25 @@ NSString * const IPSLegacyInfoThreadTriggeredKey=@"threadTriggered";
     
     if (self!=nil)
     {
+        NSError * tError=nil;
         NSDictionary * tDictionary=inRepresentation[IPSLegacyInfoThreadTriggeredKey];
         
-        _threadTriggered=[[IPSThread alloc] initWithRepresentation:tDictionary error:NULL];
+        _threadTriggered=[[IPSThread alloc] initWithRepresentation:tDictionary error:&tError];
+        
+        if (_threadTriggered==nil)
+        {
+            NSString * tPathError=IPSLegacyInfoThreadTriggeredKey;
+            
+            if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+                tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+            
+            if (outError!=NULL)
+                *outError=[NSError errorWithDomain:IPSErrorDomain
+                                              code:tError.code
+                                          userInfo:@{IPSKeyPathErrorKey:tPathError}];
+            
+            return nil;
+        }
     }
     
     return self;

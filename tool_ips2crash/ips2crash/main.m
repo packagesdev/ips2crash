@@ -132,43 +132,47 @@ int main(int argc, const char * argv[])
                     
                     case NSFileReadNoPermissionError:
                         
-                        // A COMPLETER
+                        (void)fprintf(stderr, "'%s': Permission denied.\n",tIPSFile.fileSystemRepresentation);
+                        
+                        break;
                         
                     default:
                         
-                        // A COMPLETER
+                        (void)fprintf(stderr, "'%s': Unable to read file.\n",tIPSFile.fileSystemRepresentation);
                         
                         break;
                 }
             }
             else if ([tError.domain isEqualToString:IPSErrorDomain]==YES)
             {
+                (void)fprintf(stderr, "'%s': An error occurred when reading the .ips file.\n",tIPSFile.fileSystemRepresentation);
+                
                 NSString * tKeyPath=tError.userInfo[IPSKeyPathErrorKey];
                 
                 switch(tError.code)
                 {
                     case IPSRepresentationNilRepresentationError:
                         
-                        // A COMPLETER
+                        (void)fprintf(stderr, "Missing value for key: %s.\n",tKeyPath.UTF8String);
                         
                         break;
                         
                     case IPSRepresentationInvalidTypeOfValueError:
                         
-                        // A COMPLETER
+                        (void)fprintf(stderr, "Invalid type of value for key: %s.\n",tKeyPath.UTF8String);
                         
                         break;
                         
                     case IPSRepresentationInvalidValueError:
                         
-                        // A COMPLETER
+                        (void)fprintf(stderr, "Invalid value for key: %s.\n",tKeyPath.UTF8String);
                         
                         break;
                 }
             }
             else
             {
-                // A COMPLETER
+                (void)fprintf(stderr, "%s\n",tError.description.UTF8String);
             }
             
             return EXIT_FAILURE;
@@ -185,6 +189,8 @@ int main(int argc, const char * argv[])
         
         if ([tString writeToFile:tOutputCrashFile atomically:YES encoding:NSUTF8StringEncoding error:&tError]==YES)
             return EXIT_SUCCESS;
+        
+        (void)fprintf(stderr, "An error occurred when reading the file '%s'.\n",tIPSFile.fileSystemRepresentation);
         
         if ([tError.domain isEqualToString:NSCocoaErrorDomain]==YES)
         {

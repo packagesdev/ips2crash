@@ -13,6 +13,18 @@
 
 #import "IPSIncidentDiagnosticMessage.h"
 
+NSString * const IPSIncidentDiagnosticMessageAsiKey=@"asi";
+
+NSString * const IPSIncidentDiagnosticMessageVmregioninfoKey=@"vmregioninfo";
+
+@interface IPSIncidentDiagnosticMessage ()
+
+    @property (readwrite) IPSApplicationSpecificInformation * asi;
+
+    @property (readwrite,copy) NSString *vmregioninfo;
+
+@end
+
 @implementation IPSIncidentDiagnosticMessage
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
@@ -37,7 +49,21 @@
     
     if (self!=nil)
     {
-        // A COMPLETER
+        NSDictionary * tDictionary=inRepresentation[IPSIncidentDiagnosticMessageAsiKey];
+        
+        if (tDictionary!=nil)
+        {
+            _asi=[[IPSApplicationSpecificInformation alloc] initWithRepresentation:tDictionary error:NULL];
+        }
+        
+        NSString * tString=inRepresentation[IPSIncidentDiagnosticMessageVmregioninfoKey];
+        
+        if (tString!=nil)
+        {
+            IPSClassCheckStringValueForKey(tString,IPSIncidentDiagnosticMessageVmregioninfoKey);
+            
+            _vmregioninfo=[tString copy];
+        }
     }
     
     return self;

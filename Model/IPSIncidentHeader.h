@@ -14,6 +14,8 @@
 
 #import "IPSObjectProtocol.h"
 
+#import "IPSBundleInfo.h"
+
 #import "IPSOperatingSystemVersion.h"
 
 @interface IPSIncidentHeader : NSObject <IPSObjectProtocol>
@@ -24,7 +26,7 @@
 
     @property (readonly,copy) NSString * processPath;
 
-    @property (readonly,copy) NSString * version;
+    @property (readonly) IPSBundleInfo * bundleInfo;
 
     @property (readonly,copy) NSString * cpuType;
 

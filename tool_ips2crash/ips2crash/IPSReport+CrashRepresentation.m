@@ -13,6 +13,8 @@
 
 #import "IPSReport+CrashRepresentation.h"
 
+#import "IPSDateFormatter.h"
+
 #define BINARYIMAGENAME_AND_SPACE_MAXLEN    34
 
 @implementation IPSReport (CrashRepresentation)
@@ -133,6 +135,34 @@
     
     [tMutableString appendFormat:@"Path:                  %@\n",tHeader.processPath];
     
+    IPSBundleInfo * tBundleInfo=tHeader.bundleInfo;
+    
+    if (tBundleInfo.bundleIdentifier!=nil)
+    {
+        [tMutableString appendFormat:@"Identifier:            %@\n",tBundleInfo.bundleIdentifier];
+    }
+    else
+    {
+        [tMutableString appendFormat:@"Identifier:            %@\n",tHeader.processName];
+    }
+    
+    if (tBundleInfo.bundleShortVersionString!=nil)
+    {
+        [tMutableString appendFormat:@"Version:               %@",tBundleInfo.bundleShortVersionString];
+    }
+    else
+    {
+        [tMutableString appendFormat:@"Version:               %@",@"???"];
+    }
+    
+    if (tBundleInfo.bundleVersion!=nil)
+    {
+        [tMutableString appendFormat:@" (%@)\n",tBundleInfo.bundleVersion];
+    }
+    else
+    {
+        [tMutableString appendString:@"\n"];
+    }
     
     [tMutableString appendFormat:@"Code Type:             %@\n",tHeader.cpuType];
     
@@ -146,7 +176,7 @@
     [tMutableString appendString:@"\n"];
     
     
-    [tMutableString appendFormat:@"Date/Time:             %@\n",tHeader.captureTime];
+    [tMutableString appendFormat:@"Date/Time:             %@\n",[[IPSDateFormatter sharedFormatter] stringFromDate:tHeader.captureTime]];
     
     [tMutableString appendFormat:@"OS Version:            %@ (%@)\n",tHeader.operatingSystemVersion.train,tHeader.operatingSystemVersion.build];
     
@@ -219,6 +249,37 @@
     }
     
     [tMutableString appendString:@"\n"];
+    
+    
+    // Diagnostic Message
+    
+    IPSIncidentDiagnosticMessage * tDiagnosticMessage=tIncident.diagnosticMessage;
+    
+    if (tDiagnosticMessage!=nil)
+    {
+        if (tDiagnosticMessage.vmregioninfo!=nil)
+        {
+            [tMutableString appendFormat:@"VM Region Info:%@\n",tDiagnosticMessage.vmregioninfo];
+            
+            [tMutableString appendString:@"\n"];
+        }
+        
+        if (tDiagnosticMessage.asi!=nil)
+        {
+            [tMutableString appendString:@"Application Specific Information:\n"];
+            
+            [tDiagnosticMessage.asi.applicationsInformation enumerateKeysAndObjectsUsingBlock:^(NSString * bProcess, NSArray * bInformation, BOOL * bOutStop) {
+               
+                [bInformation enumerateObjectsUsingBlock:^(NSString * bInformation, NSUInteger bIndex, BOOL * bOutStop2) {
+                    
+                    [tMutableString appendFormat:@"%@\n",bInformation];
+                }];
+                
+            }];
+            
+            [tMutableString appendString:@"\n"];
+        }
+    }
     
     // Threads
     

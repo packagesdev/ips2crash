@@ -127,6 +127,13 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
         tMutableDictionary[IPSThreadFrameSymbolLocationKey]=@(self.symbolLocation);
     }
     
+    if (self.sourceFile!=nil)
+    {
+        tMutableDictionary[IPSThreadFrameSourceFileKey]=self.sourceFile;
+        
+        tMutableDictionary[IPSThreadFrameSourceLineKey]=@(self.sourceLine);
+    }
+    
     return [tMutableDictionary copy];
 }
 

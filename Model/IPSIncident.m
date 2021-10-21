@@ -54,16 +54,45 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
     
     if (self!=nil)
     {
-        _header=[[IPSIncidentHeader alloc] initWithRepresentation:inRepresentation error:NULL];
+        NSError * tError=nil;
         
+        _header=[[IPSIncidentHeader alloc] initWithRepresentation:inRepresentation error:&tError];
         
-        _exceptionInformation=[[IPSIncidentExceptionInformation alloc] initWithRepresentation:inRepresentation error:NULL];
+        if (_header==nil)
+        {
+            if (outError!=NULL)
+                *outError=tError;
+            
+            return nil;
+        }
+        
+        tError=nil;
+        _exceptionInformation=[[IPSIncidentExceptionInformation alloc] initWithRepresentation:inRepresentation error:&tError];
+        
+        if (_exceptionInformation==nil)
+        {
+            if (outError!=NULL)
+                *outError=tError;
+            
+            return nil;
+        }
+        
+        tError=nil;
+        _diagnosticMessage=[[IPSIncidentDiagnosticMessage alloc] initWithRepresentation:inRepresentation error:&tError];
         
         NSArray * tArray=inRepresentation[IPCIncidentThreadsKey];
         
         if ([tArray isKindOfClass:[NSArray class]]==NO)
         {
-            return nil;
+            if ([tArray isKindOfClass:[NSArray class]]==NO)
+            {
+                if (outError!=NULL)
+                    *outError=[NSError errorWithDomain:IPSErrorDomain
+                                                  code:IPSRepresentationInvalidTypeOfValueError
+                                              userInfo:@{IPSKeyPathErrorKey:(IPCIncidentThreadsKey)}];
+                
+                return nil;
+            }
         }
         
         _threads=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSThread *(NSDictionary * bBThreadRepresentation, NSUInteger bIndex) {
@@ -75,33 +104,39 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
         
         tArray=inRepresentation[IPSIncidentUsedImagesKey];
         
-        if ([tArray isKindOfClass:[NSArray class]]==NO)
+        if (tArray!=nil)
         {
-            return nil;
+            if ([tArray isKindOfClass:[NSArray class]]==NO)
+            {
+                if (outError!=NULL)
+                    *outError=[NSError errorWithDomain:IPSErrorDomain
+                                                  code:IPSRepresentationInvalidTypeOfValueError
+                                              userInfo:@{IPSKeyPathErrorKey:(IPSIncidentUsedImagesKey)}];
+                
+                return nil;
+            }
+            
+            _binaryImages=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSImage *(NSDictionary * bBinaryImageRepresentation, NSUInteger bIndex) {
+                
+                IPSImage * tBinaryImage=[[IPSImage alloc] initWithRepresentation:bBinaryImageRepresentation error:NULL];
+                
+                return tBinaryImage;
+            }];
         }
-        
-        _binaryImages=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSImage *(NSDictionary * bBinaryImageRepresentation, NSUInteger bIndex) {
-            
-            IPSImage * tBinaryImage=[[IPSImage alloc] initWithRepresentation:bBinaryImageRepresentation error:NULL];
-            
-            return tBinaryImage;
-        }];
         
         NSDictionary * tDictionary=inRepresentation[IPSIncidentExtModsKey];
         
-        _extMods=[[IPSExternalModificationSummary alloc] initWithRepresentation:tDictionary error:NULL];
+        tError=nil;
+        _extMods=[[IPSExternalModificationSummary alloc] initWithRepresentation:tDictionary error:&tError];
         
         NSString * tString=inRepresentation[IPSIncidentVMSummaryKey];
         
-        if ([tString isKindOfClass:[NSString class]]==NO)
+        if (tString!=nil)
         {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-            
-            return nil;
-        }
+            IPSClassCheckStringValueForKey(tString,IPSIncidentVMSummaryKey);
         
-        _vmSummary=[tString copy];
+            _vmSummary=[tString copy];
+        }
     }
     
     return self;

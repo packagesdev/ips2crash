@@ -112,19 +112,13 @@ NSString * const IPSImageSizeKey=@"size";
         
         tString=inRepresentation[IPSImagePathKey];
         
-        if ([tString isKindOfClass:[NSString class]]==NO)
-        {
-            return nil;
-        }
+        IPSFullCheckStringValueForKey(tString,IPSImagePathKey);
         
         _path=[tString copy];
         
         tString=inRepresentation[IPSImageUUIDKey];
         
-        if ([tString isKindOfClass:[NSString class]]==NO)
-        {
-            return nil;
-        }
+        IPSFullCheckStringValueForKey(tString,IPSImageUUIDKey);
         
         _UUID=[[NSUUID alloc] initWithUUIDString:tString];
         
