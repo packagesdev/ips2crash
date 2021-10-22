@@ -465,56 +465,65 @@
     
     // Binary Images
     
-    [tMutableString appendString:@"Binary Images\n"];
-    
-    [[tIncident.binaryImages sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(IPSImage * bImage, NSUInteger bIndex, BOOL * bOutStop) {
+    if (tIncident.binaryImages.count>0)
+    {
+        [tMutableString appendString:@"Binary Images\n"];
         
-        [tMutableString appendFormat:@"%@ - %@ ",[IPSReport binaryImageStringForAddress:bImage.loadAddress],[IPSReport binaryImageStringForAddress:bImage.loadAddress+bImage.size]];
-        
-        if (bImage.bundleIdentifier!=nil)
-            [tMutableString appendFormat:@"%@ ",bImage.bundleIdentifier];
-        else
-            [tMutableString appendFormat:@"%@ ",bImage.name];
-        
-        if (bImage.bundleShortVersionString!=nil || bImage.bundleVersion!=nil)
-        {
-            [tMutableString appendFormat:@"(%@ - %@) ",(bImage.bundleShortVersionString!=nil) ? bImage.bundleShortVersionString : @"???",
-             (bImage.bundleVersion!=nil) ? bImage.bundleVersion : @"???"];
-        }
-        else
-        {
-            [tMutableString appendString:@"(???) "];
-        }
-        
-        [tMutableString appendFormat:@"<%@> %@",bImage.UUID,bImage.path];
+        [[tIncident.binaryImages sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(IPSImage * bImage, NSUInteger bIndex, BOOL * bOutStop) {
+            
+            [tMutableString appendFormat:@"%@ - %@ ",[IPSReport binaryImageStringForAddress:bImage.loadAddress],[IPSReport binaryImageStringForAddress:bImage.loadAddress+bImage.size]];
+            
+            if (bImage.bundleIdentifier!=nil)
+                [tMutableString appendFormat:@"%@ ",bImage.bundleIdentifier];
+            else
+                [tMutableString appendFormat:@"%@ ",bImage.name];
+            
+            if (bImage.bundleShortVersionString!=nil || bImage.bundleVersion!=nil)
+            {
+                [tMutableString appendFormat:@"(%@ - %@) ",(bImage.bundleShortVersionString!=nil) ? bImage.bundleShortVersionString : @"???",
+                 (bImage.bundleVersion!=nil) ? bImage.bundleVersion : @"???"];
+            }
+            else
+            {
+                [tMutableString appendString:@"(???) "];
+            }
+            
+            [tMutableString appendFormat:@"<%@> %@",bImage.UUID,bImage.path];
+            
+            [tMutableString appendString:@"\n"];
+        }];
         
         [tMutableString appendString:@"\n"];
-    }];
-    
-    [tMutableString appendString:@"\n"];
+    }
     
     // External Modification Summary
     
-    [tMutableString appendString:@"External Modification Summary:\n"];
-    
-    [tMutableString appendString:@" Calls made by other processes targeting this process:\n"];
-    
-    [tMutableString appendString:[IPSReport externalModificationStatisticsStringFromObject:tIncident.extMods.targeted]];
-    
-    [tMutableString appendString:@" Calls made by this process:\n"];
-    
-    [tMutableString appendString:[IPSReport externalModificationStatisticsStringFromObject:tIncident.extMods.caller]];
-    
-    [tMutableString appendString:@" Calls made by all processes on this machine:\n"];
-    
-    [tMutableString appendString:[IPSReport externalModificationStatisticsStringFromObject:tIncident.extMods.system]];
-    
-    [tMutableString appendString:@"\n"];
+    if (tIncident.extMods!=nil)
+    {
+        [tMutableString appendString:@"External Modification Summary:\n"];
+        
+        [tMutableString appendString:@" Calls made by other processes targeting this process:\n"];
+        
+        [tMutableString appendString:[IPSReport externalModificationStatisticsStringFromObject:tIncident.extMods.targeted]];
+        
+        [tMutableString appendString:@" Calls made by this process:\n"];
+        
+        [tMutableString appendString:[IPSReport externalModificationStatisticsStringFromObject:tIncident.extMods.caller]];
+        
+        [tMutableString appendString:@" Calls made by all processes on this machine:\n"];
+        
+        [tMutableString appendString:[IPSReport externalModificationStatisticsStringFromObject:tIncident.extMods.system]];
+        
+        [tMutableString appendString:@"\n"];
+    }
     
     // VM Summary
     
-    [tMutableString appendString:@"VM Region Summary:\n"];
-    [tMutableString appendString:tIncident.vmSummary];
+    if (tIncident.vmSummary!=nil)
+    {
+        [tMutableString appendString:@"VM Region Summary:\n"];
+        [tMutableString appendString:tIncident.vmSummary];
+    }
     
     return [tMutableString copy];
 }
