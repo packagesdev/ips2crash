@@ -326,7 +326,7 @@
             }
             
             if (bFrame.sourceFile!=nil)
-                [tMutableString appendFormat:@"(%@:%lu)",bFrame.sourceFile,(unsigned long)bFrame.sourceLine];
+                [tMutableString appendFormat:@" (%@:%lu)",bFrame.sourceFile,(unsigned long)bFrame.sourceLine];
             
             [tMutableString appendString:@"\n"];
             
