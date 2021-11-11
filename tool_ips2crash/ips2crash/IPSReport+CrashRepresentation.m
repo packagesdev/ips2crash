@@ -13,6 +13,8 @@
 
 #import "IPSReport+CrashRepresentation.h"
 
+#import "IPSThreadState+RegisterDisplayName.h"
+
 #import "IPSDateFormatter.h"
 
 #define BINARYIMAGENAME_AND_SPACE_MAXLEN    34
@@ -39,27 +41,6 @@
     [tMutableString appendFormat:@"    thread_set_state: %ld\n",(long)inObject.threadSetState];
     
     return [tMutableString copy];
-}
-
-+ (NSString *)displayNameForRegisterName:(NSString *)inName
-{
-    if (inName==nil)
-        return nil;
-    
-    static NSDictionary * sTranslationRegistry=nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        sTranslationRegistry=@{
-                               @"rflags":@"rfl"
-                               };
-        
-    });
-    
-    NSString * tTranslatedName=sTranslationRegistry[inName];
-    
-    return (tTranslatedName!=nil) ? tTranslatedName : inName;
-        
 }
 
 + (NSString *)representationForThreadState:(IPSThreadState *)inThreadState
@@ -101,7 +82,7 @@
         
         if (tRegisterState!=nil)
         {
-            NSString * tTranslatedName=[IPSReport displayNameForRegisterName:bRegisterName];
+            NSString * tTranslatedName=[IPSThreadState displayNameForRegisterName:bRegisterName];
             
             if (tTranslatedName.length<5)
                 for(NSUInteger tWhitespace=0;tWhitespace<(5-tTranslatedName.length);tWhitespace++)
