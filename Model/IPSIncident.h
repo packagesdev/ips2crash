@@ -37,6 +37,8 @@
 
     @property (readonly) NSArray<IPSThread *> * threads;
 
+    @property (nonatomic,readonly) IPSThreadState * threadState;
+
     @property (readonly) NSArray<IPSImage *> * binaryImages;
 
     @property (readonly) IPSExternalModificationSummary * extMods;

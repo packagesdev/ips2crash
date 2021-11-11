@@ -144,6 +144,27 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
 
 #pragma mark -
 
+- (IPSThreadState *)threadState
+{
+    IPSIncidentExceptionInformation * tExceptionInformation=self.exceptionInformation;
+    
+    if (tExceptionInformation==nil)
+        return nil;
+    
+    NSUInteger tFaultingThread=tExceptionInformation.faultingThread;
+    
+    NSArray * tThreads=self.threads;
+    
+    if (tFaultingThread>=tThreads.count)
+        return nil;
+    
+    IPSThread * tCrashedThread=tThreads[tFaultingThread];
+    
+    return tCrashedThread.threadState;
+}
+
+#pragma mark -
+
 - (NSDictionary *)representation
 {
     return @{};
