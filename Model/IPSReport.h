@@ -29,4 +29,6 @@
 
 - (instancetype)initWithData:(NSData *)inData error:(out NSError **)outError;
 
+- (instancetype)initWithString:(NSString *)inString error:(out NSError **)outError;
+
 @end

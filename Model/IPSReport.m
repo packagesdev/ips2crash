@@ -81,23 +81,36 @@
         return nil;
     }
     
+    NSString * tString=[[NSString alloc] initWithData:inData encoding:NSUTF8StringEncoding];
+    
+    if (tString==nil)
+    {
+        if (outError!=NULL)
+            *outError=nil;  // A COMPLETER
+        
+        return nil;
+    }
+    
+    return [self initWithString:tString error:outError];
+}
+
+- (instancetype)initWithString:(NSString *)inString error:(out NSError **)outError;
+{
+    if ([inString isKindOfClass:[NSString class]]==NO)
+    {
+        if (outError!=NULL)
+            *outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
+        
+        return nil;
+    }
+    
     self=[super init];
     
     if (self!=nil)
     {
         NSError * tError=nil;
         
-        NSString * tString=[[NSString alloc] initWithData:inData encoding:NSUTF8StringEncoding];
-        
-        if (tString==nil)
-        {
-            if (outError!=NULL)
-                *outError=nil;  // A COMPLETER
-            
-            return nil;
-        }
-        
-        NSRange tRange=[tString lineRangeForRange:NSMakeRange(0,1)];
+        NSRange tRange=[inString lineRangeForRange:NSMakeRange(0,1)];
         
         if (tRange.location==NSNotFound)
         {
@@ -109,7 +122,7 @@
         
         // Summary
         
-        NSString * tFirstLine=[tString substringWithRange:tRange];
+        NSString * tFirstLine=[inString substringWithRange:tRange];
         
         NSData * tSummaryData=[tFirstLine dataUsingEncoding:NSUTF8StringEncoding];
         
@@ -136,7 +149,7 @@
         
         // Incident
         
-        NSString * tIncidentString=[tString substringFromIndex:NSMaxRange(tRange)];
+        NSString * tIncidentString=[inString substringFromIndex:NSMaxRange(tRange)];
         
         if (tIncidentString==nil)
         {
