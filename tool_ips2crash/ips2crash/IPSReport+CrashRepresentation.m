@@ -240,7 +240,7 @@
     {
         if (tDiagnosticMessage.vmregioninfo!=nil)
         {
-            [tMutableString appendFormat:@"VM Region Info:%@\n",tDiagnosticMessage.vmregioninfo];
+            [tMutableString appendFormat:@"VM Region Info: %@\n",tDiagnosticMessage.vmregioninfo];
             
             [tMutableString appendString:@"\n"];
         }
