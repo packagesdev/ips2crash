@@ -13,6 +13,8 @@
 
 #import "IPSImage.h"
 
+NSString * const IPSImageSopurceKey=@"source";
+
 NSString * const IPSImageArchitectureKey=@"arch";
 
 NSString * const IPSImageNameKey=@"name";
@@ -32,6 +34,8 @@ NSString * const IPSImageBaseAddressKey=@"base";
 NSString * const IPSImageSizeKey=@"size";
 
 @interface IPSImage ()
+
+	@property (readwrite,copy) NSString * source;
 
     @property (readwrite,copy) NSString * name;
 
@@ -77,11 +81,20 @@ NSString * const IPSImageSizeKey=@"size";
     
     if (self!=nil)
     {
-        NSString * tString=inRepresentation[IPSImageNameKey];
+		NSString * tString=inRepresentation[IPSImageSopurceKey];
+		
+		IPSFullCheckStringValueForKey(tString,IPSImageSopurceKey);
+			
+		_source=[tString copy];
+		
+		tString=inRepresentation[IPSImageNameKey];
         
-        IPSFullCheckStringValueForKey(tString,IPSImageNameKey);
-        
-        _name=[tString copy];
+		if (tString!=nil)
+		{
+			IPSFullCheckStringValueForKey(tString,IPSImageNameKey);
+			
+			_name=[tString copy];
+		}
         
         tString=inRepresentation[IPSImageBundleVersion];
         
@@ -112,9 +125,12 @@ NSString * const IPSImageSizeKey=@"size";
         
         tString=inRepresentation[IPSImagePathKey];
         
-        IPSFullCheckStringValueForKey(tString,IPSImagePathKey);
-        
-        _path=[tString copy];
+		if (tString!=nil)
+		{
+			IPSFullCheckStringValueForKey(tString,IPSImagePathKey);
+			
+			_path=[tString copy];
+		}
         
         tString=inRepresentation[IPSImageUUIDKey];
         
@@ -122,6 +138,15 @@ NSString * const IPSImageSizeKey=@"size";
         
         _UUID=[[NSUUID alloc] initWithUUIDString:tString];
         
+		tString=inRepresentation[IPSImageArchitectureKey];
+		
+		if (tString!=nil)
+		{
+			IPSFullCheckStringValueForKey(tString,IPSImageArchitectureKey);
+		
+			_architecture=[tString copy];
+		}
+		
         NSNumber * tNumber=inRepresentation[IPSImageBaseAddressKey];
         
         IPSFullCheckNumberValueForKey(tNumber,IPSImageBaseAddressKey);

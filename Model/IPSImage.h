@@ -17,6 +17,8 @@
 
 @interface IPSImage : NSObject <IPSObjectProtocol>
 
+	@property (readonly,copy) NSString * source;
+
     @property (readonly,copy) NSString * name;
 
     @property (readonly,copy) NSString * bundleIdentifier;
