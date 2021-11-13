@@ -1,0 +1,6 @@
+.DS_Store
+
+# Ignore dynamic items in the project folder
+**/*.xcodeproj/xcuserdata/
+**/project.xcworkspace/xcuserdata/
+**/*.xccheckout
