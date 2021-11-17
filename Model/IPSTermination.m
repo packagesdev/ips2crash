@@ -79,9 +79,12 @@ NSString * const IPSTerminationByPidKey=@"byPid";
         
         NSString * tString=inRepresentation[IPSTerminationIndicatorKey];
         
-        IPSFullCheckStringValueForKey(tString,IPSTerminationIndicatorKey);
+        if (tString!=nil)
+        {
+            IPSClassCheckStringValueForKey(tString,IPSTerminationIndicatorKey);
         
-        _indicator=[tString copy];
+            _indicator=[tString copy];
+        }
         
         tString=inRepresentation[IPSTerminationNamespaceKey];
         
@@ -115,7 +118,6 @@ NSString * const IPSTerminationByPidKey=@"byPid";
     NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionaryWithDictionary:@{
                                                                                              IPSTerminationCodeKey:@(self.code),
                                                                                              IPSTerminationFlagsKey:@(self.flags),
-                                                                                             IPSTerminationIndicatorKey:self.indicator,
                                                                                              IPSTerminationNamespaceKey:self.namespace
                                                                                              }];
     
@@ -124,6 +126,9 @@ NSString * const IPSTerminationByPidKey=@"byPid";
         tMutableDictionary[IPSTerminationByProcKey]=self.byProc;
         tMutableDictionary[IPSTerminationByPidKey]=@(self.byPid);
     }
+    
+    if (self.indicator!=nil)
+        tMutableDictionary[IPSTerminationIndicatorKey]=self.indicator;
     
     return [tMutableDictionary copy];
 }

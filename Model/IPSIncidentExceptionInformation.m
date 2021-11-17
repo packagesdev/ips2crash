@@ -24,6 +24,8 @@ NSString * const IPSIncidentExceptionInformationTerminationKey=@"termination";
 
 NSString * const IPSIncidentExceptionInformationCorpseKey=@"isCorpse";
 
+NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
+
 @interface IPSIncidentExceptionInformation ()
 
     @property (readwrite) NSUInteger faultingThread;
@@ -62,19 +64,21 @@ NSString * const IPSIncidentExceptionInformationCorpseKey=@"isCorpse";
     
     if (self!=nil)
     {
+        NSError * tError=nil;
         NSNumber * tNumber=inRepresentation[IPSIncidentExceptionInformationFaultingThreadKey];
         
-        if ([tNumber isKindOfClass:[NSNumber class]]==NO)
+        if (tNumber==nil)
         {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-            
-            return nil;
+            // Support for older .ips format to add
+        }
+        else
+        {
+            IPSClassCheckNumberValueForKey(tNumber,IPSIncidentExceptionInformationFaultingThreadKey);
         }
         
         _faultingThread=[tNumber unsignedIntegerValue];
         
-        NSError * tError=nil;
+       
         NSDictionary * tDictionary=inRepresentation[IPSIncidentExceptionInformationExceptionKey];
         
         _exception=[[IPSException alloc] initWithRepresentation:tDictionary error:&tError];
@@ -124,9 +128,18 @@ NSString * const IPSIncidentExceptionInformationCorpseKey=@"isCorpse";
             
         }
         
-        tNumber=inRepresentation[IPSIncidentExceptionInformationCorpseKey];
+        tNumber=inRepresentation[IPSIncidentExceptionInformationCorpseOldKey];
         
-        IPSFullCheckNumberValueForKey(tNumber,IPSIncidentExceptionInformationCorpseKey);
+        if (tNumber!=nil)
+        {
+            IPSClassCheckNumberValueForKey(tNumber,IPSIncidentExceptionInformationCorpseOldKey);
+        }
+        else
+        {
+            tNumber=inRepresentation[IPSIncidentExceptionInformationCorpseKey];
+            
+            IPSFullCheckNumberValueForKey(tNumber,IPSIncidentExceptionInformationCorpseKey);
+        }
         
         _corpse=[tNumber boolValue];
     }

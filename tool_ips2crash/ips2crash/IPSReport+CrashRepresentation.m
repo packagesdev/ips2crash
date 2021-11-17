@@ -14,6 +14,7 @@
 #import "IPSReport+CrashRepresentation.h"
 
 #import "IPSThreadState+RegisterDisplayName.h"
+#import "IPSImage+UserCode.h"
 
 #import "IPSDateFormatter.h"
 
@@ -333,7 +334,7 @@
     {
         NSDictionary * tCPUFamiliesRegistry=@{
                                     @"X86-64":@"X86",
-                                    @"arm64":@"ARM"
+                                    @"ARM-64":@"ARM"
                                     };
         
         NSString * tCPUFamily=tCPUFamiliesRegistry[tHeader.cpuType];
@@ -343,7 +344,7 @@
         
         NSDictionary * tCPUSizeRegistry=@{
                                           @"X86-64":@"64-bit",
-                                          @"arm64":@"64-bit"
+                                          @"ARM-64":@"64-bit"
                                           };
         
         NSString * tCPUSize=tCPUSizeRegistry[tHeader.cpuType];
@@ -453,6 +454,9 @@
         [[tIncident.binaryImages sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(IPSImage * bImage, NSUInteger bIndex, BOOL * bOutStop) {
             
             [tMutableString appendFormat:@"%@ - %@ ",[IPSReport binaryImageStringForAddress:bImage.loadAddress],[IPSReport binaryImageStringForAddress:bImage.loadAddress+bImage.size]];
+            
+            if (bImage.isUserCode==YES)
+                [tMutableString appendString:@"+"];
             
             if (bImage.bundleIdentifier!=nil)
                 [tMutableString appendFormat:@"%@ ",bImage.bundleIdentifier];

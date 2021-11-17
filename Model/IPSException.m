@@ -90,9 +90,12 @@ NSString * const IPSExceptionRawCodesKey=@"rawCodes";
         
         NSArray * tArray=inRepresentation[IPSExceptionRawCodesKey];
         
-        IPSFullCheckArrayValueForKey(tArray,IPSExceptionRawCodesKey);
+        if (tArray!=nil)
+        {
+            IPSClassCheckArrayValueForKey(tArray,IPSExceptionRawCodesKey);
         
-        _rawCodes=[tArray copy];
+            _rawCodes=[tArray copy];
+        }
     }
     
     return self;
@@ -106,13 +109,13 @@ NSString * const IPSExceptionRawCodesKey=@"rawCodes";
                                                                                              IPSExceptionTypeKey:self.type,
                                                                                              IPSExceptionSignalKey:self.signal,
                                                                                              IPSExceptionCodesKey:self.codes,
-                                                                                             IPSExceptionRawCodesKey:self.rawCodes
                                                                                              }];
     
     if (self.subtype!=nil)
-    {
         tMutableDictionary[IPSExceptionSubtypeKey]=self.subtype;
-    }
+    
+    if (self.rawCodes!=nil)
+        tMutableDictionary[IPSExceptionRawCodesKey]=self.rawCodes;
     
     return [tMutableDictionary copy];
 }

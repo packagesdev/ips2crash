@@ -55,6 +55,7 @@ if ([(object) isKindOfClass:class]==NO)\
 
 #define IPSClassCheckStringValueForKey(string,key) IPSClassCheckObjectValueForKey(NSString.class,string,key)
 #define IPSClassCheckNumberValueForKey(number,key) IPSClassCheckObjectValueForKey(NSNumber.class,number,key)
+#define IPSClassCheckArrayValueForKey(number,key) IPSClassCheckObjectValueForKey(NSArray.class,number,key)
 
 @protocol IPSObjectProtocol <NSObject>
 
