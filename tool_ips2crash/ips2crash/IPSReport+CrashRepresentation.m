@@ -448,7 +448,7 @@
     
     if (tIncident.binaryImages.count>0)
     {
-        [tMutableString appendString:@"Binary Images\n"];
+        [tMutableString appendString:@"Binary Images:\n"];
         
         [[tIncident.binaryImages sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(IPSImage * bImage, NSUInteger bIndex, BOOL * bOutStop) {
             
