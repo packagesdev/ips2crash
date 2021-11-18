@@ -226,15 +226,12 @@
     if (tTermination!=nil)
     {
         [tMutableString appendFormat:@"Termination Reason:    Namespace %@, Code 0x%lx\n",tTermination.namespace,(unsigned long)tTermination.code];
+        
+        if (tTermination.byProc!=nil)
+            [tMutableString appendFormat:@"Terminating Process:   %@ [%d]\n",tTermination.byProc,tTermination.byPid];
+        
+        [tMutableString appendString:@"\n"];
     }
-    
-    if (tTermination.byProc!=nil)
-    {
-        [tMutableString appendFormat:@"Terminating Process:   %@ [%d]\n",tTermination.byProc,tTermination.byPid];
-    }
-    
-    [tMutableString appendString:@"\n"];
-    
     
     // Diagnostic Message
     
