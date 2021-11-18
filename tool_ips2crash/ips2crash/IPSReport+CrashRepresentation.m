@@ -285,17 +285,22 @@
             
             NSUInteger tAddress=tBinaryImage.loadAddress+bFrame.imageOffset;
             
-            NSUInteger tImageNameLength=tBinaryImage.name.length;
+            NSString * tImageIdentifier=(tBinaryImage.bundleIdentifier!=nil) ? tBinaryImage.bundleIdentifier : tBinaryImage.name;
+            
+            if (tImageIdentifier.length==0)
+                tImageIdentifier=@"???";
+            
+            NSUInteger tImageNameLength=tImageIdentifier.length;
             
             if ((tImageNameLength+4)>BINARYIMAGENAME_AND_SPACE_MAXLEN)
             {
-                [tMutableString appendFormat:@"%@    ",tBinaryImage.name];
+                [tMutableString appendFormat:@"%@    ",tImageIdentifier];
             }
             else
             {
                 NSString * tImageSpace=[@"                                  " substringFromIndex:tImageNameLength];
                 
-                [tMutableString appendFormat:@"%@%@",tBinaryImage.name,tImageSpace];
+                [tMutableString appendFormat:@"%@%@",tImageIdentifier,tImageSpace];
             }
             
             if (bFrame.symbol!=nil)
