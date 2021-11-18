@@ -146,7 +146,7 @@
         [tMutableString appendString:@"\n"];
     }
     
-    [tMutableString appendFormat:@"Code Type:             %@\n",tHeader.cpuType];
+    [tMutableString appendFormat:@"Code Type:             %@ (%@)\n",tHeader.cpuType,(tHeader.translated==NO) ? @"Native" : @"Translated"];
     
     [tMutableString appendFormat:@"Parent Process:        %@ [%d]\n",tHeader.parentProcessName,tHeader.parentProcessID];
     
@@ -190,7 +190,7 @@
     
     IPSLegacyInfo * tLegacyInfo=tExceptionInformation.legacyInfo;
     
-    if (tLegacyInfo.threadTriggered.queue!=nil)
+    if (tLegacyInfo!=nil && tLegacyInfo.threadTriggered.queue!=nil)
     {
         [tMutableString appendFormat:@"  Dispatch queue: %@\n",tLegacyInfo.threadTriggered.queue];
     }
@@ -223,7 +223,10 @@
     
     IPSTermination * tTermination=tExceptionInformation.termination;
     
-    [tMutableString appendFormat:@"Termination Reason:    Namespace %@, Code 0x%lx\n",tTermination.namespace,(unsigned long)tTermination.code];
+    if (tTermination!=nil)
+    {
+        [tMutableString appendFormat:@"Termination Reason:    Namespace %@, Code 0x%lx\n",tTermination.namespace,(unsigned long)tTermination.code];
+    }
     
     if (tTermination.byProc!=nil)
     {
@@ -452,6 +455,9 @@
         [tMutableString appendString:@"Binary Images:\n"];
         
         [[tIncident.binaryImages sortedArrayUsingSelector:@selector(compare:)] enumerateObjectsUsingBlock:^(IPSImage * bImage, NSUInteger bIndex, BOOL * bOutStop) {
+            
+            if ([bImage.source isEqualToString:@"A"]==YES)
+                return;
             
             [tMutableString appendFormat:@"%@ - %@ ",[IPSReport binaryImageStringForAddress:bImage.loadAddress],[IPSReport binaryImageStringForAddress:bImage.loadAddress+bImage.size]];
             

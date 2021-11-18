@@ -25,6 +25,8 @@ NSString * const IPSIncidentHeaderBundleInfoKey=@"bundleInfo";
 
 NSString * const IPSIncidentHeaderCPUTypeKey=@"cpuType";
 
+NSString * const IPSIncidentHeaderTranslatedKey=@"translated";
+
 NSString * const IPSIncidentHeaderParentProcessNameKey=@"parentProc";
 
 NSString * const IPSIncidentHeaderParentProcessIDKey=@"parentPid";
@@ -63,6 +65,8 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
     @property (readwrite) IPSBundleInfo * bundleInfo;
 
     @property (readwrite,copy) NSString * cpuType;
+
+    @property (readwrite) BOOL translated;
 
     @property (readwrite,copy) NSString * parentProcessName;
 
@@ -164,6 +168,15 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
         IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderCPUTypeKey);
         
         _cpuType=[tString copy];
+        
+        tNumber=inRepresentation[IPSIncidentHeaderTranslatedKey];
+        
+        if (tNumber!=nil)
+        {
+            IPSClassCheckNumberValueForKey(tNumber,IPSIncidentHeaderTranslatedKey);
+        
+            _translated=[tNumber boolValue];
+        }
         
         tString=inRepresentation[IPSIncidentHeaderParentProcessNameKey];
         

@@ -101,31 +101,48 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
         tError=nil;
         tDictionary=inRepresentation[IPSIncidentExceptionInformationTerminationKey];
         
-        _termination=[[IPSTermination alloc] initWithRepresentation:tDictionary error:&tError];
-        
-        if (_termination==nil)
+        if (tDictionary!=nil)
         {
-            NSString * tPathError=IPSIncidentExceptionInformationTerminationKey;
-            
-            if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
-                tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
-            
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain
-                                              code:tError.code
-                                          userInfo:@{IPSKeyPathErrorKey:tPathError}];
-            
-            return nil;
+            _termination=[[IPSTermination alloc] initWithRepresentation:tDictionary error:&tError];
+        
+            if (_termination==nil)
+            {
+                NSString * tPathError=IPSIncidentExceptionInformationTerminationKey;
+                
+                if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+                    tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+                
+                if (outError!=NULL)
+                    *outError=[NSError errorWithDomain:IPSErrorDomain
+                                                  code:tError.code
+                                              userInfo:@{IPSKeyPathErrorKey:tPathError}];
+                
+                return nil;
+            }
         }
         
         tDictionary=inRepresentation[IPSIncidentExceptionInformationLegacyInfoKey];
         
         tError=nil;
-        _legacyInfo=[[IPSLegacyInfo alloc] initWithRepresentation:tDictionary error:&tError];
         
-        if (_legacyInfo==nil)
+        if (tDictionary!=nil)
         {
-            
+            _legacyInfo=[[IPSLegacyInfo alloc] initWithRepresentation:tDictionary error:&tError];
+        
+            if (_legacyInfo==nil)
+            {
+                NSString * tPathError=IPSIncidentExceptionInformationLegacyInfoKey;
+                
+                if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+                    tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+                
+                if (outError!=NULL)
+                    *outError=[NSError errorWithDomain:IPSErrorDomain
+                                                  code:tError.code
+                                              userInfo:@{IPSKeyPathErrorKey:tPathError}];
+                
+                return nil;
+            }
         }
         
         tNumber=inRepresentation[IPSIncidentExceptionInformationCorpseOldKey];

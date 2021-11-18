@@ -23,6 +23,8 @@ NSString * const IPSThreadStateErrKey=@"err";
 
 NSString * const IPSThreadStateTrapKey=@"trap";
 
+NSString * const IPSThreadStateXKey=@"x";
+
 @interface IPSThreadState ()
 
     @property (readwrite,copy) NSString * flavor;
@@ -72,6 +74,9 @@ NSString * const IPSThreadStateTrapKey=@"trap";
             if ([bKey isEqualToString:IPSThreadStateFlavorKey]==YES)
                 return nil;
             
+            if ([bKey isEqualToString:IPSThreadStateXKey]==YES)
+                return nil;
+            
             IPSRegisterState * tRegisterState=[[IPSRegisterState alloc] initWithRepresentation:bThreadStateRepresentation error:&tError];
             
             tDidFail=(tRegisterState==nil);
@@ -85,6 +90,25 @@ NSString * const IPSThreadStateTrapKey=@"trap";
                 *outError=tError;
             
             return nil;
+        }
+        
+        NSArray * tArray=inRepresentation[IPSThreadStateXKey];
+        
+        if (tArray!=nil)
+        {
+            NSMutableDictionary * tMutableDictionary=[_registersStates mutableCopy];
+            
+            [tArray enumerateObjectsUsingBlock:^(NSDictionary * bThreadStateRepresentation, NSUInteger bRegisterIndex, BOOL * bOutStop) {
+            
+                IPSRegisterState * tRegisterState=[[IPSRegisterState alloc] initWithRepresentation:bThreadStateRepresentation error:&tError];
+                
+                if (tRegisterState!=nil)
+                {
+                    tMutableDictionary[[NSString stringWithFormat:@"x%u",(unsigned int)bRegisterIndex]]=tRegisterState;
+                }
+            }];
+            
+            _registersStates=[tMutableDictionary copy];
         }
     }
     

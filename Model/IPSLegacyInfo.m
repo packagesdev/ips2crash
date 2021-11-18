@@ -49,6 +49,8 @@ NSString * const IPSLegacyInfoThreadTriggeredKey=@"threadTriggered";
         NSError * tError=nil;
         NSDictionary * tDictionary=inRepresentation[IPSLegacyInfoThreadTriggeredKey];
         
+        IPSFullCheckDictionaryValueForKey(tDictionary,IPSLegacyInfoThreadTriggeredKey);
+        
         _threadTriggered=[[IPSThread alloc] initWithRepresentation:tDictionary error:&tError];
         
         if (_threadTriggered==nil)

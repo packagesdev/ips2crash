@@ -30,6 +30,8 @@
 
     @property (readonly,copy) NSString * cpuType;
 
+    @property (readonly) BOOL translated;
+
     @property (readonly,copy) NSString * parentProcessName;
 
     @property (readonly) pid_t parentProcessID;
