@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -18,6 +18,10 @@
 @interface IPSApplicationSpecificInformation : NSObject <IPSObjectProtocol>
 
     @property (readonly) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
+
+    @property (readonly) NSArray<NSString *> * backtraces;
+
+    @property (readonly) NSArray<NSString *> * signatures;
 
 @end
 

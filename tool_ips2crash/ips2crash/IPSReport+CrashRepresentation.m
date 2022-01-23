@@ -259,8 +259,36 @@
                 
             }];
             
+            if (tDiagnosticMessage.asi.signatures!=nil)
+            {
+                [tMutableString appendString:@"\n"];
+                
+                [tMutableString appendString:@"Application Specific Signatures:\n"];
+                
+                [tDiagnosticMessage.asi.signatures enumerateObjectsUsingBlock:^(NSString * bSignature, NSUInteger bIndex, BOOL * bOutStop) {
+                    
+                    [tMutableString appendFormat:@"%@\n",bSignature];
+                }];
+            }
+            
+            if (tDiagnosticMessage.asi.backtraces!=nil)
+            {
+                [tMutableString appendString:@"\n"];
+                
+                [tDiagnosticMessage.asi.backtraces enumerateObjectsUsingBlock:^(NSString * bBacktrace, NSUInteger bIndex, BOOL * bOutStop) {
+                    
+                    [tMutableString appendFormat:@"Application Specific Backtrace %lu:\n",bIndex+1];
+                    
+                    [tMutableString appendFormat:@"%@\n",bBacktrace];
+                }];
+            }
+            
+            
+            
             [tMutableString appendString:@"\n"];
         }
+        
+        
     }
     
     // Threads

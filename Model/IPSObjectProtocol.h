@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -55,7 +55,8 @@ if ([(object) isKindOfClass:class]==NO)\
 
 #define IPSClassCheckStringValueForKey(string,key) IPSClassCheckObjectValueForKey(NSString.class,string,key)
 #define IPSClassCheckNumberValueForKey(number,key) IPSClassCheckObjectValueForKey(NSNumber.class,number,key)
-#define IPSClassCheckArrayValueForKey(number,key) IPSClassCheckObjectValueForKey(NSArray.class,number,key)
+#define IPSClassCheckArrayValueForKey(array,key) IPSClassCheckObjectValueForKey(NSArray.class,array,key)
+#define IPSClassCheckDictionaryValueForKey(dictionary,key) IPSClassCheckObjectValueForKey(NSDictionary.class,dictionary,key)
 
 @protocol IPSObjectProtocol <NSObject>
 

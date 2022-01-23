@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -13,9 +13,19 @@
 
 #import "IPSApplicationSpecificInformation.h"
 
+NSString * const IPSApplicationSpecificInformationAsiKey=@"asi";
+
+NSString * const IPSApplicationSpecificInformationAsiBacktracesKey=@"asiBacktraces";
+
+NSString * const IPSApplicationSpecificInformationAsiSignaturesKey=@"asiSignatures";
+
 @interface IPSApplicationSpecificInformation ()
 
     @property (readwrite) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
+
+    @property (readwrite) NSArray<NSString *> * backtraces;
+
+    @property (readwrite) NSArray<NSString *> * signatures;
 
 @end
 
@@ -44,7 +54,29 @@
     
     if (self!=nil)
     {
-        _applicationsInformation=[inRepresentation copy];
+        NSDictionary * tDictionary=inRepresentation[IPSApplicationSpecificInformationAsiKey];
+        
+        IPSFullCheckDictionaryValueForKey(tDictionary,IPSApplicationSpecificInformationAsiKey);
+        
+        _applicationsInformation=tDictionary;
+        
+        NSArray * tArray=inRepresentation[IPSApplicationSpecificInformationAsiBacktracesKey];
+        
+         if (tArray!=nil)
+         {
+             IPSClassCheckArrayValueForKey(tArray,IPSApplicationSpecificInformationAsiBacktracesKey);
+        
+            _backtraces=tArray;
+         }
+        
+        tArray=inRepresentation[IPSApplicationSpecificInformationAsiSignaturesKey];
+        
+        if (tArray!=nil)
+        {
+            IPSClassCheckArrayValueForKey(tArray,IPSApplicationSpecificInformationAsiSignaturesKey);
+            
+            _signatures=tArray;
+        }
     }
     
     return self;
@@ -54,7 +86,17 @@
 
 - (NSDictionary *)representation
 {
-    return self.applicationsInformation;
+    NSMutableDictionary * tMutableRepresentation=[NSMutableDictionary dictionary];
+    
+    tMutableRepresentation[IPSApplicationSpecificInformationAsiKey]=self.applicationsInformation;
+    
+    if (self.backtraces!=nil)
+        tMutableRepresentation[IPSApplicationSpecificInformationAsiBacktracesKey]=self.backtraces;
+    
+    if (self.signatures!=nil)
+        tMutableRepresentation[IPSApplicationSpecificInformationAsiSignaturesKey]=self.signatures;
+    
+    return [tMutableRepresentation copy];
 }
 
 @end
