@@ -297,9 +297,11 @@
         
         NSString * tCrashedString=(bThread.triggered==YES) ? @" Crashed":@"";
         
+        NSString * tNameString=(bThread.name!=nil) ? [NSString stringWithFormat:@" %@",bThread.name] : @"";
+
         NSString * tDispatchQueueString=(bThread.queue!=nil) ? [NSString stringWithFormat:@": Dispatch queue: %@",bThread.queue] : @"";
         
-        [tMutableString appendFormat:@"Thread %lu%@:%@\n",(unsigned long)bThreadIndex,tCrashedString,tDispatchQueueString];
+        [tMutableString appendFormat:@"Thread %lu%@:%@%@\n",(unsigned long)bThreadIndex,tCrashedString, tNameString, tDispatchQueueString];
         
         [bThread.frames enumerateObjectsUsingBlock:^(IPSThreadFrame * bFrame, NSUInteger bFrameIndex, BOOL * _Nonnull stop) {
             

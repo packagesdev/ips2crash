@@ -17,6 +17,8 @@
 
 NSString * const IPSThreadIDKey=@"id";
 
+NSString * const IPSThreadNameKey=@"name";
+
 NSString * const IPSThreadQueueKey=@"queue";
 
 NSString * const IPSThreadFramesKey=@"frames";
@@ -32,6 +34,8 @@ NSString * const IPSThreadInstructionStateKey=@"instructionState";
     @property (readwrite,copy) NSString * queue;     // can be nil
 
     @property (readwrite) NSUInteger ID;
+
+    @property (readwrite,copy) NSString * name;     // can be nil
 
     @property (readwrite) NSArray<IPSThreadFrame *> * frames;
 
@@ -76,7 +80,16 @@ NSString * const IPSThreadInstructionStateKey=@"instructionState";
             _ID=[tNumber unsignedIntegerValue];
         }
         
-        NSString * tString=inRepresentation[IPSThreadQueueKey];
+        NSString * tString=inRepresentation[IPSThreadNameKey];
+        
+        if (tString!=nil)
+        {
+            IPSClassCheckStringValueForKey(tString,IPSThreadNameKey);
+            
+            _name=[tString copy];
+        }
+
+        tString=inRepresentation[IPSThreadQueueKey];
         
         if (tString!=nil)
         {
@@ -141,6 +154,9 @@ NSString * const IPSThreadInstructionStateKey=@"instructionState";
     NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionary];
     
     tMutableDictionary[IPSThreadIDKey]=@(self.ID);
+    
+    if (self.name!=nil)
+        tMutableDictionary[IPSThreadNameKey]=self.name;
     
     if (self.queue!=nil)
         tMutableDictionary[IPSThreadQueueKey]=self.queue;
