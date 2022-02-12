@@ -27,6 +27,8 @@
 
     @property (readonly) NSUInteger ID;
 
+    @property (readonly,copy) NSString * name;     // can be nil
+
     @property (readonly) NSArray<IPSThreadFrame *> * frames;
 
     @property (readonly) BOOL triggered;
