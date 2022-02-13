@@ -283,12 +283,8 @@
                 }];
             }
             
-            
-            
             [tMutableString appendString:@"\n"];
         }
-        
-        
     }
     
     // Threads
