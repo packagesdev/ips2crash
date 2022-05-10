@@ -31,6 +31,8 @@
 		F44C1A4E2720813D0021A63E /* IPSThreadInstructionState.m in Sources */ = {isa = PBXBuildFile; fileRef = F44C1A4D2720813D0021A63E /* IPSThreadInstructionState.m */; };
 		F44C1A51272081600021A63E /* IPSThreadInstructionStream.m in Sources */ = {isa = PBXBuildFile; fileRef = F44C1A50272081600021A63E /* IPSThreadInstructionStream.m */; };
 		F46C4BED2720BC98001577C3 /* NSDictionary+WBExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F46C4BEC2720BC98001577C3 /* NSDictionary+WBExtensions.m */; };
+		F4A5252728153A0A009FB1CE /* IPSSummarySerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A5252528153A0A009FB1CE /* IPSSummarySerialization.m */; };
+		F4A5252A28153A10009FB1CE /* IPSCrashSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A5252928153A10009FB1CE /* IPSCrashSummary.m */; };
 		F4D0EE92273DB3C000CC9737 /* IPSThreadState+RegisterDisplayName.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D0EE91273DB3C000CC9737 /* IPSThreadState+RegisterDisplayName.m */; };
 		F4DF1AEE2745B31B0072A1B7 /* IPSImage+UserCode.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DF1AED2745B31B0072A1B7 /* IPSImage+UserCode.m */; };
 		F4E21FFB27220D260034F20E /* IPSBundleInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F4E21FFA27220D260034F20E /* IPSBundleInfo.m */; };
@@ -101,6 +103,10 @@
 		F44C1A50272081600021A63E /* IPSThreadInstructionStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IPSThreadInstructionStream.m; path = ../Model/IPSThreadInstructionStream.m; sourceTree = "<group>"; };
 		F46C4BEB2720BC98001577C3 /* NSDictionary+WBExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+WBExtensions.h"; path = "../Foundation + Extensions/NSDictionary+WBExtensions.h"; sourceTree = "<group>"; };
 		F46C4BEC2720BC98001577C3 /* NSDictionary+WBExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+WBExtensions.m"; path = "../Foundation + Extensions/NSDictionary+WBExtensions.m"; sourceTree = "<group>"; };
+		F4A5252528153A0A009FB1CE /* IPSSummarySerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPSSummarySerialization.m; path = ../Model/IPSSummarySerialization.m; sourceTree = "<group>"; };
+		F4A5252628153A0A009FB1CE /* IPSSummarySerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPSSummarySerialization.h; path = ../Model/IPSSummarySerialization.h; sourceTree = "<group>"; };
+		F4A5252828153A10009FB1CE /* IPSCrashSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IPSCrashSummary.h; path = ../Model/IPSCrashSummary.h; sourceTree = "<group>"; };
+		F4A5252928153A10009FB1CE /* IPSCrashSummary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IPSCrashSummary.m; path = ../Model/IPSCrashSummary.m; sourceTree = "<group>"; };
 		F4D0EE90273DB3C000CC9737 /* IPSThreadState+RegisterDisplayName.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPSThreadState+RegisterDisplayName.h"; sourceTree = "<group>"; };
 		F4D0EE91273DB3C000CC9737 /* IPSThreadState+RegisterDisplayName.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "IPSThreadState+RegisterDisplayName.m"; sourceTree = "<group>"; };
 		F4DF1AEC2745B31B0072A1B7 /* IPSImage+UserCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPSImage+UserCode.h"; sourceTree = "<group>"; };
@@ -165,8 +171,12 @@
 				F43B88ED271F45B50052D655 /* IPSObjectProtocol.h */,
 				F4EAFDD2271F7E0300D2E11F /* IPSDateFormatter.h */,
 				F4EAFDD1271F7E0300D2E11F /* IPSDateFormatter.m */,
+				F4A5252628153A0A009FB1CE /* IPSSummarySerialization.h */,
+				F4A5252528153A0A009FB1CE /* IPSSummarySerialization.m */,
 				F43B88E8271F45B50052D655 /* IPSSummary.h */,
 				F43B88E3271F45B50052D655 /* IPSSummary.m */,
+				F4A5252828153A10009FB1CE /* IPSCrashSummary.h */,
+				F4A5252928153A10009FB1CE /* IPSCrashSummary.m */,
 				F43B88E4271F45B50052D655 /* IPSOperatingSystemVersion.h */,
 				F43B88E6271F45B50052D655 /* IPSOperatingSystemVersion.m */,
 				F4E21FF927220D260034F20E /* IPSBundleInfo.h */,
@@ -285,6 +295,7 @@
 				F4EAFDDA271F80C800D2E11F /* IPSReport+CrashRepresentation.m in Sources */,
 				F43B88FF271F45B50052D655 /* IPSError.m in Sources */,
 				F43B88FE271F45B50052D655 /* IPSThreadFrame.m in Sources */,
+				F4A5252A28153A10009FB1CE /* IPSCrashSummary.m in Sources */,
 				F4EAFDD3271F7E0400D2E11F /* IPSDateFormatter.m in Sources */,
 				F43B88F1271F45B50052D655 /* IPSExternalModificationSummary.m in Sources */,
 				F43B88BF271F44010052D655 /* main.m in Sources */,
@@ -296,6 +307,7 @@
 				F44C1A51272081600021A63E /* IPSThreadInstructionStream.m in Sources */,
 				F43B88F9271F45B50052D655 /* IPSIncidentHeader.m in Sources */,
 				F44C1A4E2720813D0021A63E /* IPSThreadInstructionState.m in Sources */,
+				F4A5252728153A0A009FB1CE /* IPSSummarySerialization.m in Sources */,
 				F43B8901271F45B50052D655 /* IPSLegacyInfo.m in Sources */,
 				F43B88CA271F45900052D655 /* NSArray+WBExtensions.m in Sources */,
 				F46C4BED2720BC98001577C3 /* NSDictionary+WBExtensions.m in Sources */,

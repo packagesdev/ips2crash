@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -12,6 +12,8 @@
  */
 
 #import "IPSReport.h"
+
+#import "IPSSummarySerialization.h"
 
 @interface IPSReport ()
 
@@ -115,7 +117,9 @@
         if (tRange.location==NSNotFound)
         {
             if (outError!=NULL)
-                *outError=nil;  // A COMPLETER
+                *outError=[NSError errorWithDomain:IPSErrorDomain
+                                              code:IPSSummaryReadCorruptError
+                                          userInfo:@{}];
             
             return nil;
         }
@@ -123,21 +127,18 @@
         // Summary
         
         NSString * tFirstLine=[inString substringWithRange:tRange];
-        
-        NSData * tSummaryData=[tFirstLine dataUsingEncoding:NSUTF8StringEncoding];
-        
-        NSDictionary * tSummaryDictionary=[NSJSONSerialization JSONObjectWithData:tSummaryData options:NSJSONReadingAllowFragments error:&tError];
-        
-        if (tSummaryDictionary==nil)
+
+        if (tFirstLine==nil)
         {
             if (outError!=NULL)
-                *outError=tError;
+                *outError=[NSError errorWithDomain:IPSErrorDomain
+                                              code:IPSSummaryReadCorruptError
+                                          userInfo:@{}];
             
             return nil;
         }
         
-        tError=nil;
-        _summary=[[IPSSummary alloc] initWithRepresentation:tSummaryDictionary error:&tError];
+        _summary=[IPSSummarySerialization summaryWithData:[tFirstLine dataUsingEncoding:NSUTF8StringEncoding] error:&tError];
         
         if (_summary==nil)
         {
@@ -145,6 +146,14 @@
                 *outError=tError;
             
             return nil;
+        }
+        
+        if (_summary.bugType!=IPSBugTypeCrash)
+        {
+            if (outError!=NULL)
+                *outError=[NSError errorWithDomain:IPSErrorDomain
+                                              code:IPSUnsupportedBugTypeError
+                                          userInfo:@{IPSBugTypeErrorKey:@(_summary.bugType)}];
         }
         
         // Incident

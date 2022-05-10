@@ -108,7 +108,7 @@ int main(int argc, const char * argv[])
         
         if (argc>0)
         {
-            (void)fprintf(stderr, "An error occurred while parsing %s.\n",*argv);
+            (void)fprintf(stderr, "An error occurred while parsing %s: too many arguments.\n",*argv);
             usage();
             
             return EXIT_FAILURE;
@@ -166,6 +166,18 @@ int main(int argc, const char * argv[])
                     case IPSRepresentationInvalidValueError:
                         
                         (void)fprintf(stderr, "Invalid value for key: %s.\n",tKeyPath.UTF8String);
+                        
+                        break;
+                        
+                    case IPSSummaryReadCorruptError:
+                        
+                        (void)fprintf(stderr, "Corrupted ips file.\n");
+                        
+                        break;
+                    
+                    case IPSUnsupportedBugTypeError:
+                        
+                        (void)fprintf(stderr, "Unsupported type of .ips report: %ld.\n",[tError.userInfo[IPSBugTypeErrorKey] integerValue]);
                         
                         break;
                 }

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -20,6 +20,12 @@ typedef NS_ENUM(NSUInteger, IPSError)
     IPSRepresentationNilRepresentationError=0,        // Only set when the representation is nil, use IPSRepresentationInvalidValueError otherwise if nil is not an accepted value
     IPSRepresentationInvalidTypeOfValueError=1,
     IPSRepresentationInvalidValueError=2,
+    
+    IPSSummaryReadCorruptError=100,
+    
+    IPSUnsupportedBugTypeError=200,
 };
 
 extern NSString * const IPSKeyPathErrorKey;
+
+extern NSString * const IPSBugTypeErrorKey;

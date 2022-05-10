@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -15,11 +15,7 @@
 
 #import "IPSDateFormatter.h"
 
-NSString * const IPSReportSummaryApplicationNameKey=@"app_name";
-
-NSString * const IPSReportSummaryVersionKey=@"app_version";
-
-NSString * const IPSReportSummaryBuildVersionKey=@"build_version";
+NSString * const IPSReportSummaryBugTypeKey=@"bug_type";
 
 NSString * const IPSReportSummaryIncidentIDKey=@"incident_id";
 
@@ -29,11 +25,7 @@ NSString * const IPSReportSummaryTimestampKey=@"timestamp";
 
 @interface IPSSummary ()
 
-    @property (readwrite,copy) NSString * applicationName;
-
-    @property (readwrite,copy) NSString * applicationVersion;
-
-    @property (readwrite,copy) NSString * applicationBuildVersion;
+    @property (readwrite) IPSBugType bugType;
 
     @property (readwrite) NSUUID * incidentID;
 
@@ -68,23 +60,11 @@ NSString * const IPSReportSummaryTimestampKey=@"timestamp";
     
     if (self!=nil)
     {
-        NSString * tString=inRepresentation[IPSReportSummaryApplicationNameKey];
+        NSString * tString=inRepresentation[IPSReportSummaryBugTypeKey];
         
-        IPSFullCheckStringValueForKey(tString,IPSReportSummaryApplicationNameKey);
+         IPSFullCheckStringValueForKey(tString,IPSReportSummaryBugTypeKey);
         
-        _applicationName=[tString copy];
-        
-        tString=inRepresentation[IPSReportSummaryVersionKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSReportSummaryVersionKey);
-        
-        _applicationVersion=[tString copy];
-        
-        tString=inRepresentation[IPSReportSummaryBuildVersionKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSReportSummaryBuildVersionKey);
-        
-        _applicationBuildVersion=[tString copy];
+        _bugType=[tString integerValue];
         
         tString=inRepresentation[IPSReportSummaryIncidentIDKey];
         
@@ -112,7 +92,12 @@ NSString * const IPSReportSummaryTimestampKey=@"timestamp";
 
 - (NSDictionary *)representation
 {
-    return @{};
+    return @{
+             IPSReportSummaryBugTypeKey: [NSString stringWithFormat:@"%ld",self.bugType],
+             IPSReportSummaryIncidentIDKey:self.incidentID,
+             IPSReportSummaryOperatingSystemVersionKey:self.operatingSystemVersion,
+             IPSReportSummaryTimestampKey:[[IPSDateFormatter sharedFormatter] stringFromDate:self.timeStamp]
+             };
 }
 
 @end
