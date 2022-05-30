@@ -154,6 +154,8 @@
                 *outError=[NSError errorWithDomain:IPSErrorDomain
                                               code:IPSUnsupportedBugTypeError
                                           userInfo:@{IPSBugTypeErrorKey:@(_summary.bugType)}];
+            
+            return nil;
         }
         
         // Incident

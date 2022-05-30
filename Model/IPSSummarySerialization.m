@@ -64,6 +64,8 @@ NSString * const IPSSummarySerializationBugTypeKey=@"bug_type";
             *outError=[NSError errorWithDomain:IPSErrorDomain
                                           code:IPSUnsupportedBugTypeError
                                       userInfo:@{IPSBugTypeErrorKey:tNumber}];
+        
+        return nil;
     }
     
     IPSSummary * tSummary=[[tClass alloc] initWithRepresentation:tSummaryDictionary error:&tError];
