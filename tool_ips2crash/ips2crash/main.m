@@ -202,15 +202,40 @@ int main(int argc, const char * argv[])
         if ([tString writeToFile:tOutputCrashFile atomically:YES encoding:NSUTF8StringEncoding error:&tError]==YES)
             return EXIT_SUCCESS;
         
-        (void)fprintf(stderr, "An error occurred when reading the file '%s'.\n",tIPSFile.fileSystemRepresentation);
+        (void)fprintf(stderr, "'%s': An error occurred when writing the file.\n",tOutputCrashFile.fileSystemRepresentation);
         
         if ([tError.domain isEqualToString:NSCocoaErrorDomain]==YES)
         {
-            // A COMPLETER
+            switch(tError.code)
+            {
+                case NSFileWriteNoPermissionError:
+                    
+                    (void)fprintf(stderr, "Permission denied.\n");
+                    
+                    break;
+                    
+                case NSFileWriteOutOfSpaceError:
+                    
+                    (void)fprintf(stderr, "No more space available on volume.\n");
+                    
+                    break;
+                    
+                case NSFileWriteVolumeReadOnlyError:
+                    
+                    (void)fprintf(stderr, "Volume is readonly.\n");
+                    
+                    break;
+                    
+                default:
+                    
+                    (void)fprintf(stderr, "%s\n",tError.description.UTF8String);
+                    
+                    break;
+            }
         }
         else
         {
-            // A COMPLETER
+            (void)fprintf(stderr, "%s\n",tError.description.UTF8String);
         }
     }
     
