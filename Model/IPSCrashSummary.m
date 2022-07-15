@@ -68,4 +68,22 @@ NSString * const IPSReportSummaryBuildVersionKey=@"build_version";
     return [tMutableRepresentation copy];
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSCrashSummary * nSummary=[[IPSCrashSummary allocWithZone:inZone] initWithSummary:self];
+    
+    if (nSummary!=nil)
+    {
+        nSummary.applicationName=[self.applicationName copyWithZone:inZone];
+        
+        nSummary.applicationVersion=[self.applicationVersion copyWithZone:inZone];
+        
+        nSummary.applicationBuildVersion=[self.applicationBuildVersion copyWithZone:inZone];
+    }
+    
+    return nSummary;
+}
+
 @end

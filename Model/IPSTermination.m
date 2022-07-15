@@ -133,4 +133,28 @@ NSString * const IPSTerminationByPidKey=@"byPid";
     return [tMutableDictionary copy];
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSTermination * nTermination=[IPSTermination allocWithZone:inZone];
+    
+    if (nTermination!=nil)
+    {
+        nTermination.code=self.code;
+        
+        nTermination.flags=self.flags;
+        
+        nTermination.indicator=[self.indicator copyWithZone:inZone];
+        
+        nTermination.namespace=[self.namespace copyWithZone:inZone];
+        
+        nTermination.byProc=[self.byProc copyWithZone:inZone];
+        
+        nTermination.byPid=self.byPid;
+    }
+    
+    return nTermination;
+}
+
 @end

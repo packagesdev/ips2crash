@@ -15,7 +15,7 @@
 
 #import "IPSObjectProtocol.h"
 
-@interface IPSBundleInfo : NSObject <IPSObjectProtocol>
+@interface IPSBundleInfo : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly,copy) NSString * bundleShortVersionString;  // can be nil
 

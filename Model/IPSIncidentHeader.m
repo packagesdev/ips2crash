@@ -287,4 +287,52 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
     return @{};
 }
 
+#pragma mark -
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSIncidentHeader * nIncidentHeader=[IPSIncidentHeader allocWithZone:inZone];
+    
+    if (nIncidentHeader!=nil)
+    {
+        nIncidentHeader.processName=[self.processName copyWithZone:inZone];
+        
+        nIncidentHeader.processID=self.processID;
+        
+        nIncidentHeader.processPath=[self.processPath copyWithZone:inZone];
+        
+        nIncidentHeader.bundleInfo=[self.bundleInfo copyWithZone:inZone];
+        
+        nIncidentHeader.cpuType=self.cpuType;
+        
+        nIncidentHeader.translated=self.translated;
+        
+        nIncidentHeader.parentProcessName=[self.parentProcessName copyWithZone:inZone];
+        
+        nIncidentHeader.parentProcessID=self.parentProcessID;
+        
+        nIncidentHeader.responsibleProcessName=[self.responsibleProcessName copyWithZone:inZone];
+        
+        nIncidentHeader.responsibleProcessID=self.responsibleProcessID;
+        
+        nIncidentHeader.userID=self.userID;
+        
+        nIncidentHeader.captureTime=self.captureTime;
+        
+        nIncidentHeader.operatingSystemVersion=self.operatingSystemVersion;
+        
+        nIncidentHeader.reportVersion=self.reportVersion;
+        
+        nIncidentHeader.crashReporterKey=self.crashReporterKey;
+        
+        nIncidentHeader.sleepWakeUUID=self.sleepWakeUUID;
+        
+        nIncidentHeader.uptime=self.uptime;
+        
+        nIncidentHeader.systemIntegrityProtectionEnable=self.systemIntegrityProtectionEnable;
+    }
+    
+    return nIncidentHeader;
+}
+
 @end

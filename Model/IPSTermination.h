@@ -15,7 +15,7 @@
 
 #import "IPSObjectProtocol.h"
 
-@interface IPSTermination : NSObject <IPSObjectProtocol>
+@interface IPSTermination : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly) NSUInteger code;
 

@@ -137,4 +137,28 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
     return [tMutableDictionary copy];
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSThreadFrame * nThreadFrame=[IPSThreadFrame allocWithZone:inZone];
+    
+    if (nThreadFrame!=nil)
+    {
+        nThreadFrame.imageIndex=self.imageIndex;
+        
+        nThreadFrame.imageOffset=self.imageOffset;
+        
+        nThreadFrame.symbol=[self.symbol copyWithZone:inZone];
+        
+        nThreadFrame.symbolLocation=self.symbolLocation;
+        
+        nThreadFrame.sourceFile=[self.sourceFile copyWithZone:inZone];
+        
+        nThreadFrame.sourceLine=self.sourceLine;
+    }
+    
+    return nThreadFrame;
+}
+
 @end

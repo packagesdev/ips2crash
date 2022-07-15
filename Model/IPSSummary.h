@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, IPSBugType)
     IPSBugTypeCrash=309,            // JSON
 };
 
-@interface IPSSummary : NSObject <IPSObjectProtocol>
+@interface IPSSummary : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly) IPSBugType bugType;
 
@@ -33,5 +33,7 @@ typedef NS_ENUM(NSUInteger, IPSBugType)
     @property (readonly,copy) NSString * operatingSystemVersion;
 
     @property (readonly) NSDate * timeStamp;
+
+- (instancetype)initWithSummary:(IPSSummary *)inSummary;
 
 @end

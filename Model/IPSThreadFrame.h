@@ -15,7 +15,7 @@
 
 #import "IPSObjectProtocol.h"
 
-@interface IPSThreadFrame : NSObject <IPSObjectProtocol>
+@interface IPSThreadFrame : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly) NSUInteger imageIndex;
 
