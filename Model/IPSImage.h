@@ -15,7 +15,7 @@
 
 #import "IPSObjectProtocol.h"
 
-@interface IPSImage : NSObject <IPSObjectProtocol>
+@interface IPSImage : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly,copy) NSString * source;
 

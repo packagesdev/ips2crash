@@ -184,4 +184,36 @@ NSString * const IPSImageSizeKey=@"size";
     return @{};
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSImage * nImage=[IPSImage allocWithZone:inZone];
+    
+    if (nImage!=nil)
+    {
+        nImage.source=[self.source copyWithZone:inZone];
+        
+        nImage.name=[self.name copyWithZone:inZone];
+        
+        nImage.bundleIdentifier=[self.bundleIdentifier copyWithZone:inZone];
+        
+        nImage.bundleVersion=[self.bundleVersion copyWithZone:inZone];
+        
+        nImage.bundleShortVersionString=[self.bundleShortVersionString copyWithZone:inZone];
+        
+        nImage.path=[self.path copyWithZone:inZone];
+        
+        nImage.UUID=self.UUID;
+        
+        nImage.architecture=[self.architecture copyWithZone:inZone];
+        
+        nImage.loadAddress=self.loadAddress;
+        
+        nImage.size=self.size;
+    }
+    
+    return nImage;
+}
+
 @end
