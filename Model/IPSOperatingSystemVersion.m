@@ -87,5 +87,22 @@ NSString * const IPSOperatingSystemVersionReleaseTypeKey=@"releaseType";
              };
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSOperatingSystemVersion * nOperatingSystemVersion=[IPSOperatingSystemVersion allocWithZone:inZone];
+    
+    if (nOperatingSystemVersion!=nil)
+    {
+        nOperatingSystemVersion->_train=[self.train copyWithZone:inZone];
+        
+        nOperatingSystemVersion->_build=[self.build copyWithZone:inZone];
+        
+        nOperatingSystemVersion->_releaseType=[self.releaseType copyWithZone:inZone];
+    }
+    
+    return nOperatingSystemVersion;
+}
 
 @end

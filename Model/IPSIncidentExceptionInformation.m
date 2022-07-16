@@ -171,4 +171,26 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
     return @{};
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSIncidentExceptionInformation * nIncidentExceptionInformation=[IPSIncidentExceptionInformation allocWithZone:inZone];
+    
+    if (nIncidentExceptionInformation!=nil)
+    {
+        nIncidentExceptionInformation->_faultingThread=self.faultingThread;
+        
+        nIncidentExceptionInformation->_legacyInfo=[self.legacyInfo copyWithZone:inZone];
+        
+        nIncidentExceptionInformation->_exception=[self.exception copyWithZone:inZone];
+        
+        nIncidentExceptionInformation->_termination=[self.termination copyWithZone:inZone];
+        
+        nIncidentExceptionInformation->_corpse=self.isCorpse;
+    }
+    
+    return nIncidentExceptionInformation;
+}
+
 @end

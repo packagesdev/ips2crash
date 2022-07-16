@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -192,25 +192,25 @@ NSString * const IPSImageSizeKey=@"size";
     
     if (nImage!=nil)
     {
-        nImage.source=[self.source copyWithZone:inZone];
+        nImage->_source=[self.source copyWithZone:inZone];
         
-        nImage.name=[self.name copyWithZone:inZone];
+        nImage->_name=[self.name copyWithZone:inZone];
         
-        nImage.bundleIdentifier=[self.bundleIdentifier copyWithZone:inZone];
+        nImage->_bundleIdentifier=[self.bundleIdentifier copyWithZone:inZone];
         
-        nImage.bundleVersion=[self.bundleVersion copyWithZone:inZone];
+        nImage->_bundleVersion=[self.bundleVersion copyWithZone:inZone];
         
-        nImage.bundleShortVersionString=[self.bundleShortVersionString copyWithZone:inZone];
+        nImage->_bundleShortVersionString=[self.bundleShortVersionString copyWithZone:inZone];
         
-        nImage.path=[self.path copyWithZone:inZone];
+        nImage->_path=[self.path copyWithZone:inZone];
         
-        nImage.UUID=self.UUID;
+        nImage->_UUID=self.UUID;
         
-        nImage.architecture=[self.architecture copyWithZone:inZone];
+        nImage->_architecture=[self.architecture copyWithZone:inZone];
         
-        nImage.loadAddress=self.loadAddress;
+        nImage->_loadAddress=self.loadAddress;
         
-        nImage.size=self.size;
+        nImage->_size=self.size;
     }
     
     return nImage;

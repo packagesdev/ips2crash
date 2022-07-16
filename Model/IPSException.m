@@ -128,15 +128,15 @@ NSString * const IPSExceptionRawCodesKey=@"rawCodes";
     
     if (nException!=nil)
     {
-        nException.type=[self.type copyWithZone:inZone];
+        nException->_type=[self.type copyWithZone:inZone];
         
-        nException.subtype=[self.subtype copyWithZone:inZone];
+        nException->_subtype=[self.subtype copyWithZone:inZone];
         
-        nException.signal=[self.signal copyWithZone:inZone];
+        nException->_signal=[self.signal copyWithZone:inZone];
         
-        nException.codes=[self.codes copyWithZone:inZone];
+        nException->_codes=[self.codes copyWithZone:inZone];
         
-        nException.rawCodes=[self.rawCodes copyWithZone:inZone];
+        nException->_rawCodes=[self.rawCodes copyWithZone:inZone];
     }
     
     return nException;

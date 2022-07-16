@@ -21,7 +21,7 @@
 
 #import "IPSThreadInstructionState.h"
 
-@interface IPSThread : NSObject <IPSObjectProtocol>
+@interface IPSThread : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly,copy) NSString * queue;     // can be nil
 

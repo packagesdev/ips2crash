@@ -76,11 +76,11 @@ NSString * const IPSReportSummaryBuildVersionKey=@"build_version";
     
     if (nSummary!=nil)
     {
-        nSummary.applicationName=[self.applicationName copyWithZone:inZone];
+        nSummary->_applicationName=[self.applicationName copyWithZone:inZone];
         
-        nSummary.applicationVersion=[self.applicationVersion copyWithZone:inZone];
+        nSummary->_applicationVersion=[self.applicationVersion copyWithZone:inZone];
         
-        nSummary.applicationBuildVersion=[self.applicationBuildVersion copyWithZone:inZone];
+        nSummary->_applicationBuildVersion=[self.applicationBuildVersion copyWithZone:inZone];
     }
     
     return nSummary;

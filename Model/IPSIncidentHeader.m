@@ -295,33 +295,33 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
     
     if (nIncidentHeader!=nil)
     {
-        nIncidentHeader.processName=[self.processName copyWithZone:inZone];
+        nIncidentHeader->_processName=[self.processName copyWithZone:inZone];
         
-        nIncidentHeader.processID=self.processID;
+        nIncidentHeader->_processID=self.processID;
         
-        nIncidentHeader.processPath=[self.processPath copyWithZone:inZone];
+        nIncidentHeader->_processPath=[self.processPath copyWithZone:inZone];
         
-        nIncidentHeader.bundleInfo=[self.bundleInfo copyWithZone:inZone];
+        nIncidentHeader->_bundleInfo=[self.bundleInfo copyWithZone:inZone];
         
-        nIncidentHeader.cpuType=self.cpuType;
+        nIncidentHeader->_cpuType=self.cpuType;
         
-        nIncidentHeader.translated=self.translated;
+        nIncidentHeader->_translated=self.translated;
         
-        nIncidentHeader.parentProcessName=[self.parentProcessName copyWithZone:inZone];
+        nIncidentHeader->_parentProcessName=[self.parentProcessName copyWithZone:inZone];
         
-        nIncidentHeader.parentProcessID=self.parentProcessID;
+        nIncidentHeader->_parentProcessID=self.parentProcessID;
         
-        nIncidentHeader.responsibleProcessName=[self.responsibleProcessName copyWithZone:inZone];
+        nIncidentHeader->_responsibleProcessName=[self.responsibleProcessName copyWithZone:inZone];
         
-        nIncidentHeader.responsibleProcessID=self.responsibleProcessID;
+        nIncidentHeader->_responsibleProcessID=self.responsibleProcessID;
         
-        nIncidentHeader.userID=self.userID;
+        nIncidentHeader->_userID=self.userID;
         
-        nIncidentHeader.captureTime=self.captureTime;
+        nIncidentHeader->_captureTime=self.captureTime;
         
-        nIncidentHeader.operatingSystemVersion=self.operatingSystemVersion;
+        nIncidentHeader->_operatingSystemVersion=[self.operatingSystemVersion copyWithZone:inZone];
         
-        nIncidentHeader.reportVersion=self.reportVersion;
+        nIncidentHeader->_reportVersion=self.reportVersion;
         
         nIncidentHeader.crashReporterKey=self.crashReporterKey;
         

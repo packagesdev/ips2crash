@@ -141,17 +141,17 @@ NSString * const IPSTerminationByPidKey=@"byPid";
     
     if (nTermination!=nil)
     {
-        nTermination.code=self.code;
+        nTermination->_code=self.code;
         
-        nTermination.flags=self.flags;
+        nTermination->_flags=self.flags;
         
-        nTermination.indicator=[self.indicator copyWithZone:inZone];
+        nTermination->_indicator=[self.indicator copyWithZone:inZone];
         
-        nTermination.namespace=[self.namespace copyWithZone:inZone];
+        nTermination->_namespace=[self.namespace copyWithZone:inZone];
         
-        nTermination.byProc=[self.byProc copyWithZone:inZone];
+        nTermination->_byProc=[self.byProc copyWithZone:inZone];
         
-        nTermination.byPid=self.byPid;
+        nTermination->_byPid=self.byPid;
     }
     
     return nTermination;

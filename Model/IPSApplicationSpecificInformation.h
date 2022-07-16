@@ -15,7 +15,7 @@
 
 #import "IPSObjectProtocol.h"
 
-@interface IPSApplicationSpecificInformation : NSObject <IPSObjectProtocol>
+@interface IPSApplicationSpecificInformation : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
 

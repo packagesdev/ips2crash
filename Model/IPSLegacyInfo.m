@@ -78,4 +78,19 @@ NSString * const IPSLegacyInfoThreadTriggeredKey=@"threadTriggered";
 {
     return @{};
 }
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSLegacyInfo * nLegacyInfo=[IPSLegacyInfo allocWithZone:inZone];
+    
+    if (nLegacyInfo!=nil)
+    {
+        nLegacyInfo->_threadTriggered=[self.threadTriggered copyWithZone:inZone];
+    }
+    
+    return nLegacyInfo;
+}
+
 @end

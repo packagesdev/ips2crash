@@ -145,17 +145,17 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
     
     if (nThreadFrame!=nil)
     {
-        nThreadFrame.imageIndex=self.imageIndex;
+        nThreadFrame->_imageIndex=self.imageIndex;
         
-        nThreadFrame.imageOffset=self.imageOffset;
+        nThreadFrame->_imageOffset=self.imageOffset;
         
-        nThreadFrame.symbol=[self.symbol copyWithZone:inZone];
+        nThreadFrame->_symbol=[self.symbol copyWithZone:inZone];
         
-        nThreadFrame.symbolLocation=self.symbolLocation;
+        nThreadFrame->_symbolLocation=self.symbolLocation;
         
-        nThreadFrame.sourceFile=[self.sourceFile copyWithZone:inZone];
+        nThreadFrame->_sourceFile=[self.sourceFile copyWithZone:inZone];
         
-        nThreadFrame.sourceLine=self.sourceLine;
+        nThreadFrame->_sourceLine=self.sourceLine;
     }
     
     return nThreadFrame;

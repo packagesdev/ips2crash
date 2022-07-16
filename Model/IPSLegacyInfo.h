@@ -17,7 +17,7 @@
 
 #import "IPSThread.h"
 
-@interface IPSLegacyInfo : NSObject <IPSObjectProtocol>
+@interface IPSLegacyInfo : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly) IPSThread * threadTriggered;
 

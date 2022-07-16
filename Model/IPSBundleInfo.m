@@ -110,11 +110,11 @@ NSString * const IPSBundleInfoBundleIdentifierKey=@"CFBundleIdentifier";
     
     if (nBundleInfo!=nil)
     {
-        nBundleInfo.bundleShortVersionString=[self.bundleShortVersionString copyWithZone:inZone];
+        nBundleInfo->_bundleShortVersionString=[self.bundleShortVersionString copyWithZone:inZone];
         
-        nBundleInfo.bundleVersion=[self.bundleVersion copyWithZone:inZone];
+        nBundleInfo->_bundleVersion=[self.bundleVersion copyWithZone:inZone];
         
-        nBundleInfo.bundleIdentifier=[self.bundleIdentifier copyWithZone:inZone];
+        nBundleInfo->_bundleIdentifier=[self.bundleIdentifier copyWithZone:inZone];
     }
     
     return nBundleInfo;

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -168,6 +168,38 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
 - (NSDictionary *)representation
 {
     return @{};
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSIncident * nIncident=[IPSIncident allocWithZone:inZone];
+    
+    if (nIncident!=nil)
+    {
+        nIncident->_header=[self.header copyWithZone:inZone];
+        
+        nIncident->_exceptionInformation=[self.exceptionInformation copyWithZone:inZone];
+        
+        nIncident->_diagnosticMessage=[self.diagnosticMessage copyWithZone:inZone];
+        
+        nIncident->_threads=[self.threads WB_arrayByMappingObjectsUsingBlock:^IPSThread *(IPSThread * bThread, NSUInteger bIndex) {
+          
+            return [bThread copyWithZone:inZone];
+        }];
+        
+        nIncident->_binaryImages=[self.binaryImages WB_arrayByMappingObjectsUsingBlock:^IPSImage *(IPSImage * bBinaryImage, NSUInteger bIndex) {
+            
+            return [bBinaryImage copyWithZone:inZone];
+        }];
+        
+        nIncident->_extMods=[self.extMods copyWithZone:inZone];
+        
+        nIncident->_vmSummary=[self.vmSummary copyWithZone:inZone];
+    }
+    
+    return nIncident;
 }
 
 @end
