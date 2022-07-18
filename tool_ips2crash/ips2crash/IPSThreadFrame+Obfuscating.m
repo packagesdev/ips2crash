@@ -11,17 +11,36 @@
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "IPSReport+Obfuscating.h"
+#import "IPSThreadFrame+Obfuscating.h"
 
-#import "IPSCrashSummary+Obfuscating.h"
-#import "IPSIncident+Obfuscating.h"
+#import "IPSObfuscator+Extended.h"
 
-@implementation IPSReport (Obfuscating)
+@interface IPSThreadFrame (Private)
+
+- (void)setSymbol:(NSString *)inSymbol;
+- (void)setSourceFile:(NSString *)inSourceFile;
+
+@end
+
+@implementation IPSThreadFrame (Obfuscating)
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    return [[IPSReport alloc] initWithSummary:[((IPSCrashSummary *)self.summary) obfuscateWithObfuscator:inObfuscator]
-                                     incident:[self.incident obfuscateWithObfuscator:inObfuscator]];
+    IPSThreadFrame * nThreadFrame=[self copy];
+    
+    if (nThreadFrame!=nil)
+    {
+        BOOL isUserCode=[[inObfuscator sharedObjectForKey:[NSString stringWithFormat:@"image_%lu",self.imageIndex]] boolValue];
+        
+        if (isUserCode==YES)
+        {
+            nThreadFrame.symbol=nil;
+        
+            nThreadFrame.sourceFile=nil;
+        }
+    }
+    
+    return nThreadFrame;
 }
 
 @end

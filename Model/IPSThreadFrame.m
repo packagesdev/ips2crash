@@ -33,7 +33,7 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
 
     @property (readwrite,copy) NSString * symbol;    // can be nil
 
-    @property (readwrite) NSUInteger symbolLocation;    // can be nil
+    @property (readwrite) NSUInteger symbolLocation;
 
     @property (readwrite,copy) NSString * sourceFile;    // can be nil
 
