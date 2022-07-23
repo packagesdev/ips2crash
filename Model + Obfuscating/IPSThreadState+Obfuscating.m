@@ -11,29 +11,36 @@
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "IPSLegacyInfo+Obfuscating.h"
+#import "IPSThreadState+Obfuscating.h"
 
-#import "IPSThread+Obfuscating.h"
+#import "IPSRegisterState+Obfuscating.h"
 
-@interface IPSLegacyInfo (Private)
+#import "NSDictionary+WBExtensions.h"
 
-- (void)setThreadTriggered:(IPSThread *)iThreadTriggered;
+@interface IPSThreadState (Private)
+
+- (void)setFlavor:(NSString *)inFlavor;
+- (void)setRegistersStates:(NSDictionary<NSString *,IPSRegisterState *> *)inRegistersStates;
 
 @end
 
-@implementation IPSLegacyInfo (Obfuscating)
+@implementation IPSThreadState (Obfuscating)
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSLegacyInfo * nObfuscatedLegacyInfo=[IPSLegacyInfo alloc];
+    IPSThreadState * nThreadState=[IPSThreadState alloc];
     
-    if (nObfuscatedLegacyInfo!=nil)
+    if (nThreadState!=nil)
     {
-        nObfuscatedLegacyInfo.threadTriggered=[self.threadTriggered obfuscateWithObfuscator:inObfuscator];
+        nThreadState.flavor=[self.flavor copy];
+        
+        nThreadState.registersStates=[self.registersStates WB_dictionaryByMappingObjectsUsingBlock:^id(id bKey, IPSRegisterState * bRegisterState) {
+            
+            return [bRegisterState obfuscateWithObfuscator:inObfuscator];
+        }];
     }
     
-    return nObfuscatedLegacyInfo;
+    return nThreadState;
 }
-
 
 @end

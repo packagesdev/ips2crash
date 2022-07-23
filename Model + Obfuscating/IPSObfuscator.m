@@ -65,25 +65,45 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
 - (NSString *)sharedObfuscatedComponentWithComponent:(NSString *)inComponent family:(IPSComponentFamily)inFamily
 {
     static NSMutableDictionary<NSString *,NSString *> * _cachedObfuscatedComponents=nil;
+    static NSArray * _availableWords=nil;
+    static NSUInteger _availableWordsCount=0;
+    static NSUInteger _wordIndex=0;
+    static NSCharacterSet * sUppercaseLetterCharacterSet=nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _cachedObfuscatedComponents=[NSMutableDictionary dictionary];
+        
+        _availableWords=@[@"lorem",@"ipsum",@"dolor",@"amet",@"consectetur",@"adipiscing",@"elit",@"eiusmod",@"tempor",@"incididunt",@"labore",
+                          @"dolore",@"magna",@"aliqua",@"enim",@"minim",@"veniam,",@"quis",@"nostrud",@"exercitation",@"ullamco",@"laboris",@"nisi",@"aliquip",
+                          @"commodo",@"consequat",@"duis",@"aute",@"irure",@"reprehenderit",@"voluptate",@"velit",@"esse",@"cillum",
+                          @"fugiat",@"nulla",@"pariatur",@"excepteur",@"sint",@"occaecat",@"proident",@"sunt",@"culpa",@"qui",@"officia",@"deserunt",
+                          @"mollit",@"anim",@"laborum"];
+        
+        _availableWordsCount=_availableWords.count;
+        
+        sUppercaseLetterCharacterSet=[NSCharacterSet uppercaseLetterCharacterSet];
+        
     });
+    
+    BOOL shouldCapitalize=[sUppercaseLetterCharacterSet characterIsMember:[inComponent characterAtIndex:0]];
+    
+    inComponent=inComponent.lowercaseString;
     
     NSString * tObfuscatedString=_cachedObfuscatedComponents[inComponent];
     
     if (tObfuscatedString==nil)
     {
-        tObfuscatedString=[NSUUID UUID].UUIDString;
+        tObfuscatedString=_availableWords[_wordIndex];
         
-        // A COMPLETER
+        _wordIndex=(_wordIndex+1)%_availableWordsCount;
         
         _cachedObfuscatedComponents[inComponent]=tObfuscatedString;
     }
     
-    return @"COMPONENT";
+    if (shouldCapitalize==YES)
+        tObfuscatedString=tObfuscatedString.capitalizedString;
     
-    //return tObfuscatedString;
+    return tObfuscatedString;
 }
 
 - (NSString *)obfuscatedBinaryWithBinary:(NSString *)inBinary
@@ -99,16 +119,20 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
                                            } mutableCopy];
     });
     
-    NSString * tObfuscatedBinary=sCachedObfuscatedBinaries[inBinary];
+    NSString * tPathExtension=inBinary.pathExtension;
+    
+    NSString * tKey=inBinary.stringByDeletingPathExtension;
+    
+    NSString * tObfuscatedBinary=sCachedObfuscatedBinaries[tKey];
     
     if (tObfuscatedBinary==nil)
     {
-        tObfuscatedBinary=[self sharedObfuscatedComponentWithComponent:inBinary family:IPSComponentBinary];
+        tObfuscatedBinary=[self sharedObfuscatedComponentWithComponent:tKey family:IPSComponentBinary];
         
-        sCachedObfuscatedBinaries[inBinary]=tObfuscatedBinary;
+        sCachedObfuscatedBinaries[tKey]=tObfuscatedBinary;
     }
     
-    return tObfuscatedBinary;
+    return [tObfuscatedBinary stringByAppendingPathExtension:tPathExtension];
 }
 
 - (NSString *)obfuscatedBundleIdentifierComponentWithBundleIdentifierComponent:(NSString *)inBundleIdentifierComponent
@@ -154,6 +178,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
     dispatch_once(&onceToken, ^{
         sCachedObfuscatedPathComponents=[@{
                                            @"/":@"/",
+                                           @"*":@"*",
                                            @"A":@"A",
                                            @"Applications":@"Applications",
                                            @"Automator":@"Automator",
@@ -167,7 +192,10 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
                                            @"QuickLook":@"QuickLook",
                                            @"Resources":@"Resources",
                                            @"Spotlight":@"Spotlight",
+                                           @"System":@"System",
                                            @"Utilities":@"Utilities",
+                                           @"USER":@"USER",
+                                           @"Users":@"Users",
                                            @"Versions":@"Versions",
                                            @"XPCServices":@"XPCServices",
                                            } mutableCopy];
@@ -211,9 +239,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
     if ([inQueue hasPrefix:@"com.apple."]==YES)
         return [inQueue copy];
     
-    // A COMPLETER
-    
-    return @"QUEUE";
+    return [self obfuscatedBundleIdentifierWithBundleIdentifier:inQueue];
 }
 
 - (NSString *)obfuscatedThreadNameWithThreadName:(NSString *)inThreadName
@@ -242,37 +268,32 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
     return tObfuscatedThreadName;
 }
 
-- (NSString *)obfuscatedSymbolWithSymbol:(NSString *)inSymbol
-{
-    if (inSymbol==nil)
-        return nil;
-
-    static NSMutableDictionary<NSString *,NSString *> * sCachedObfuscatedSymbols=nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sCachedObfuscatedSymbols=[NSMutableDictionary dictionary];
-    });
-    
-    NSString * tObfuscatedSymbol=sCachedObfuscatedSymbols[inSymbol];
-    
-    if (tObfuscatedSymbol==nil)
-    {
-        // Decompose the symbol into symbol components (Class, parameter, etc.) as best as we can
-        
-        NSArray * tComponents=nil;
-#warning TO BE COMPLETED
-        // A COMPLETER
-        
-        //[self sharedObfuscatedComponentWithComponent:inThreadName family:IPSComponentThreadName];
-        
-        sCachedObfuscatedSymbols[inSymbol]=tObfuscatedSymbol;
-    }
-    
-    return @"SYMBOL";
-    
-    //return tObfuscatedSymbol;
-
-}
+//- (NSString *)obfuscatedSymbolWithSymbol:(NSString *)inSymbol
+//{
+//    if (inSymbol==nil)
+//        return nil;
+//
+//    static NSMutableDictionary<NSString *,NSString *> * sCachedObfuscatedSymbols=nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        sCachedObfuscatedSymbols=[NSMutableDictionary dictionary];
+//    });
+//
+//    NSString * tObfuscatedSymbol=sCachedObfuscatedSymbols[inSymbol];
+//
+//    if (tObfuscatedSymbol==nil)
+//    {
+//        // Decompose the symbol into symbol components (Class, parameter, etc.) as best as we can.
+//
+//        //NSArray * tComponents=nil;
+//#warning TO BE COMPLETED IN THE FUTURE
+//        // A COMPLETER
+//
+//        sCachedObfuscatedSymbols[inSymbol]=tObfuscatedSymbol;
+//    }
+//
+//    return tObfuscatedSymbol;
+//}
 
 #pragma mark -
 
@@ -302,7 +323,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
         
         case IPSStringFamilySymbol:
             
-            return [self obfuscatedSymbolWithSymbol:inString];
+//            return [self obfuscatedSymbolWithSymbol:inString];
             
         default:
             

@@ -61,6 +61,32 @@
             ReferencedContainer = "container:ips2crash.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "/Users/stephane/Documents/IPS\ files/REAPER-2022-02-11-094340.ips"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-O"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "&quot;/Users/stephane/Documents/IPS files/Morph Age-2021-11-17-094158.ips&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "&quot;/Users/stephane/Documents/IPS files/Xcode-2021-11-18-163236.ips&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "&quot;/Users/stephane/Documents/IPS files/DesktopServicesHelper-2021-11-16-144825.ips&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "&quot;/Users/stephane/Documents/IPS files/ips from le petit robot/binaryninja-2022-07-21-034327.ips&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

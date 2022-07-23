@@ -11,37 +11,11 @@
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "IPSThreadState+Obfuscating.h"
+#import "IPSObfuscator.h"
 
-#import "IPSRegisterState+Obfuscating.h"
+@interface IPSObfuscator (Extended)
 
-#import "NSDictionary+WBExtensions.h"
-
-@interface IPSThreadState (Private)
-
-- (void)setFlavor:(NSString *)inFlavor;
-- (void)setRegistersStates:(NSDictionary<NSString *,IPSRegisterState *> *)inRegistersStates;
-
-@end
-
-@implementation IPSThreadState (Obfuscating)
-
-- (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
-{
-    IPSThreadState * nThreadState=[IPSThreadState alloc];
-    
-    if (nThreadState!=nil)
-    {
-        nThreadState.flavor=[self.flavor copy];
-        
-        nThreadState.registersStates=[self.registersStates WB_dictionaryByMappingObjectsUsingBlock:^id(id bKey, IPSRegisterState * bRegisterState) {
-            
-            return [bRegisterState obfuscateWithObfuscator:inObfuscator];
-        }];
-    }
-    
-    return nThreadState;
-}
-
+- (id)sharedObjectForKey:(NSString *)inKey;
+- (void)setSharedObject:(id)inObject forKey:(NSString *)inKey;
 
 @end

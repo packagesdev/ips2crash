@@ -56,13 +56,23 @@
         
         nIncident.exceptionInformation=[self.exceptionInformation obfuscateWithObfuscator:inObfuscator];
         
+        NSMutableIndexSet * tMutableIndexSet=[NSMutableIndexSet indexSet];
+        
         nIncident.binaryImages=[self.binaryImages WB_arrayByMappingObjectsUsingBlock:^IPSImage *(IPSImage * bImage, NSUInteger bIndex) {
             
-            [inObfuscator setSharedObject:@(bImage.isUserCode) forKey:[NSString stringWithFormat:@"image_%lu",bIndex]];
+            BOOL tIsUserCode=bImage.isUserCode;
+            
+            if (tIsUserCode==YES)
+            {
+                [tMutableIndexSet addIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(bImage.loadAddress,bImage.size)]];
+                
+                [inObfuscator setSharedObject:@(YES) forKey:[NSString stringWithFormat:@"image_%lu",bIndex]];
+            }
             
             return [bImage obfuscateWithObfuscator:inObfuscator];
-            
         }];
+        
+        [inObfuscator setSharedObject:[tMutableIndexSet copy] forKey:@"userCodeIndexSet"];
         
         nIncident.diagnosticMessage=[self.diagnosticMessage obfuscateWithObfuscator:inObfuscator];
         
@@ -71,8 +81,6 @@
             return [bThread obfuscateWithObfuscator:inObfuscator];
             
         }];
-        
-        // A COMPLETER
         
         nIncident.vmSummary=self.vmSummary;
     }

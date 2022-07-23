@@ -155,7 +155,8 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
         {
             tNumber=inRepresentation[IPSIncidentExceptionInformationCorpseKey];
             
-            IPSFullCheckNumberValueForKey(tNumber,IPSIncidentExceptionInformationCorpseKey);
+            if (tNumber!=nil)
+                IPSClassCheckNumberValueForKey(tNumber,IPSIncidentExceptionInformationCorpseKey);
         }
         
         _corpse=[tNumber boolValue];
