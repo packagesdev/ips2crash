@@ -15,7 +15,7 @@
 
 #import "IPSObjectProtocol.h"
 
-@interface IPSOperatingSystemVersion : NSObject <IPSObjectProtocol>
+@interface IPSOperatingSystemVersion : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly,copy) NSString * train;
 

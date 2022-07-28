@@ -21,7 +21,7 @@
 
 #import "IPSTermination.h"
 
-@interface IPSIncidentExceptionInformation : NSObject <IPSObjectProtocol>
+@interface IPSIncidentExceptionInformation : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly) NSUInteger faultingThread;
 

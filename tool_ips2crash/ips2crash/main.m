@@ -16,6 +16,7 @@
 #import "IPSReport.h"
 
 #import "IPSReport+CrashRepresentation.h"
+#import "IPSReport+Obfuscating.h"
 
 #include <sys/types.h>
 #include <unistd.h>
@@ -28,6 +29,7 @@ void usage(void)
     (void)fprintf(stderr, "%s\n","Usage: ips2crash [OPTIONS] file\n"
                   "\n"
                   "Options:\n"
+                  "  --obfuscate -O       obfuscate user code symbols, binaries and paths\n"
                   "  --output, -o PATH    use this folder as the temporary build folder\n");
     
     exit(EXIT_FAILURE);
@@ -38,13 +40,14 @@ int main(int argc, const char * argv[])
     @autoreleasepool
     {
         char * tCOutputPath=NULL;
-        
+        BOOL tObfuscate=NO;
         int c;
         
         static struct option tLongOptions[] =
         {
             {"verbose",                        no_argument,        0,    'v'},
             
+            {"obfuscate", no_argument,          0,    'O'},
             {"output",    required_argument,    0,    'o'},
             
             {0, 0, 0, 0}
@@ -54,7 +57,7 @@ int main(int argc, const char * argv[])
         {
             int tOptionIndex = 0;
             
-            c = getopt_long (argc, (char **) argv, "o:",tLongOptions, &tOptionIndex);
+            c = getopt_long (argc, (char **) argv, "Oo:",tLongOptions, &tOptionIndex);
             
             /* Detect the end of the options. */
             if (c == -1)
@@ -62,6 +65,12 @@ int main(int argc, const char * argv[])
             
             switch (c)
             {
+                case 'O':
+                    
+                    tObfuscate=YES;
+                    
+                    break;
+                
                 case 'o':
                     
                     tCOutputPath=optarg;
@@ -188,6 +197,13 @@ int main(int argc, const char * argv[])
             }
             
             return EXIT_FAILURE;
+        }
+        
+        if (tObfuscate==YES)
+        {
+            IPSObfuscator * tObfuscator=[IPSObfuscator new];
+            
+            tReport=[tReport obfuscateWithObfuscator:tObfuscator];
         }
         
         NSString * tString=[tReport crashTextualRepresentation];

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -89,6 +89,26 @@ NSString * const IPSExternalModificationSummaryWarningsKey=@"warnings";
              IPSExternalModificationSummaryTargeted:[self.targeted representation],
              IPSExternalModificationSummaryWarningsKey:@(self.warnings)
              };
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSExternalModificationSummary * nExternalModificationSummary=[IPSExternalModificationSummary allocWithZone:inZone];
+    
+    if (nExternalModificationSummary!=nil)
+    {
+        nExternalModificationSummary->_caller=[self.caller copyWithZone:inZone];
+        
+        nExternalModificationSummary->_system=[self.system copyWithZone:inZone];
+        
+        nExternalModificationSummary->_targeted=[self.targeted copyWithZone:inZone];
+        
+        nExternalModificationSummary->_warnings=self.warnings;
+    }
+    
+    return nExternalModificationSummary;
 }
 
 @end

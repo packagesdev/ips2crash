@@ -13,6 +13,8 @@
 
 #import "IPSApplicationSpecificInformation.h"
 
+#import "NSDictionary+WBExtensions.h"
+
 NSString * const IPSApplicationSpecificInformationAsiKey=@"asi";
 
 NSString * const IPSApplicationSpecificInformationAsiBacktracesKey=@"asiBacktraces";
@@ -97,6 +99,27 @@ NSString * const IPSApplicationSpecificInformationAsiSignaturesKey=@"asiSignatur
         tMutableRepresentation[IPSApplicationSpecificInformationAsiSignaturesKey]=self.signatures;
     
     return [tMutableRepresentation copy];
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSApplicationSpecificInformation * nApplicationSpecificInformation=[IPSApplicationSpecificInformation allocWithZone:inZone];
+    
+    if (nApplicationSpecificInformation!=nil)
+    {
+        nApplicationSpecificInformation->_applicationsInformation=[self.applicationsInformation WB_dictionaryByMappingObjectsUsingBlock:^NSArray<NSString *> *(id bKey, NSArray<NSString *> * bObject) {
+            
+            return [bObject copyWithZone:inZone];
+        }];
+        
+        nApplicationSpecificInformation->_backtraces=[self.backtraces copyWithZone:inZone];
+        
+        nApplicationSpecificInformation->_signatures=[self.signatures copyWithZone:inZone];
+    }
+    
+    return nApplicationSpecificInformation;
 }
 
 @end

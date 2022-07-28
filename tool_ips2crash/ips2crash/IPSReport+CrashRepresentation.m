@@ -49,7 +49,7 @@
     if (inThreadState==nil)
         return @"";
     
-    NSArray * tRegistersOrder=@[];
+    NSArray * tRegistersOrder;
     
     if ([inThreadState.flavor isEqualToString:@"x86_THREAD_STATE"]==YES)
     {

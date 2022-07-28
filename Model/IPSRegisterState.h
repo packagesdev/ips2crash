@@ -15,7 +15,7 @@
 
 #import "IPSObjectProtocol.h"
 
-@interface IPSRegisterState : NSObject <IPSObjectProtocol>
+@interface IPSRegisterState : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly) NSUInteger value;
 

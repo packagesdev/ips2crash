@@ -15,6 +15,8 @@
 
 #import "NSDictionary+WBExtensions.h"
 
+#import "NSDictionary+WBExtensions.h"
+
 NSString * const IPSThreadStateFlavorKey=@"flavor";
 
 NSString * const IPSThreadStateCpuKey=@"cpu";
@@ -120,6 +122,25 @@ NSString * const IPSThreadStateXKey=@"x";
 - (NSDictionary *)representation
 {
     return @{};
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSThreadState * nThreadState=[IPSThreadState allocWithZone:inZone];
+    
+    if (nThreadState!=nil)
+    {
+        nThreadState->_flavor=[self.flavor copyWithZone:inZone];
+        
+        nThreadState->_registersStates=[self.registersStates WB_dictionaryByMappingObjectsUsingBlock:^IPSRegisterState *(id bKey, IPSRegisterState * bRegisterState) {
+            
+            return [bRegisterState copyWithZone:inZone];
+        }];
+    }
+    
+    return nThreadState;
 }
 
 @end

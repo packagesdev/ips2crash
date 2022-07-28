@@ -155,7 +155,8 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
         {
             tNumber=inRepresentation[IPSIncidentExceptionInformationCorpseKey];
             
-            IPSFullCheckNumberValueForKey(tNumber,IPSIncidentExceptionInformationCorpseKey);
+            if (tNumber!=nil)
+                IPSClassCheckNumberValueForKey(tNumber,IPSIncidentExceptionInformationCorpseKey);
         }
         
         _corpse=[tNumber boolValue];
@@ -169,6 +170,28 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
 - (NSDictionary *)representation
 {
     return @{};
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSIncidentExceptionInformation * nIncidentExceptionInformation=[IPSIncidentExceptionInformation allocWithZone:inZone];
+    
+    if (nIncidentExceptionInformation!=nil)
+    {
+        nIncidentExceptionInformation->_faultingThread=self.faultingThread;
+        
+        nIncidentExceptionInformation->_legacyInfo=[self.legacyInfo copyWithZone:inZone];
+        
+        nIncidentExceptionInformation->_exception=[self.exception copyWithZone:inZone];
+        
+        nIncidentExceptionInformation->_termination=[self.termination copyWithZone:inZone];
+        
+        nIncidentExceptionInformation->_corpse=self.isCorpse;
+    }
+    
+    return nIncidentExceptionInformation;
 }
 
 @end

@@ -23,7 +23,7 @@ extern NSString * const IPSThreadStateErrKey;
 
 extern NSString * const IPSThreadStateTrapKey;
 
-@interface IPSThreadState : NSObject <IPSObjectProtocol>
+@interface IPSThreadState : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly,copy) NSString * flavor;
 

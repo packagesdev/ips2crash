@@ -15,7 +15,7 @@
 
 #import "IPSObjectProtocol.h"
 
-@interface IPSException : NSObject <IPSObjectProtocol>
+@interface IPSException : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly,copy) NSString * type;
 

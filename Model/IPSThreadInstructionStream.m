@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -86,6 +86,29 @@ NSString * const IPSThreadInstructionStreamOffsetKey=@"offset";
                                                                                              }];
     
     return [tMutableDictionary copy];
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSThreadInstructionStream * nThreadInstructionStream=[IPSThreadInstructionStream allocWithZone:inZone];
+    
+    if (nThreadInstructionStream!=nil)
+    {
+        nThreadInstructionStream->_bytes=(uint8_t *)malloc(self.bytesCount*sizeof(uint8_t));
+        
+        if (nThreadInstructionStream->_bytes==NULL)
+            return nil;
+        
+        memcpy(nThreadInstructionStream->_bytes,self.bytes, self.bytesCount);
+        
+        nThreadInstructionStream->_bytesCount=self.bytesCount;
+        
+        nThreadInstructionStream->_offset=self.offset;
+    }
+    
+    return nThreadInstructionStream;
 }
 
 @end

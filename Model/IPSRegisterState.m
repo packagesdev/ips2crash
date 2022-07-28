@@ -134,4 +134,30 @@ NSString * const IPSRegisterStateDescriptionKey=@"description";
     return @{};
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSRegisterState * nRegisterState=[IPSRegisterState allocWithZone:inZone];
+    
+    if (nRegisterState!=nil)
+    {
+        nRegisterState->_value=self.value;
+        
+        nRegisterState->_symbol=[self.symbol copyWithZone:inZone];
+        
+        nRegisterState->_symbolLocation=self.symbolLocation;
+        
+        nRegisterState->_sourceFile=[self.sourceFile copyWithZone:inZone];
+        
+        nRegisterState->_sourceLine=self.sourceLine;
+        
+        nRegisterState->_matchesCrashFrame=self.matchesCrashFrame;
+        
+        nRegisterState->_r_description=[self.r_description copyWithZone:inZone];
+    }
+    
+    return nRegisterState;
+}
+
 @end

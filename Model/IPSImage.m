@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -182,6 +182,38 @@ NSString * const IPSImageSizeKey=@"size";
 - (NSDictionary *)representation
 {
     return @{};
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSImage * nImage=[IPSImage allocWithZone:inZone];
+    
+    if (nImage!=nil)
+    {
+        nImage->_source=[self.source copyWithZone:inZone];
+        
+        nImage->_name=[self.name copyWithZone:inZone];
+        
+        nImage->_bundleIdentifier=[self.bundleIdentifier copyWithZone:inZone];
+        
+        nImage->_bundleVersion=[self.bundleVersion copyWithZone:inZone];
+        
+        nImage->_bundleShortVersionString=[self.bundleShortVersionString copyWithZone:inZone];
+        
+        nImage->_path=[self.path copyWithZone:inZone];
+        
+        nImage->_UUID=self.UUID;
+        
+        nImage->_architecture=[self.architecture copyWithZone:inZone];
+        
+        nImage->_loadAddress=self.loadAddress;
+        
+        nImage->_size=self.size;
+    }
+    
+    return nImage;
 }
 
 @end

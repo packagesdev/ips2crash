@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -12,6 +12,8 @@
  */
 
 #import "IPSLegacyInfo.h"
+
+NSString * const IPSLegacyInfoThreadHighlightedKey=@"threadHighlighted";
 
 NSString * const IPSLegacyInfoThreadTriggeredKey=@"threadTriggered";
 
@@ -47,22 +49,49 @@ NSString * const IPSLegacyInfoThreadTriggeredKey=@"threadTriggered";
     if (self!=nil)
     {
         NSError * tError=nil;
+        
+        _threadHighlighted=-1;
+        
+        NSNumber * tNumber=inRepresentation[IPSLegacyInfoThreadHighlightedKey];
+        
+        if (tNumber!=nil)
+        {
+            IPSClassCheckNumberValueForKey(tNumber,IPSLegacyInfoThreadTriggeredKey);
+            
+            _threadHighlighted=tNumber.integerValue;
+        }
+        
         NSDictionary * tDictionary=inRepresentation[IPSLegacyInfoThreadTriggeredKey];
         
-        IPSFullCheckDictionaryValueForKey(tDictionary,IPSLegacyInfoThreadTriggeredKey);
-        
-        _threadTriggered=[[IPSThread alloc] initWithRepresentation:tDictionary error:&tError];
-        
-        if (_threadTriggered==nil)
+        if (tDictionary!=nil)
         {
-            NSString * tPathError=IPSLegacyInfoThreadTriggeredKey;
+            IPSClassCheckDictionaryValueForKey(tDictionary,IPSLegacyInfoThreadTriggeredKey);
             
-            if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
-                tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+            _threadTriggered=[[IPSThread alloc] initWithRepresentation:tDictionary error:&tError];
+            
+            if (_threadTriggered==nil)
+            {
+                NSString * tPathError=IPSLegacyInfoThreadTriggeredKey;
+                
+                if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+                    tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+                
+                if (outError!=NULL)
+                    *outError=[NSError errorWithDomain:IPSErrorDomain
+                                                  code:tError.code
+                                              userInfo:@{IPSKeyPathErrorKey:tPathError}];
+                
+                return nil;
+            }
+        }
+        
+        if (_threadHighlighted==-1 && _threadTriggered==nil)
+        {
+            NSString * tPathError=[NSString stringWithFormat:@"%@|%@",IPSLegacyInfoThreadHighlightedKey,IPSLegacyInfoThreadTriggeredKey];
             
             if (outError!=NULL)
                 *outError=[NSError errorWithDomain:IPSErrorDomain
-                                              code:tError.code
+                                              code:IPSRepresentationInvalidValueError
                                           userInfo:@{IPSKeyPathErrorKey:tPathError}];
             
             return nil;
@@ -78,4 +107,19 @@ NSString * const IPSLegacyInfoThreadTriggeredKey=@"threadTriggered";
 {
     return @{};
 }
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSLegacyInfo * nLegacyInfo=[IPSLegacyInfo allocWithZone:inZone];
+    
+    if (nLegacyInfo!=nil)
+    {
+        nLegacyInfo->_threadTriggered=[self.threadTriggered copyWithZone:inZone];
+    }
+    
+    return nLegacyInfo;
+}
+
 @end

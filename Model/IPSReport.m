@@ -25,6 +25,23 @@
 
 @implementation IPSReport
 
+- (instancetype)initWithSummary:(IPSSummary *)inSummary incident:(IPSIncident *)inIncident
+{
+    if ([inSummary isKindOfClass:[IPSSummary class]]==NO ||
+        [inIncident isKindOfClass:[IPSIncident class]]==NO)
+        return nil;
+    
+    self=[super init];
+    
+    if (self!=nil)
+    {
+        _summary=inSummary;
+        _incident=inIncident;
+    }
+    
+    return self;
+}
+
 - (instancetype)initWithContentsOfURL:(NSURL *)inURL error:(out NSError **)outError
 {
     if ([inURL isKindOfClass:[NSURL class]]==NO)
@@ -210,6 +227,22 @@
     }
     
     return self;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSReport * nReport=[IPSReport allocWithZone:inZone];
+    
+    if (nReport!=nil)
+    {
+        nReport->_summary=[self.summary copyWithZone:inZone];
+        
+        nReport->_incident=[self.incident copyWithZone:inZone];
+    }
+    
+    return nReport;
 }
 
 @end

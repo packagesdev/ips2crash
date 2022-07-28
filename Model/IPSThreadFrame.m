@@ -33,7 +33,7 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
 
     @property (readwrite,copy) NSString * symbol;    // can be nil
 
-    @property (readwrite) NSUInteger symbolLocation;    // can be nil
+    @property (readwrite) NSUInteger symbolLocation;
 
     @property (readwrite,copy) NSString * sourceFile;    // can be nil
 
@@ -135,6 +135,30 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
     }
     
     return [tMutableDictionary copy];
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSThreadFrame * nThreadFrame=[IPSThreadFrame allocWithZone:inZone];
+    
+    if (nThreadFrame!=nil)
+    {
+        nThreadFrame->_imageIndex=self.imageIndex;
+        
+        nThreadFrame->_imageOffset=self.imageOffset;
+        
+        nThreadFrame->_symbol=[self.symbol copyWithZone:inZone];
+        
+        nThreadFrame->_symbolLocation=self.symbolLocation;
+        
+        nThreadFrame->_sourceFile=[self.sourceFile copyWithZone:inZone];
+        
+        nThreadFrame->_sourceLine=self.sourceLine;
+    }
+    
+    return nThreadFrame;
 }
 
 @end

@@ -120,4 +120,26 @@ NSString * const IPSExceptionRawCodesKey=@"rawCodes";
     return [tMutableDictionary copy];
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSException * nException=[IPSException allocWithZone:inZone];
+    
+    if (nException!=nil)
+    {
+        nException->_type=[self.type copyWithZone:inZone];
+        
+        nException->_subtype=[self.subtype copyWithZone:inZone];
+        
+        nException->_signal=[self.signal copyWithZone:inZone];
+        
+        nException->_codes=[self.codes copyWithZone:inZone];
+        
+        nException->_rawCodes=[self.rawCodes copyWithZone:inZone];
+    }
+    
+    return nException;
+}
+
 @end
