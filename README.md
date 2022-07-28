@@ -16,8 +16,6 @@ Minimum OS requirement is macOS 10.9 at this time.
 
 ## To do
 
-- Test more than 3 .ips files…
-- Handle more errors
 - Unit tests
 - Support for summary
 
@@ -27,7 +25,7 @@ Minimum OS requirement is macOS 10.9 at this time.
 
 ## License
 
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
