@@ -178,4 +178,33 @@ NSString * const IPSThreadInstructionStateKey=@"instructionState";
     return @{};
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSThread * nThread=[IPSThread allocWithZone:inZone];
+    
+    if (nThread!=nil)
+    {
+        nThread->_queue=[self.queue copyWithZone:inZone];
+        
+        nThread->_ID=self.ID;
+        
+        nThread->_name=[self.name copyWithZone:inZone];
+        
+        nThread->_frames=[self.frames WB_arrayByMappingObjectsUsingBlock:^IPSThreadFrame *(IPSThreadFrame * bThreadFrame, NSUInteger bIndex) {
+            
+            return [bThreadFrame copyWithZone:inZone];
+        }];
+        
+        nThread->_triggered=self.triggered;
+        
+        nThread.threadState=[self.threadState copyWithZone:inZone];
+        
+        nThread.instructionState=[self.instructionState copyWithZone:inZone];
+    }
+    
+    return nThread;
+}
+
 @end

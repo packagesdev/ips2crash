@@ -18,7 +18,7 @@
 
 #import "IPSOperatingSystemVersion.h"
 
-@interface IPSIncidentHeader : NSObject <IPSObjectProtocol>
+@interface IPSIncidentHeader : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly,copy) NSString * processName;
 

@@ -102,4 +102,22 @@ NSString * const IPSBundleInfoBundleIdentifierKey=@"CFBundleIdentifier";
     return [tMutableDictionary copy];
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSBundleInfo * nBundleInfo=[IPSBundleInfo allocWithZone:inZone];
+    
+    if (nBundleInfo!=nil)
+    {
+        nBundleInfo->_bundleShortVersionString=[self.bundleShortVersionString copyWithZone:inZone];
+        
+        nBundleInfo->_bundleVersion=[self.bundleVersion copyWithZone:inZone];
+        
+        nBundleInfo->_bundleIdentifier=[self.bundleIdentifier copyWithZone:inZone];
+    }
+    
+    return nBundleInfo;
+}
+
 @end

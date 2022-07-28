@@ -38,6 +38,27 @@ NSString * const IPSReportSummaryTimestampKey=@"timestamp";
 
 @implementation IPSSummary
 
+- (instancetype)initWithSummary:(IPSSummary *)inSummary
+{
+    if ([inSummary isKindOfClass:[IPSSummary class]]==NO)
+        return nil;
+    
+    self=[super init];
+    
+    if (self!=nil)
+    {
+        _bugType=inSummary.bugType;
+        
+        _incidentID=inSummary.incidentID;
+        
+        _operatingSystemVersion=[inSummary.operatingSystemVersion copy];
+        
+        _timeStamp=inSummary.timeStamp;
+    }
+    
+    return self;
+}
+
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
     if (inRepresentation==nil)
@@ -98,6 +119,13 @@ NSString * const IPSReportSummaryTimestampKey=@"timestamp";
              IPSReportSummaryOperatingSystemVersionKey:self.operatingSystemVersion,
              IPSReportSummaryTimestampKey:[[IPSDateFormatter sharedFormatter] stringFromDate:self.timeStamp]
              };
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    return [[IPSSummary allocWithZone:inZone] initWithSummary:self];
 }
 
 @end

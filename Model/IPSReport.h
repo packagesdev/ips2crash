@@ -17,11 +17,13 @@
 
 #import "IPSIncident.h"
 
-@interface IPSReport : NSObject
+@interface IPSReport : NSObject <NSCopying>
 
     @property (readonly) IPSSummary * summary;
 
     @property (readonly) IPSIncident * incident;
+
+- (instancetype)initWithSummary:(IPSSummary *)inSummary incident:(IPSIncident *)inIncident;
 
 - (instancetype)initWithContentsOfURL:(NSURL *)inURL error:(out NSError **)outError;
 

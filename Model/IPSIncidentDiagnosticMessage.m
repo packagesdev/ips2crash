@@ -76,4 +76,20 @@ NSString * const IPSIncidentDiagnosticMessageVmregioninfoKey=@"vmregioninfo";
     return @{};
 }
 
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSIncidentDiagnosticMessage * nIncidentDiagnosticMessage=[IPSIncidentDiagnosticMessage allocWithZone:inZone];
+    
+    if (nIncidentDiagnosticMessage!=nil)
+    {
+        nIncidentDiagnosticMessage->_asi=[self.asi copyWithZone:inZone];
+        
+        nIncidentDiagnosticMessage->_vmregioninfo=[self.vmregioninfo copyWithZone:inZone];
+    }
+    
+    return nIncidentDiagnosticMessage;
+}
+
 @end

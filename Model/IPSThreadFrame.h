@@ -15,7 +15,7 @@
 
 #import "IPSObjectProtocol.h"
 
-@interface IPSThreadFrame : NSObject <IPSObjectProtocol>
+@interface IPSThreadFrame : NSObject <IPSObjectProtocol,NSCopying>
 
     @property (readonly) NSUInteger imageIndex;
 
@@ -23,7 +23,7 @@
 
     @property (readonly,copy) NSString * symbol;    // can be nil
 
-    @property (readonly) NSUInteger symbolLocation;    // can be nil
+    @property (readonly) NSUInteger symbolLocation;
 
     @property (readonly,copy) NSString * sourceFile;    // can be nil
 

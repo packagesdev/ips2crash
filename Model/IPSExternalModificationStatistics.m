@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -85,6 +85,24 @@ NSString * const IPSExternalModificationStatisticsThreadSetStateKey=@"threadSetS
              IPSExternalModificationStatisticsThreadCreateKey:@(self.threadCreate),
              IPSExternalModificationStatisticsThreadSetStateKey:@(self.threadSetState)
              };
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+    IPSExternalModificationStatistics * nExternalModificationStatistics=[IPSExternalModificationStatistics allocWithZone:inZone];
+    
+    if (nExternalModificationStatistics!=nil)
+    {
+        nExternalModificationStatistics->_taskForPid=self.taskForPid;
+        
+        nExternalModificationStatistics->_threadCreate=self.threadCreate;
+        
+        nExternalModificationStatistics->_threadSetState=self.threadSetState;
+    }
+    
+    return nExternalModificationStatistics;
 }
 
 @end
