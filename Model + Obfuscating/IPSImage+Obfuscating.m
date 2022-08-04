@@ -23,6 +23,8 @@
 
 - (void)setPath:(NSString *)inPath;
 
+- (void)setUUID:(NSUUID *)inUUID;
+
 @end
 
 @implementation IPSImage (Obfuscating)
@@ -38,6 +40,8 @@
         nImage.bundleIdentifier=[inObfuscator obfuscatedStringWithString:nImage.bundleIdentifier family:IPSStringFamilyBundleIdentifier];
         
         nImage.path=[inObfuscator obfuscatedStringWithString:nImage.path family:IPSStringFamilyPath];
+        
+        nImage.UUID=[NSUUID UUID];
     }
     
     return nImage;
