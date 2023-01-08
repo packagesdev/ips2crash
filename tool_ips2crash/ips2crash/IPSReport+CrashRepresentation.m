@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -203,7 +203,14 @@
     
     [tMutableString appendString:@"\n"];
     
-    [tMutableString appendFormat:@"Exception Type:        %@ (%@)\n",tException.type,tException.signal];
+    [tMutableString appendFormat:@"Exception Type:        %@",tException.type];
+    
+    if (tException.signal!=nil)
+    {
+        [tMutableString appendFormat:@" (%@)",tException.signal];
+    }
+    
+    [tMutableString appendString:@"\n"];
     
     if (tException.subtype!=nil)
     {

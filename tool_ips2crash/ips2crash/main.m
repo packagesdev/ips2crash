@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2022, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ void usage(void)
                   "\n"
                   "Options:\n"
                   "  --obfuscate -O       obfuscate user code symbols, binaries and paths\n"
-                  "  --output, -o PATH    use this folder as the temporary build folder\n");
+                  "  --output, -o PATH    specify a file path to write the converted crash report to\n");
     
     exit(EXIT_FAILURE);
 }
