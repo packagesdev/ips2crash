@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -40,7 +40,7 @@ NSString * const IPSReportSummaryTimestampKey=@"timestamp";
 
 - (instancetype)initWithSummary:(IPSSummary *)inSummary
 {
-    if ([inSummary isKindOfClass:[IPSSummary class]]==NO)
+    if ([inSummary isKindOfClass:IPSSummary.class]==NO)
         return nil;
     
     self=[super init];
@@ -69,7 +69,7 @@ NSString * const IPSReportSummaryTimestampKey=@"timestamp";
         return nil;
     }
     
-    if ([inRepresentation isKindOfClass:[NSDictionary class]]==NO)
+    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
     {
         if (outError!=NULL)
             *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];

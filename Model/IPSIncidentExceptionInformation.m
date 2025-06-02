@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -20,11 +20,16 @@ NSString * const IPSIncidentExceptionInformationLegacyInfoKey=@"legacyInfo";
 
 NSString * const IPSIncidentExceptionInformationExceptionKey=@"exception";
 
+NSString * const IPSIncidentExceptionInformationExceptionReasonKey=@"exceptionReason";
+
+NSString * const IPSIncidentExceptionInformationLastExceptionBacktraceKey=@"lastExceptionBacktrace";
+
 NSString * const IPSIncidentExceptionInformationTerminationKey=@"termination";
 
 NSString * const IPSIncidentExceptionInformationCorpseKey=@"isCorpse";
 
 NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
+
 
 @interface IPSIncidentExceptionInformation ()
 
@@ -33,6 +38,10 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
     @property (readwrite) IPSLegacyInfo * legacyInfo;
 
     @property (readwrite) IPSException * exception;
+
+	@property (readwrite, nullable) IPSExceptionReason * exceptionReason;
+
+	@property (readwrite, nullable) NSArray<IPSThreadFrame *> * lastExceptionBacktrace;
 
     @property (readwrite) IPSTermination * termination;
 
@@ -52,7 +61,7 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
         return nil;
     }
     
-    if ([inRepresentation isKindOfClass:[NSDictionary class]]==NO)
+    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
     {
         if (outError!=NULL)
             *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
@@ -97,6 +106,58 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
             
             return nil;
         }
+		
+		tError=nil;
+		tDictionary=inRepresentation[IPSIncidentExceptionInformationExceptionReasonKey];
+		
+		if (tDictionary!=nil)
+		{
+			_exceptionReason=[[IPSExceptionReason alloc] initWithRepresentation:tDictionary error:&tError];
+			
+			if (_exception==nil)
+			{
+				NSString * tPathError=IPSIncidentExceptionInformationExceptionReasonKey;
+				
+				if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+					tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+				
+				if (outError!=NULL)
+					*outError=[NSError errorWithDomain:IPSErrorDomain
+												  code:tError.code
+											  userInfo:@{IPSKeyPathErrorKey:tPathError}];
+				
+				return nil;
+			}
+		}
+		
+		NSArray<NSDictionary *> * tBacktrace=inRepresentation[IPSIncidentExceptionInformationLastExceptionBacktraceKey];
+		
+		if ([tBacktrace isKindOfClass:NSArray.class]==YES)
+		{
+			NSMutableArray<IPSThreadFrame *> *backtrace=[NSMutableArray array];
+			
+			for(NSDictionary *frameRepresentation in tBacktrace)
+			{
+				IPSThreadFrame *frame=[[IPSThreadFrame alloc] initWithRepresentation:frameRepresentation error:&tError];
+				
+				if (frame==nil)
+				{
+					/*NSString * tPathError=IPSIncidentExceptionInformationLastExceptionBacktraceKey;
+					
+					if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+						tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+					
+					if (outError!=NULL)
+						*outError=[NSError errorWithDomain:IPSErrorDomain
+													  code:tError.code
+												  userInfo:@{IPSKeyPathErrorKey:tPathError}];*/
+					
+					return nil;
+				}
+			}
+			
+			_lastExceptionBacktrace=[backtrace copy];
+		}
         
         tError=nil;
         tDictionary=inRepresentation[IPSIncidentExceptionInformationTerminationKey];
@@ -185,6 +246,10 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
         nIncidentExceptionInformation->_legacyInfo=[self.legacyInfo copyWithZone:inZone];
         
         nIncidentExceptionInformation->_exception=[self.exception copyWithZone:inZone];
+		
+		nIncidentExceptionInformation->_exceptionReason=[self.exceptionReason copyWithZone:inZone];
+		
+		nIncidentExceptionInformation->_lastExceptionBacktrace=[self.lastExceptionBacktrace copyWithZone:inZone];
         
         nIncidentExceptionInformation->_termination=[self.termination copyWithZone:inZone];
         

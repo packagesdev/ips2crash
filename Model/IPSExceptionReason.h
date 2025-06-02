@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2025, Stephane Sudre
+ Copyright (c) 2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -15,30 +15,18 @@
 
 #import "IPSObjectProtocol.h"
 
-#import "IPSLegacyInfo.h"
+@interface IPSExceptionReason : NSObject <IPSObjectProtocol,NSCopying>
 
-#import "IPSException.h"
+	@property (readonly) NSString *name;
 
-#import "IPSExceptionReason.h"
+	@property (readonly) NSString *type;
 
-#import "IPSTermination.h"
+	@property (readonly) NSString *className;
 
-#import "IPSThreadFrame.h"
+	@property (readonly) NSArray <NSString *> *arguments;
 
-@interface IPSIncidentExceptionInformation : NSObject <IPSObjectProtocol,NSCopying>
+	@property (readonly) NSString *format_string;
 
-    @property (readonly) NSUInteger faultingThread;
-
-    @property (readonly) IPSLegacyInfo * legacyInfo;
-
-    @property (readonly) IPSException * exception;
-
-	@property (readonly) IPSExceptionReason * exceptionReason;	// Can be nil.
-
-	@property (readonly) NSArray<IPSThreadFrame *> * lastExceptionBacktrace;	// Can be nil.
-
-    @property (readonly) IPSTermination * termination;
-
-    @property (readonly,getter=isCorpse) BOOL corpse;
+	@property (readonly) NSString *composed_message;
 
 @end
