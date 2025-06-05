@@ -114,7 +114,7 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
 		{
 			_exceptionReason=[[IPSExceptionReason alloc] initWithRepresentation:tDictionary error:&tError];
 			
-			if (_exception==nil)
+			if (_exceptionReason==nil)
 			{
 				NSString * tPathError=IPSIncidentExceptionInformationExceptionReasonKey;
 				
@@ -130,17 +130,17 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
 			}
 		}
 		
-		NSArray<NSDictionary *> * tBacktrace=inRepresentation[IPSIncidentExceptionInformationLastExceptionBacktraceKey];
+		NSArray<NSDictionary *> * tArray=inRepresentation[IPSIncidentExceptionInformationLastExceptionBacktraceKey];
 		
-		if ([tBacktrace isKindOfClass:NSArray.class]==YES)
+		if ([tArray isKindOfClass:NSArray.class]==YES)
 		{
-			NSMutableArray<IPSThreadFrame *> *backtrace=[NSMutableArray array];
+			NSMutableArray<IPSThreadFrame *> *tBacktrace=[NSMutableArray array];
 			
-			for(NSDictionary *frameRepresentation in tBacktrace)
+			for(NSDictionary *tFrameRepresentation in tArray)
 			{
-				IPSThreadFrame *frame=[[IPSThreadFrame alloc] initWithRepresentation:frameRepresentation error:&tError];
+				IPSThreadFrame * tFrame=[[IPSThreadFrame alloc] initWithRepresentation:tFrameRepresentation error:&tError];
 				
-				if (frame==nil)
+				if (tFrame==nil)
 				{
 					/*NSString * tPathError=IPSIncidentExceptionInformationLastExceptionBacktraceKey;
 					
@@ -154,9 +154,11 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
 					
 					return nil;
 				}
+				
+				[tBacktrace addObject:tFrame];
 			}
 			
-			_lastExceptionBacktrace=[backtrace copy];
+			_lastExceptionBacktrace=[tBacktrace copy];
 		}
         
         tError=nil;

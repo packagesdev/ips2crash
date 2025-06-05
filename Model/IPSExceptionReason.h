@@ -17,16 +17,16 @@
 
 @interface IPSExceptionReason : NSObject <IPSObjectProtocol,NSCopying>
 
-	@property (readonly) NSString *name;
+	@property (readonly) NSString * name;
 
-	@property (readonly) NSString *type;
+	@property (readonly) NSString * type;
 
-	@property (readonly) NSString *className;
+	@property (readonly) NSString * className;
 
-	@property (readonly) NSArray <NSString *> *arguments;
+	@property (readonly) NSArray <NSString *> * arguments;
 
-	@property (readonly) NSString *format_string;
+	@property (readonly) NSString * format_string;
 
-	@property (readonly) NSString *composed_message;
+	@property (readonly) NSString * composed_message;
 
 @end

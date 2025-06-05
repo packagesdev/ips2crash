@@ -13,26 +13,34 @@
 
 #import "IPSExceptionReason.h"
 
+#import "NSArray+WBExtensions.h"
+
 NSString * const IPSExceptionReasonNameKey=@"name";
 
 NSString * const IPSExceptionReasonTypeKey=@"type";
 
 NSString * const IPSExceptionReasonClassKey=@"class";
 
+NSString * const IPSExceptionReasonArgumentsKey=@"arguments";
+
+NSString * const IPSExceptionReasonFormatStringKey=@"format_string";
+
+NSString * const IPSExceptionReasonComposedMessageKey=@"composed_message";
+
 
 @interface IPSExceptionReason ()
 
-	@property (readwrite) NSString *name;
+	@property (readwrite) NSString * name;
 
-	@property (readwrite) NSString *type;
+	@property (readwrite) NSString * type;
 
-	@property (readwrite) NSString *className;
+	@property (readwrite) NSString * className;
 
-	@property (readwrite) NSArray <NSString *> *arguments;
+	@property (readwrite) NSArray <NSString *> * arguments;
 
-	@property (readwrite) NSString *format_string;
+	@property (readwrite) NSString * format_string;
 
-	@property (readwrite) NSString *composed_message;
+	@property (readwrite) NSString * composed_message;
 
 @end
 
@@ -60,6 +68,56 @@ NSString * const IPSExceptionReasonClassKey=@"class";
 	
 	if (self!=nil)
 	{
+		NSString * tString=inRepresentation[IPSExceptionReasonNameKey];
+		
+		IPSFullCheckStringValueForKey(tString,IPSExceptionReasonNameKey);
+		
+		_name=[tString copy];
+		
+		tString=inRepresentation[IPSExceptionReasonTypeKey];
+		
+		IPSFullCheckStringValueForKey(tString,IPSExceptionReasonTypeKey);
+		
+		_type=[tString copy];
+		
+		tString=inRepresentation[IPSExceptionReasonClassKey];
+		
+		IPSFullCheckStringValueForKey(tString,IPSExceptionReasonClassKey);
+		
+		_className=[tString copy];
+		
+		NSArray * tArray=inRepresentation[IPSExceptionReasonArgumentsKey];
+		
+		IPSClassCheckArrayValueForKey(tArray,IPSExceptionReasonArgumentsKey);
+		
+		_arguments=[tArray WB_arrayByMappingObjectsUsingBlock:^id(id bObject, NSUInteger bIndex) {
+			if ([bObject isKindOfClass:NSString.class]==NO)
+				return nil;
+			
+			return bObject;
+		}];
+		
+		if (_arguments==nil)
+		{
+			if (outError!=NULL)
+				*outError=[NSError errorWithDomain:IPSErrorDomain
+											  code:IPSRepresentationInvalidTypeOfValueError
+										  userInfo:@{IPSKeyPathErrorKey:IPSExceptionReasonArgumentsKey}];
+			
+			return nil;
+		}
+		
+		tString=inRepresentation[IPSExceptionReasonFormatStringKey];
+		
+		IPSFullCheckStringValueForKey(tString,IPSExceptionReasonFormatStringKey);
+		
+		_format_string=[tString copy];
+		
+		tString=inRepresentation[IPSExceptionReasonComposedMessageKey];
+		
+		IPSFullCheckStringValueForKey(tString,IPSExceptionReasonComposedMessageKey);
+		
+		_composed_message=[tString copy];
 	}
 	
 	return self;
@@ -77,8 +135,16 @@ NSString * const IPSExceptionReasonClassKey=@"class";
 	if (self.type!=nil)
 		tMutableDictionary[IPSExceptionReasonTypeKey]=self.type;
 	 
-	 if (self.className!=nil)
+	if (self.className!=nil)
 		 tMutableDictionary[IPSExceptionReasonClassKey]=self.className;
+	
+	tMutableDictionary[IPSExceptionReasonClassKey]=self.arguments;
+	
+	if (self.format_string!=nil)
+		 tMutableDictionary[IPSExceptionReasonClassKey]=self.format_string;
+	
+	if (self.composed_message!=nil)
+		 tMutableDictionary[IPSExceptionReasonClassKey]=self.composed_message;
 	
 	return [tMutableDictionary copy];
 }
