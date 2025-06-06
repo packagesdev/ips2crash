@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D07F63D02DEE577F009763FD /* IPSExceptionReason.m in Sources */ = {isa = PBXBuildFile; fileRef = D07F63CF2DEE577F009763FD /* IPSExceptionReason.m */; };
 		F43B88BF271F44010052D655 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F43B88BE271F44010052D655 /* main.m */; };
 		F43B88CA271F45900052D655 /* NSArray+WBExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F43B88C9271F45900052D655 /* NSArray+WBExtensions.m */; };
 		F43B88F0271F45B50052D655 /* IPSTermination.m in Sources */ = {isa = PBXBuildFile; fileRef = F43B88CB271F45B40052D655 /* IPSTermination.m */; };
@@ -68,6 +69,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D07F63CE2DEE577F009763FD /* IPSExceptionReason.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IPSExceptionReason.h; path = ../Model/IPSExceptionReason.h; sourceTree = SOURCE_ROOT; };
+		D07F63CF2DEE577F009763FD /* IPSExceptionReason.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = IPSExceptionReason.m; path = ../Model/IPSExceptionReason.m; sourceTree = SOURCE_ROOT; };
 		F43B88BB271F44010052D655 /* ips2crash */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ips2crash; sourceTree = BUILT_PRODUCTS_DIR; };
 		F43B88BE271F44010052D655 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F43B88C5271F44F10052D655 /* SharedConfigurationSettings.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SharedConfigurationSettings.xcconfig; path = ../Configs/SharedConfigurationSettings.xcconfig; sourceTree = "<group>"; };
@@ -232,6 +235,8 @@
 				F43B88E0271F45B40052D655 /* IPSIncidentHeader.m */,
 				F43B88CD271F45B40052D655 /* IPSException.h */,
 				F43B88DE271F45B40052D655 /* IPSException.m */,
+				D07F63CE2DEE577F009763FD /* IPSExceptionReason.h */,
+				D07F63CF2DEE577F009763FD /* IPSExceptionReason.m */,
 				F43B88D2271F45B40052D655 /* IPSLegacyInfo.h */,
 				F43B88EF271F45B50052D655 /* IPSLegacyInfo.m */,
 				F43B88DF271F45B40052D655 /* IPSTermination.h */,
@@ -417,6 +422,7 @@
 				F44C1A4B272080E80021A63E /* IPSRegisterState.m in Sources */,
 				F43B88F0271F45B50052D655 /* IPSTermination.m in Sources */,
 				F43B88F8271F45B50052D655 /* IPSException.m in Sources */,
+				D07F63D02DEE577F009763FD /* IPSExceptionReason.m in Sources */,
 				F4C747F4288C23D300AF6AEB /* IPSThreadState+Obfuscating.m in Sources */,
 				F43B88F7271F45B50052D655 /* IPSExternalModificationStatistics.m in Sources */,
 				F43B88F2271F45B50052D655 /* IPSIncidentDiagnosticMessage.m in Sources */,

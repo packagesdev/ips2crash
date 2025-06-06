@@ -103,6 +103,58 @@
     return [tMutableString copy];
 }
 
+- (NSString *)representationForThreadFrames:(NSArray <IPSThreadFrame *> *)inThreadFrames WithBinaryImages:(NSArray<IPSImage *> *)inBinaryImages
+{
+	NSMutableString * tMutableString = [NSMutableString string];
+	
+	[inThreadFrames enumerateObjectsUsingBlock:^(IPSThreadFrame * bFrame, NSUInteger bFrameIndex, BOOL * _Nonnull stop) {
+		
+		NSString * tFrameIndexString=[NSString stringWithFormat:@"%lu",(unsigned long)bFrameIndex];
+		
+		NSString * tIndexSpace=[@"    " substringFromIndex:tFrameIndexString.length];
+		
+		[tMutableString appendFormat:@"%@%@",tFrameIndexString,tIndexSpace];
+		
+		IPSImage * tBinaryImage=inBinaryImages[bFrame.imageIndex];
+		
+		NSUInteger tAddress=tBinaryImage.loadAddress+bFrame.imageOffset;
+		
+		NSString * tImageIdentifier=(tBinaryImage.bundleIdentifier!=nil) ? tBinaryImage.bundleIdentifier : tBinaryImage.name;
+		
+		if (tImageIdentifier.length==0)
+			tImageIdentifier=@"???";
+		
+		NSUInteger tImageNameLength=tImageIdentifier.length;
+		
+		if ((tImageNameLength+4)>BINARYIMAGENAME_AND_SPACE_MAXLEN)
+		{
+			[tMutableString appendFormat:@"%@    ",tImageIdentifier];
+		}
+		else
+		{
+			NSString * tImageSpace=[@"                                  " substringFromIndex:tImageNameLength];
+			
+			[tMutableString appendFormat:@"%@%@",tImageIdentifier,tImageSpace];
+		}
+		
+		if (bFrame.symbol!=nil)
+		{
+			[tMutableString appendFormat:@"0x%016lx %@ + %lu",(unsigned long)tAddress,bFrame.symbol,(unsigned long)bFrame.symbolLocation];
+		}
+		else
+		{
+			[tMutableString appendFormat:@"0x%016lx 0x%lx + %lu",(unsigned long)tAddress,(unsigned long)tBinaryImage.loadAddress,(unsigned long)(tAddress-tBinaryImage.loadAddress)];
+		}
+		
+		if (bFrame.sourceFile!=nil)
+			[tMutableString appendFormat:@" (%@:%lu)",bFrame.sourceFile,(unsigned long)bFrame.sourceLine];
+		
+		[tMutableString appendString:@"\n"];
+	}];
+	
+	return tMutableString;
+}
+
 - (NSString *)crashTextualRepresentation
 {
     IPSIncident * tIncident=self.incident;
@@ -240,9 +292,10 @@
         [tMutableString appendString:@"\n"];
     }
     
-    // Diagnostic Message
+    // Diagnostic Message + Exception Reason + Last Exception Backtrace
     
-    IPSIncidentDiagnosticMessage * tDiagnosticMessage=tIncident.diagnosticMessage;
+	IPSIncidentDiagnosticMessage * tDiagnosticMessage=tIncident.diagnosticMessage;
+	IPSExceptionReason * tExceptionReason = tExceptionInformation.exceptionReason;
     
     if (tDiagnosticMessage!=nil)
     {
@@ -257,14 +310,30 @@
         {
             [tMutableString appendString:@"Application Specific Information:\n"];
             
-            [tDiagnosticMessage.asi.applicationsInformation enumerateKeysAndObjectsUsingBlock:^(NSString * bProcess, NSArray * bInformation, BOOL * bOutStop) {
+			if (tExceptionReason != nil)
+			{
+				[tMutableString appendFormat:@"*** Terminating app due to uncaught exception '%@'",tExceptionReason.name];
+				
+				NSString *tDetailedReason = tExceptionReason.composed_message;
+				
+				if ([tDetailedReason hasPrefix:@"*** "] == YES)
+					tDetailedReason = [tDetailedReason substringFromIndex:[@"*** " length]];
+				
+				[tMutableString appendFormat:@", reason: '%@'\n",tDetailedReason];
+			}
+			
+			[tDiagnosticMessage.asi.applicationsInformation enumerateKeysAndObjectsUsingBlock:^(NSString * bProcess, NSArray * bInformation, BOOL * bOutStop) {
                 
                 [bInformation enumerateObjectsUsingBlock:^(NSString * bInformation, NSUInteger bIndex, BOOL * bOutStop2) {
                     
                     [tMutableString appendFormat:@"%@\n",bInformation];
                 }];
-                
             }];
+			
+			if (tExceptionReason != nil)
+			{
+				[tMutableString appendFormat:@"terminating with uncaught exception of type %@\n",tExceptionReason.className];
+			}
             
             if (tDiagnosticMessage.asi.signatures!=nil)
             {
@@ -278,22 +347,37 @@
                 }];
             }
             
-            if (tDiagnosticMessage.asi.backtraces!=nil)
-            {
-                [tMutableString appendString:@"\n"];
-                
-                [tDiagnosticMessage.asi.backtraces enumerateObjectsUsingBlock:^(NSString * bBacktrace, NSUInteger bIndex, BOOL * bOutStop) {
-                    
-                    [tMutableString appendFormat:@"Application Specific Backtrace %lu:\n",bIndex+1];
-                    
-                    [tMutableString appendFormat:@"%@\n",bBacktrace];
-                }];
-            }
-            
-            [tMutableString appendString:@"\n"];
+			[tMutableString appendString:@"\n"];
         }
     }
     
+	// Application Specific Backtrace (last exception backtrace or asi)
+	
+	NSArray<IPSThreadFrame *> * tLastExceptionBacktrace = tExceptionInformation.lastExceptionBacktrace;
+	
+	if (tLastExceptionBacktrace.count > 0)
+	{
+		[tMutableString appendString:@"Application Specific Backtrace 1:\n"];
+		
+		[tMutableString appendString:[self representationForThreadFrames:tLastExceptionBacktrace WithBinaryImages:tIncident.binaryImages]];
+		
+		[tMutableString appendString:@"\n"];
+	}
+	else
+	{
+		if (tDiagnosticMessage.asi.backtraces!=nil)
+		{
+			[tDiagnosticMessage.asi.backtraces enumerateObjectsUsingBlock:^(NSString * bBacktrace, NSUInteger bIndex, BOOL * bOutStop) {
+				
+				[tMutableString appendFormat:@"Application Specific Backtrace %lu:\n",bIndex+1];
+				
+				[tMutableString appendFormat:@"%@\n",bBacktrace];
+			}];
+			
+			[tMutableString appendString:@"\n"];
+		}
+	}
+	
     // Threads
     
     [tIncident.threads enumerateObjectsUsingBlock:^(IPSThread * bThread, NSUInteger bThreadIndex, BOOL * bOutStop) {
@@ -315,51 +399,7 @@
         
         [tMutableString appendString:@"\n"];
         
-        [bThread.frames enumerateObjectsUsingBlock:^(IPSThreadFrame * bFrame, NSUInteger bFrameIndex, BOOL * _Nonnull stop) {
-            
-            NSString * tFrameIndexString=[NSString stringWithFormat:@"%lu",(unsigned long)bFrameIndex];
-            
-            NSString * tIndexSpace=[@"    " substringFromIndex:tFrameIndexString.length];
-            
-            [tMutableString appendFormat:@"%@%@",tFrameIndexString,tIndexSpace];
-            
-            IPSImage * tBinaryImage=tIncident.binaryImages[bFrame.imageIndex];
-            
-            NSUInteger tAddress=tBinaryImage.loadAddress+bFrame.imageOffset;
-            
-            NSString * tImageIdentifier=(tBinaryImage.bundleIdentifier!=nil) ? tBinaryImage.bundleIdentifier : tBinaryImage.name;
-            
-            if (tImageIdentifier.length==0)
-                tImageIdentifier=@"???";
-            
-            NSUInteger tImageNameLength=tImageIdentifier.length;
-            
-            if ((tImageNameLength+4)>BINARYIMAGENAME_AND_SPACE_MAXLEN)
-            {
-                [tMutableString appendFormat:@"%@    ",tImageIdentifier];
-            }
-            else
-            {
-                NSString * tImageSpace=[@"                                  " substringFromIndex:tImageNameLength];
-                
-                [tMutableString appendFormat:@"%@%@",tImageIdentifier,tImageSpace];
-            }
-            
-            if (bFrame.symbol!=nil)
-            {
-                [tMutableString appendFormat:@"0x%016lx %@ + %lu",(unsigned long)tAddress,bFrame.symbol,(unsigned long)bFrame.symbolLocation];
-            }
-            else
-            {
-                [tMutableString appendFormat:@"0x%016lx 0x%lx + %lu",(unsigned long)tAddress,(unsigned long)tBinaryImage.loadAddress,(unsigned long)(tAddress-tBinaryImage.loadAddress)];
-            }
-            
-            if (bFrame.sourceFile!=nil)
-                [tMutableString appendFormat:@" (%@:%lu)",bFrame.sourceFile,(unsigned long)bFrame.sourceLine];
-            
-            [tMutableString appendString:@"\n"];
-            
-        }];
+		[tMutableString appendString:[self representationForThreadFrames:bThread.frames WithBinaryImages:tIncident.binaryImages]];
         
         [tMutableString appendString:@"\n"];
     }];
