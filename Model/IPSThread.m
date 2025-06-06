@@ -112,12 +112,40 @@ NSString * const IPSThreadInstructionStateKey=@"instructionState";
                 return nil;
             }
             
+			__block NSError *tFramesError = nil;
+			
             _frames=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSThreadFrame *(NSDictionary * bBThreadFrameRepresentation, NSUInteger bIndex) {
                 
-                IPSThreadFrame * tThreadFrame=[[IPSThreadFrame alloc] initWithRepresentation:bBThreadFrameRepresentation error:NULL];
+				NSError * tError;
+				IPSThreadFrame * tThreadFrame=[[IPSThreadFrame alloc] initWithRepresentation:bBThreadFrameRepresentation error:&tError];
                 
-                return tThreadFrame;
+				if (tThreadFrame==nil)
+				{
+					NSString * tPathError=IPSThreadFramesKey;
+					
+					if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+					{
+						tPathError=[tPathError stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu",bIndex]];
+						tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+					}
+					
+					tFramesError=[NSError errorWithDomain:IPSErrorDomain
+													 code:tError.code
+												 userInfo:@{IPSKeyPathErrorKey:tPathError}];
+					
+					return nil;
+				}
+				
+				return tThreadFrame;
             }];
+			
+			if (_frames==nil)
+			{
+				if (outError!=NULL)
+					*outError=tFramesError;
+				
+				return nil;
+			}
         }
     
         tNumber=inRepresentation[IPSThreadTriggeredKey];

@@ -135,6 +135,7 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
 		if ([tArray isKindOfClass:NSArray.class]==YES)
 		{
 			NSMutableArray<IPSThreadFrame *> *tBacktrace=[NSMutableArray array];
+			NSUInteger tFrameIndex=0;
 			
 			for(NSDictionary *tFrameRepresentation in tArray)
 			{
@@ -142,20 +143,25 @@ NSString * const IPSIncidentExceptionInformationCorpseOldKey=@"is_corpse";
 				
 				if (tFrame==nil)
 				{
-					/*NSString * tPathError=IPSIncidentExceptionInformationLastExceptionBacktraceKey;
+					NSString * tPathError=IPSIncidentExceptionInformationLastExceptionBacktraceKey;
 					
 					if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+					{
+						tPathError=[tPathError stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu",tFrameIndex]];
 						tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+					}
 					
 					if (outError!=NULL)
 						*outError=[NSError errorWithDomain:IPSErrorDomain
 													  code:tError.code
-												  userInfo:@{IPSKeyPathErrorKey:tPathError}];*/
+												  userInfo:@{IPSKeyPathErrorKey:tPathError}];
 					
 					return nil;
 				}
 				
 				[tBacktrace addObject:tFrame];
+				
+				tFrameIndex++;
 			}
 			
 			_lastExceptionBacktrace=[tBacktrace copy];

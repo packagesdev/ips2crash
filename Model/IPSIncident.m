@@ -94,14 +94,42 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
                 return nil;
             }
         }
-        
-        _threads=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSThread *(NSDictionary * bBThreadRepresentation, NSUInteger bIndex) {
+		
+		__block NSError * tThreadError = nil;
+		_threads=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSThread *(NSDictionary * bBThreadRepresentation, NSUInteger bIndex) {
             
-            IPSThread * tThread=[[IPSThread alloc] initWithRepresentation:bBThreadRepresentation error:NULL];
+			NSError * tError = nil;
+			
+			IPSThread * tThread=[[IPSThread alloc] initWithRepresentation:bBThreadRepresentation error:&tError];
             
+			if (tThread == nil)
+			{
+				NSString * tPathError=IPCIncidentThreadsKey;
+				
+				if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+				{
+					tPathError=[tPathError stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu",bIndex]];
+					tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+				}
+				
+				tThreadError=[NSError errorWithDomain:IPSErrorDomain
+												 code:tError.code
+											 userInfo:@{IPSKeyPathErrorKey:tPathError}];
+				
+				return nil;
+			}
+			
             return tThread;
         }];
         
+		if (_threads==nil)
+		{
+			if (outError!=NULL)
+				*outError=tThreadError;
+			
+			return nil;
+		}
+		
         tArray=inRepresentation[IPSIncidentUsedImagesKey];
         
         if (tArray!=nil)
