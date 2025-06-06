@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if ([inRepresentation isKindOfClass:[NSDictionary class]]==NO)
+    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
     {
         return nil;
     }
@@ -82,9 +82,9 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
         
         NSArray * tArray=inRepresentation[IPCIncidentThreadsKey];
         
-        if ([tArray isKindOfClass:[NSArray class]]==NO)
+        if ([tArray isKindOfClass:NSArray.class]==NO)
         {
-            if ([tArray isKindOfClass:[NSArray class]]==NO)
+            if ([tArray isKindOfClass:NSArray.class]==NO)
             {
                 if (outError!=NULL)
                     *outError=[NSError errorWithDomain:IPSErrorDomain
@@ -94,19 +94,47 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
                 return nil;
             }
         }
-        
-        _threads=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSThread *(NSDictionary * bBThreadRepresentation, NSUInteger bIndex) {
+		
+		__block NSError * tThreadError = nil;
+		_threads=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSThread *(NSDictionary * bBThreadRepresentation, NSUInteger bIndex) {
             
-            IPSThread * tThread=[[IPSThread alloc] initWithRepresentation:bBThreadRepresentation error:NULL];
+			NSError * tError = nil;
+			
+			IPSThread * tThread=[[IPSThread alloc] initWithRepresentation:bBThreadRepresentation error:&tError];
             
+			if (tThread == nil)
+			{
+				NSString * tPathError=IPCIncidentThreadsKey;
+				
+				if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+				{
+					tPathError=[tPathError stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu",bIndex]];
+					tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+				}
+				
+				tThreadError=[NSError errorWithDomain:IPSErrorDomain
+												 code:tError.code
+											 userInfo:@{IPSKeyPathErrorKey:tPathError}];
+				
+				return nil;
+			}
+			
             return tThread;
         }];
         
+		if (_threads==nil)
+		{
+			if (outError!=NULL)
+				*outError=tThreadError;
+			
+			return nil;
+		}
+		
         tArray=inRepresentation[IPSIncidentUsedImagesKey];
         
         if (tArray!=nil)
         {
-            if ([tArray isKindOfClass:[NSArray class]]==NO)
+            if ([tArray isKindOfClass:NSArray.class]==NO)
             {
                 if (outError!=NULL)
                     *outError=[NSError errorWithDomain:IPSErrorDomain

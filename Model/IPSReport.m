@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -27,8 +27,8 @@
 
 - (instancetype)initWithSummary:(IPSSummary *)inSummary incident:(IPSIncident *)inIncident
 {
-    if ([inSummary isKindOfClass:[IPSSummary class]]==NO ||
-        [inIncident isKindOfClass:[IPSIncident class]]==NO)
+    if ([inSummary isKindOfClass:IPSSummary.class]==NO ||
+        [inIncident isKindOfClass:IPSIncident.class]==NO)
         return nil;
     
     self=[super init];
@@ -44,7 +44,7 @@
 
 - (instancetype)initWithContentsOfURL:(NSURL *)inURL error:(out NSError **)outError
 {
-    if ([inURL isKindOfClass:[NSURL class]]==NO)
+    if ([inURL isKindOfClass:NSURL.class]==NO)
     {
         if (outError!=NULL)
             *outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
@@ -68,7 +68,7 @@
 
 - (instancetype)initWithContentsOfFile:(NSString *)inPath error:(out NSError **)outError
 {
-    if ([inPath isKindOfClass:[NSString class]]==NO)
+    if ([inPath isKindOfClass:NSString.class]==NO)
     {
         if (outError!=NULL)
             *outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
@@ -92,7 +92,7 @@
 
 - (instancetype)initWithData:(NSData *)inData error:(out NSError **)outError;
 {
-    if ([inData isKindOfClass:[NSData class]]==NO)
+    if ([inData isKindOfClass:NSData.class]==NO)
     {
         if (outError!=NULL)
             *outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
@@ -115,7 +115,7 @@
 
 - (instancetype)initWithString:(NSString *)inString error:(out NSError **)outError;
 {
-    if ([inString isKindOfClass:[NSString class]]==NO)
+    if ([inString isKindOfClass:NSString.class]==NO)
     {
         if (outError!=NULL)
             *outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];

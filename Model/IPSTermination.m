@@ -53,7 +53,7 @@ NSString * const IPSTerminationByPidKey=@"byPid";
         return nil;
     }
     
-    if ([inRepresentation isKindOfClass:[NSDictionary class]]==NO)
+    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
     {
         if (outError!=NULL)
             *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
