@@ -296,7 +296,6 @@
     
 	IPSIncidentDiagnosticMessage * tDiagnosticMessage=tIncident.diagnosticMessage;
 	IPSExceptionReason * tExceptionReason = tExceptionInformation.exceptionReason;
-	NSArray<IPSThreadFrame *> * tLastExceptionBacktrace = tExceptionInformation.lastExceptionBacktrace;
     
     if (tDiagnosticMessage!=nil)
     {
@@ -348,33 +347,37 @@
                 }];
             }
             
-            if (tDiagnosticMessage.asi.backtraces!=nil)
-            {
-                [tMutableString appendString:@"\n"];
-                
-                [tDiagnosticMessage.asi.backtraces enumerateObjectsUsingBlock:^(NSString * bBacktrace, NSUInteger bIndex, BOOL * bOutStop) {
-                    
-                    [tMutableString appendFormat:@"Application Specific Backtrace %lu:\n",bIndex+1];
-                    
-                    [tMutableString appendFormat:@"%@\n",bBacktrace];
-                }];
-            }
-			else
-			{
-				if (tLastExceptionBacktrace.count > 0)
-				{
-					[tMutableString appendString:@"\n"];
-					
-					[tMutableString appendString:@"Application Specific Backtrace 1:\n"];
-					
-					[tMutableString appendString:[self representationForThreadFrames:tLastExceptionBacktrace WithBinaryImages:tIncident.binaryImages]];
-				}
-			}
-            
-            [tMutableString appendString:@"\n"];
+			[tMutableString appendString:@"\n"];
         }
     }
     
+	// Application Specific Backtrace (last exception backtrace or asi)
+	
+	NSArray<IPSThreadFrame *> * tLastExceptionBacktrace = tExceptionInformation.lastExceptionBacktrace;
+	
+	if (tLastExceptionBacktrace.count > 0)
+	{
+		[tMutableString appendString:@"Application Specific Backtrace 1:\n"];
+		
+		[tMutableString appendString:[self representationForThreadFrames:tLastExceptionBacktrace WithBinaryImages:tIncident.binaryImages]];
+		
+		[tMutableString appendString:@"\n"];
+	}
+	else
+	{
+		if (tDiagnosticMessage.asi.backtraces!=nil)
+		{
+			[tDiagnosticMessage.asi.backtraces enumerateObjectsUsingBlock:^(NSString * bBacktrace, NSUInteger bIndex, BOOL * bOutStop) {
+				
+				[tMutableString appendFormat:@"Application Specific Backtrace %lu:\n",bIndex+1];
+				
+				[tMutableString appendFormat:@"%@\n",bBacktrace];
+			}];
+			
+			[tMutableString appendString:@"\n"];
+		}
+	}
+	
     // Threads
     
     [tIncident.threads enumerateObjectsUsingBlock:^(IPSThread * bThread, NSUInteger bThreadIndex, BOOL * bOutStop) {
