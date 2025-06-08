@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -13,8 +13,9 @@
 
 #import "IPSReport+CrashRepresentation.h"
 
-#import "IPSThreadState+RegisterDisplayName.h"
 #import "IPSImage+UserCode.h"
+#import "IPSIncident+ApplicationSpecificInformation.h"
+#import "IPSThreadState+RegisterDisplayName.h"
 
 #import "IPSDateFormatter.h"
 
@@ -295,61 +296,39 @@
     // Diagnostic Message + Exception Reason + Last Exception Backtrace
     
 	IPSIncidentDiagnosticMessage * tDiagnosticMessage=tIncident.diagnosticMessage;
-	IPSExceptionReason * tExceptionReason = tExceptionInformation.exceptionReason;
     
-    if (tDiagnosticMessage!=nil)
+    if (tDiagnosticMessage.vmregioninfo!=nil)
     {
-        if (tDiagnosticMessage.vmregioninfo!=nil)
-        {
-            [tMutableString appendFormat:@"VM Region Info: %@\n",tDiagnosticMessage.vmregioninfo];
-            
-            [tMutableString appendString:@"\n"];
-        }
+        [tMutableString appendFormat:@"VM Region Info: %@\n",tDiagnosticMessage.vmregioninfo];
         
-        if (tDiagnosticMessage.asi!=nil)
-        {
-            [tMutableString appendString:@"Application Specific Information:\n"];
-            
-			if (tExceptionReason != nil)
-			{
-				[tMutableString appendFormat:@"*** Terminating app due to uncaught exception '%@'",tExceptionReason.name];
-				
-				NSString *tDetailedReason = tExceptionReason.composed_message;
-				
-				if ([tDetailedReason hasPrefix:@"*** "] == YES)
-					tDetailedReason = [tDetailedReason substringFromIndex:[@"*** " length]];
-				
-				[tMutableString appendFormat:@", reason: '%@'\n",tDetailedReason];
-			}
-			
-			[tDiagnosticMessage.asi.applicationsInformation enumerateKeysAndObjectsUsingBlock:^(NSString * bProcess, NSArray * bInformation, BOOL * bOutStop) {
-                
-                [bInformation enumerateObjectsUsingBlock:^(NSString * bInformation, NSUInteger bIndex, BOOL * bOutStop2) {
-                    
-                    [tMutableString appendFormat:@"%@\n",bInformation];
-                }];
-            }];
-			
-			if (tExceptionReason != nil)
-			{
-				[tMutableString appendFormat:@"terminating with uncaught exception of type %@\n",tExceptionReason.className];
-			}
-            
-            if (tDiagnosticMessage.asi.signatures!=nil)
-            {
-                [tMutableString appendString:@"\n"];
-                
-                [tMutableString appendString:@"Application Specific Signatures:\n"];
-                
-                [tDiagnosticMessage.asi.signatures enumerateObjectsUsingBlock:^(NSString * bSignature, NSUInteger bIndex, BOOL * bOutStop) {
-                    
-                    [tMutableString appendFormat:@"%@\n",bSignature];
-                }];
-            }
-            
-			[tMutableString appendString:@"\n"];
-        }
+        [tMutableString appendString:@"\n"];
     }
+    
+    NSArray<NSString *> * tApplicationSpecificInformationMessage = [tIncident applicationSpecificInformationMessage];
+    
+    if (tApplicationSpecificInformationMessage.count>0)
+    {
+        [tMutableString appendString:@"Application Specific Information:\n"];
+        
+        for(NSString *tString in tApplicationSpecificInformationMessage)
+            [tMutableString appendFormat:@"%@\n",tString];
+        
+        [tMutableString appendString:@"\n"];
+    }
+    
+    NSArray<NSString *> * tSignatures = tDiagnosticMessage.asi.signatures;
+    
+    if (tSignatures!=nil)
+    {
+        [tMutableString appendString:@"Application Specific Signatures:\n"];
+        
+        for(NSString * tSignature in tSignatures)
+            [tMutableString appendFormat:@"%@\n",tSignature];
+        
+        [tMutableString appendString:@"\n"];
+    }
+    
+    [tMutableString appendString:@"\n"];
     
 	// Application Specific Backtrace (last exception backtrace or asi)
 	
