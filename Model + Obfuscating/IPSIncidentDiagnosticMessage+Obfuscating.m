@@ -26,16 +26,16 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSIncidentDiagnosticMessage * nIncidentDiagnosticMessage=[IPSIncidentDiagnosticMessage alloc];
-    
-    if (nIncidentDiagnosticMessage!=nil)
-    {
-        nIncidentDiagnosticMessage.asi=[self.asi obfuscateWithObfuscator:inObfuscator];
-        
-        nIncidentDiagnosticMessage.vmregioninfo=[self.vmregioninfo copy];
-    }
-    
-    return nIncidentDiagnosticMessage;
+	IPSIncidentDiagnosticMessage * nIncidentDiagnosticMessage=[IPSIncidentDiagnosticMessage alloc];
+	
+	if (nIncidentDiagnosticMessage!=nil)
+	{
+		nIncidentDiagnosticMessage.asi=[self.asi obfuscateWithObfuscator:inObfuscator];
+		
+		nIncidentDiagnosticMessage.vmregioninfo=[self.vmregioninfo copy];
+	}
+	
+	return nIncidentDiagnosticMessage;
 }
 
 @end

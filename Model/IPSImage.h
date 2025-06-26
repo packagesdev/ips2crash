@@ -19,23 +19,23 @@
 
 	@property (readonly,copy) NSString * source;
 
-    @property (readonly,copy) NSString * name;
+	@property (readonly,copy) NSString * name;
 
-    @property (readonly,copy) NSString * bundleIdentifier;
+	@property (readonly,copy) NSString * bundleIdentifier;
 
-    @property (readonly,copy) NSString * bundleVersion;
+	@property (readonly,copy) NSString * bundleVersion;
 
-    @property (readonly,copy) NSString * bundleShortVersionString;
+	@property (readonly,copy) NSString * bundleShortVersionString;
 
-    @property (readonly,copy) NSString * path;
+	@property (readonly,copy) NSString * path;
 
-    @property (readonly) NSUUID * UUID;
+	@property (readonly) NSUUID * UUID;
 
-    @property (readonly,copy) NSString * architecture;
+	@property (readonly,copy) NSString * architecture;
 
-    @property (readonly) NSUInteger loadAddress;
+	@property (readonly) NSUInteger loadAddress;
 
-    @property (readonly) NSUInteger size;
+	@property (readonly) NSUInteger size;
 
 - (NSComparisonResult)compare:(IPSImage *)otherBinaryImage;
 

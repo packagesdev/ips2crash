@@ -27,17 +27,17 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
 
 @interface IPSThreadFrame ()
 
-    @property (readwrite) NSUInteger imageIndex;
+	@property (readwrite) NSUInteger imageIndex;
 
-    @property (readwrite) NSUInteger imageOffset;
+	@property (readwrite) NSUInteger imageOffset;
 
-    @property (readwrite,copy) NSString * symbol;    // can be nil
+	@property (readwrite,copy) NSString * symbol;	// can be nil
 
-    @property (readwrite) NSUInteger symbolLocation;
+	@property (readwrite) NSUInteger symbolLocation;
 
-    @property (readwrite,copy) NSString * sourceFile;    // can be nil
+	@property (readwrite,copy) NSString * sourceFile;	// can be nil
 
-    @property (readwrite) NSUInteger sourceLine;
+	@property (readwrite) NSUInteger sourceLine;
 
 @end
 
@@ -45,120 +45,120 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSNumber * tNumber=inRepresentation[IPSThreadFrameImageIndexKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameImageIndexKey);
-        
-        _imageIndex=[tNumber unsignedIntegerValue];
-        
-        tNumber=inRepresentation[IPSThreadFrameImageOffsetKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameImageOffsetKey);
-        
-        _imageOffset=[tNumber unsignedIntegerValue];
-        
-        NSString * tString=inRepresentation[IPSThreadFrameSymbolNameKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSThreadFrameSymbolNameKey);
-        
-            _symbol=[tString copy];
-            
-            tNumber=inRepresentation[IPSThreadFrameSymbolLocationKey];
-            
-            IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameSymbolLocationKey);
-                
-            _symbolLocation=[tNumber unsignedIntegerValue];
-        }
-        
-        tString=inRepresentation[IPSThreadFrameSourceFileKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSThreadFrameSourceFileKey);
-            
-            _sourceFile=[tString copy];
-            
-            tNumber=inRepresentation[IPSThreadFrameSourceLineKey];
-            
-            IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameSourceLineKey);
-            
-            _sourceLine=[tNumber unsignedIntegerValue];
-        }
-    }
-    
-    return self;
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+
+		return nil;
+	}
+
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSNumber * tNumber=inRepresentation[IPSThreadFrameImageIndexKey];
+
+		IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameImageIndexKey);
+
+		_imageIndex=[tNumber unsignedIntegerValue];
+
+		tNumber=inRepresentation[IPSThreadFrameImageOffsetKey];
+
+		IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameImageOffsetKey);
+
+		_imageOffset=[tNumber unsignedIntegerValue];
+
+		NSString * tString=inRepresentation[IPSThreadFrameSymbolNameKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSThreadFrameSymbolNameKey);
+
+			_symbol=[tString copy];
+
+			tNumber=inRepresentation[IPSThreadFrameSymbolLocationKey];
+
+			IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameSymbolLocationKey);
+
+			_symbolLocation=[tNumber unsignedIntegerValue];
+		}
+
+		tString=inRepresentation[IPSThreadFrameSourceFileKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSThreadFrameSourceFileKey);
+
+			_sourceFile=[tString copy];
+
+			tNumber=inRepresentation[IPSThreadFrameSourceLineKey];
+
+			IPSFullCheckNumberValueForKey(tNumber,IPSThreadFrameSourceLineKey);
+
+			_sourceLine=[tNumber unsignedIntegerValue];
+		}
+	}
+	
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionary];
-    
-    tMutableDictionary[IPSThreadFrameImageIndexKey]=@(self.imageIndex);
-    tMutableDictionary[IPSThreadFrameImageOffsetKey]=@(self.imageOffset);
-    
-    if (self.symbol!=nil)
-    {
-        tMutableDictionary[IPSThreadFrameSymbolNameKey]=self.symbol;
-    
-        tMutableDictionary[IPSThreadFrameSymbolLocationKey]=@(self.symbolLocation);
-    }
-    
-    if (self.sourceFile!=nil)
-    {
-        tMutableDictionary[IPSThreadFrameSourceFileKey]=self.sourceFile;
-        
-        tMutableDictionary[IPSThreadFrameSourceLineKey]=@(self.sourceLine);
-    }
-    
-    return [tMutableDictionary copy];
+	NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionary];
+
+	tMutableDictionary[IPSThreadFrameImageIndexKey]=@(self.imageIndex);
+	tMutableDictionary[IPSThreadFrameImageOffsetKey]=@(self.imageOffset);
+
+	if (self.symbol!=nil)
+	{
+		tMutableDictionary[IPSThreadFrameSymbolNameKey]=self.symbol;
+
+		tMutableDictionary[IPSThreadFrameSymbolLocationKey]=@(self.symbolLocation);
+	}
+
+	if (self.sourceFile!=nil)
+	{
+		tMutableDictionary[IPSThreadFrameSourceFileKey]=self.sourceFile;
+
+		tMutableDictionary[IPSThreadFrameSourceLineKey]=@(self.sourceLine);
+	}
+
+	return [tMutableDictionary copy];
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSThreadFrame * nThreadFrame=[IPSThreadFrame allocWithZone:inZone];
-    
-    if (nThreadFrame!=nil)
-    {
-        nThreadFrame->_imageIndex=self.imageIndex;
-        
-        nThreadFrame->_imageOffset=self.imageOffset;
-        
-        nThreadFrame->_symbol=[self.symbol copyWithZone:inZone];
-        
-        nThreadFrame->_symbolLocation=self.symbolLocation;
-        
-        nThreadFrame->_sourceFile=[self.sourceFile copyWithZone:inZone];
-        
-        nThreadFrame->_sourceLine=self.sourceLine;
-    }
-    
-    return nThreadFrame;
+	IPSThreadFrame * nThreadFrame=[IPSThreadFrame allocWithZone:inZone];
+	
+	if (nThreadFrame!=nil)
+	{
+		nThreadFrame->_imageIndex=self.imageIndex;
+
+		nThreadFrame->_imageOffset=self.imageOffset;
+
+		nThreadFrame->_symbol=[self.symbol copyWithZone:inZone];
+
+		nThreadFrame->_symbolLocation=self.symbolLocation;
+
+		nThreadFrame->_sourceFile=[self.sourceFile copyWithZone:inZone];
+
+		nThreadFrame->_sourceLine=self.sourceLine;
+	}
+
+	return nThreadFrame;
 }
 
 @end

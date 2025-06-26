@@ -19,9 +19,9 @@
 
 @interface IPSIncidentDiagnosticMessage : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) IPSApplicationSpecificInformation * asi;
+	@property (readonly) IPSApplicationSpecificInformation * asi;
 
-    @property (readonly,copy) NSString *vmregioninfo;
+	@property (readonly,copy) NSString *vmregioninfo;
 
 @end
 

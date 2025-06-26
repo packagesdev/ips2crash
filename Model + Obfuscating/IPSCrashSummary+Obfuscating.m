@@ -27,18 +27,18 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSCrashSummary * nObfuscatedSummary=[[IPSCrashSummary alloc] initWithSummary:self];
-    
-    if (nObfuscatedSummary!=nil)
-    {
-        nObfuscatedSummary.applicationName=[inObfuscator obfuscatedStringWithString:self.applicationName family:IPSStringFamilyBinary];
-        
-        nObfuscatedSummary.applicationVersion=[self.applicationVersion copy];
-        
-        nObfuscatedSummary.applicationBuildVersion=[self.applicationBuildVersion copy];
-    }
-    
-    return nObfuscatedSummary;
+	IPSCrashSummary * nObfuscatedSummary=[[IPSCrashSummary alloc] initWithSummary:self];
+	
+	if (nObfuscatedSummary!=nil)
+	{
+		nObfuscatedSummary.applicationName=[inObfuscator obfuscatedStringWithString:self.applicationName family:IPSStringFamilyBinary];
+		
+		nObfuscatedSummary.applicationVersion=[self.applicationVersion copy];
+		
+		nObfuscatedSummary.applicationBuildVersion=[self.applicationBuildVersion copy];
+	}
+	
+	return nObfuscatedSummary;
 }
 
 @end

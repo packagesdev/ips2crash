@@ -17,19 +17,19 @@
 
 @interface IPSRegisterState : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) NSUInteger value;
+	@property (readonly) NSUInteger value;
 
-    @property (readonly,copy) NSString * symbol;    // can be nil
+	@property (readonly,copy) NSString * symbol;	// can be nil
 
-    @property (readonly) NSUInteger symbolLocation;
+	@property (readonly) NSUInteger symbolLocation;
 
-    @property (readonly,copy) NSString * sourceFile;    // can be nil
+	@property (readonly,copy) NSString * sourceFile;	// can be nil
 
-    @property (readonly) NSUInteger sourceLine;
+	@property (readonly) NSUInteger sourceLine;
 
-    @property (readonly) BOOL matchesCrashFrame;
+	@property (readonly) BOOL matchesCrashFrame;
 
-    @property (readonly,copy) NSString * r_description;    // can be nil
+	@property (readonly,copy) NSString * r_description;	// can be nil
 
 @end
 

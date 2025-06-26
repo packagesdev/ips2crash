@@ -17,17 +17,17 @@
 
 @interface IPSThreadFrame : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) NSUInteger imageIndex;
+	@property (readonly) NSUInteger imageIndex;
 
-    @property (readonly) NSUInteger imageOffset;
+	@property (readonly) NSUInteger imageOffset;
 
-    @property (readonly,copy) NSString * symbol;    // can be nil
+	@property (readonly,copy) NSString * symbol;	// can be nil
 
-    @property (readonly) NSUInteger symbolLocation;
+	@property (readonly) NSUInteger symbolLocation;
 
-    @property (readonly,copy) NSString * sourceFile;    // can be nil
+	@property (readonly,copy) NSString * sourceFile;	// can be nil
 
-    @property (readonly) NSUInteger sourceLine;
+	@property (readonly) NSUInteger sourceLine;
 
 @end
 

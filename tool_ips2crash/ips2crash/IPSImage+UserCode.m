@@ -17,50 +17,50 @@
 
 - (BOOL)isUserCode
 {
-    NSString * tBundleIdentifier=self.bundleIdentifier;
-    
-    if (tBundleIdentifier!=nil)
-    {
-        if ([tBundleIdentifier hasPrefix:@"com.apple."]==YES)
-            return NO;
-    }
-    
-    NSString * tPath=self.path;
-    
-    if (tPath!=nil)
-    {
-        if ([tPath hasPrefix:@"/System/"]==YES)
-            return NO;
-        
-        if ([tPath hasPrefix:@"/usr/"]==YES)
-        {
-            if ([tPath hasPrefix:@"/usr/bin"]==YES)
-                return NO;
-        
-            if ([tPath hasPrefix:@"/usr/sbin"]==YES)
-                return NO;
-            
-            if ([tPath hasPrefix:@"/usr/lib"]==YES)
-                return NO;
-            
-            if ([tPath hasPrefix:@"/usr/libexec"]==YES)
-                return NO;
-            
-            if ([tPath hasPrefix:@"/usr/share"]==YES)
-                return NO;
-        }
-        
-        if ([tPath hasPrefix:@"/bin/"]==YES)
-            return NO;
-        
-        if ([tPath hasPrefix:@"/sbin/"]==YES)
-            return NO;
-        
-        if ([tPath hasPrefix:@"/Library/Apple"]==YES)
-            return NO;
-    }
-    
-    return YES;
+	NSString * tBundleIdentifier=self.bundleIdentifier;
+	
+	if (tBundleIdentifier!=nil)
+	{
+		if ([tBundleIdentifier hasPrefix:@"com.apple."]==YES)
+			return NO;
+	}
+	
+	NSString * tPath=self.path;
+	
+	if (tPath!=nil)
+	{
+		if ([tPath hasPrefix:@"/System/"]==YES)
+			return NO;
+		
+		if ([tPath hasPrefix:@"/usr/"]==YES)
+		{
+			if ([tPath hasPrefix:@"/usr/bin"]==YES)
+				return NO;
+		
+			if ([tPath hasPrefix:@"/usr/sbin"]==YES)
+				return NO;
+			
+			if ([tPath hasPrefix:@"/usr/lib"]==YES)
+				return NO;
+			
+			if ([tPath hasPrefix:@"/usr/libexec"]==YES)
+				return NO;
+			
+			if ([tPath hasPrefix:@"/usr/share"]==YES)
+				return NO;
+		}
+		
+		if ([tPath hasPrefix:@"/bin/"]==YES)
+			return NO;
+		
+		if ([tPath hasPrefix:@"/sbin/"]==YES)
+			return NO;
+		
+		if ([tPath hasPrefix:@"/Library/Apple"]==YES)
+			return NO;
+	}
+	
+	return YES;
 }
 
 @end

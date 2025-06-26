@@ -31,127 +31,127 @@
 
 - (NSString *)obfuscateStackFrame:(NSString *)inStackFrame withObfuscator:(IPSObfuscator *)inObfuscator
 {
-    NSUInteger tLength=inStackFrame.length;
-    NSCharacterSet * tWhitespaceCharacterSet=[NSCharacterSet whitespaceCharacterSet];
-    
-    NSScanner * tScanner=[NSScanner scannerWithString:inStackFrame];
-    
-    tScanner.charactersToBeSkipped=tWhitespaceCharacterSet;
-    
-    NSInteger tFrameIndex=-1;
-    
-    if ([tScanner scanInteger:&tFrameIndex]==NO)
-        return nil;
-    
-    tScanner.charactersToBeSkipped=[NSCharacterSet characterSetWithCharactersInString:@"\t"];
-    
-    NSString * tString=nil;
-    
-    NSUInteger tCurrentScanLocation=tScanner.scanLocation;
-    
-    if ([tScanner scanUpToString:@"0x" intoString:&tString]==NO)
-        return nil;
-    
-    if (tScanner.scanLocation==tLength)
-    {
-        // try to find a \t
-        
-        tScanner.scanLocation=tCurrentScanLocation;
-        
-        if ([tScanner scanUpToString:@"\t" intoString:&tString]==NO)
-            return nil;
-    }
-    
-    NSString *tImageIdentifier=[tString stringByTrimmingCharactersInSet:tWhitespaceCharacterSet];
-    
-    tScanner.charactersToBeSkipped=tWhitespaceCharacterSet;
-    
-    unsigned long long tHexaValue=0;
-    
-    if ([tScanner scanHexLongLong:&tHexaValue]==NO)
-        return nil;
-    
-    NSUInteger tMachineInstructionAddress=tHexaValue;
-    
-    NSIndexSet * tUserCodeIndexSet=[inObfuscator sharedObjectForKey:@"userCodeIndexSet"];
-    
-    BOOL tUserCode=([tUserCodeIndexSet containsIndex:tMachineInstructionAddress]==YES);
-    
-    if ([tScanner scanUpToString:@" +" intoString:&tString]==NO)
-        return nil;
-    
-    NSString * tSymbol=[tString copy];
-    
-    NSInteger tByteOffset;
-    
-    if ([tScanner scanInteger:&tByteOffset]==NO)
-    {
-        if ([tSymbol isEqualToString:@"???"]==NO)
-            return nil;
-        
-        tByteOffset=0;
-    }
-    
-    NSMutableString * tMutableString=[NSMutableString string];
-    
-    NSString * tFrameIndexString=[NSString stringWithFormat:@"%lu",(unsigned long)tFrameIndex];
-    
-    NSString * tIndexSpace=[@"    " substringFromIndex:tFrameIndexString.length];
-    
-    [tMutableString appendFormat:@"%@%@",tFrameIndexString,tIndexSpace];
-    
-    if (tUserCode==YES)
-        tImageIdentifier=[inObfuscator obfuscatedStringWithString:tImageIdentifier family:IPSStringFamilyBinary];
-    
-    NSUInteger tImageNameLength=tImageIdentifier.length;
-    
-    if ((tImageNameLength+4)>34)
-    {
-        [tMutableString appendFormat:@"%@    ",tImageIdentifier];
-    }
-    else
-    {
-        NSString * tImageSpace=[@"                                  " substringFromIndex:tImageNameLength];
-        
-        [tMutableString appendFormat:@"%@%@",tImageIdentifier,tImageSpace];
-    }
-    
-    if (tUserCode==NO)
-    {
-        [tMutableString appendFormat:@"0x%016lx %@ + %lu",(unsigned long)tMachineInstructionAddress,tSymbol,(unsigned long)tByteOffset];
-    }
-    else
-    {
-        [tMutableString appendFormat:@"0x%016lx 0x%lx + %lu",(unsigned long)tMachineInstructionAddress,(unsigned long)(tMachineInstructionAddress-tByteOffset),(unsigned long)tByteOffset];
-    }
+	NSUInteger tLength=inStackFrame.length;
+	NSCharacterSet * tWhitespaceCharacterSet=[NSCharacterSet whitespaceCharacterSet];
+	
+	NSScanner * tScanner=[NSScanner scannerWithString:inStackFrame];
+	
+	tScanner.charactersToBeSkipped=tWhitespaceCharacterSet;
+	
+	NSInteger tFrameIndex=-1;
+	
+	if ([tScanner scanInteger:&tFrameIndex]==NO)
+		return nil;
+	
+	tScanner.charactersToBeSkipped=[NSCharacterSet characterSetWithCharactersInString:@"\t"];
+	
+	NSString * tString=nil;
+	
+	NSUInteger tCurrentScanLocation=tScanner.scanLocation;
+	
+	if ([tScanner scanUpToString:@"0x" intoString:&tString]==NO)
+		return nil;
+	
+	if (tScanner.scanLocation==tLength)
+	{
+		// try to find a \t
+		
+		tScanner.scanLocation=tCurrentScanLocation;
+		
+		if ([tScanner scanUpToString:@"\t" intoString:&tString]==NO)
+			return nil;
+	}
+	
+	NSString *tImageIdentifier=[tString stringByTrimmingCharactersInSet:tWhitespaceCharacterSet];
+	
+	tScanner.charactersToBeSkipped=tWhitespaceCharacterSet;
+	
+	unsigned long long tHexaValue=0;
+	
+	if ([tScanner scanHexLongLong:&tHexaValue]==NO)
+		return nil;
+	
+	NSUInteger tMachineInstructionAddress=tHexaValue;
+	
+	NSIndexSet * tUserCodeIndexSet=[inObfuscator sharedObjectForKey:@"userCodeIndexSet"];
+	
+	BOOL tUserCode=([tUserCodeIndexSet containsIndex:tMachineInstructionAddress]==YES);
+	
+	if ([tScanner scanUpToString:@" +" intoString:&tString]==NO)
+		return nil;
+	
+	NSString * tSymbol=[tString copy];
+	
+	NSInteger tByteOffset;
+	
+	if ([tScanner scanInteger:&tByteOffset]==NO)
+	{
+		if ([tSymbol isEqualToString:@"???"]==NO)
+			return nil;
+		
+		tByteOffset=0;
+	}
+	
+	NSMutableString * tMutableString=[NSMutableString string];
+	
+	NSString * tFrameIndexString=[NSString stringWithFormat:@"%lu",(unsigned long)tFrameIndex];
+	
+	NSString * tIndexSpace=[@"	" substringFromIndex:tFrameIndexString.length];
+	
+	[tMutableString appendFormat:@"%@%@",tFrameIndexString,tIndexSpace];
+	
+	if (tUserCode==YES)
+		tImageIdentifier=[inObfuscator obfuscatedStringWithString:tImageIdentifier family:IPSStringFamilyBinary];
+	
+	NSUInteger tImageNameLength=tImageIdentifier.length;
+	
+	if ((tImageNameLength+4)>34)
+	{
+		[tMutableString appendFormat:@"%@	",tImageIdentifier];
+	}
+	else
+	{
+		NSString * tImageSpace=[@"								  " substringFromIndex:tImageNameLength];
+		
+		[tMutableString appendFormat:@"%@%@",tImageIdentifier,tImageSpace];
+	}
+	
+	if (tUserCode==NO)
+	{
+		[tMutableString appendFormat:@"0x%016lx %@ + %lu",(unsigned long)tMachineInstructionAddress,tSymbol,(unsigned long)tByteOffset];
+	}
+	else
+	{
+		[tMutableString appendFormat:@"0x%016lx 0x%lx + %lu",(unsigned long)tMachineInstructionAddress,(unsigned long)(tMachineInstructionAddress-tByteOffset),(unsigned long)tByteOffset];
+	}
 
-    return tMutableString;
+	return tMutableString;
 }
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSApplicationSpecificInformation * nApplicationSpecificInformation=[self copy];
-    
-    if (nApplicationSpecificInformation!=nil)
-    {
-        nApplicationSpecificInformation.applicationsInformation=[self.applicationsInformation copy];
-        
-        nApplicationSpecificInformation.backtraces=[self.backtraces WB_arrayByMappingObjectsUsingBlock:^NSString *(NSString * bBacktrace, NSUInteger bIndex) {
-            
-            NSMutableArray * tLines=[NSMutableArray array];
-            
-            [bBacktrace enumerateLinesUsingBlock:^(NSString * bLine, BOOL * bOutStop) {
-                
-                [tLines addObject:[self obfuscateStackFrame:bLine withObfuscator:inObfuscator]];
-            }];
-            
-            return [tLines componentsJoinedByString:@"\n"];
-        }];
-        
-        nApplicationSpecificInformation.signatures=[self.signatures copy];
-    }
-    
-    return nApplicationSpecificInformation;
+	IPSApplicationSpecificInformation * nApplicationSpecificInformation=[self copy];
+	
+	if (nApplicationSpecificInformation!=nil)
+	{
+		nApplicationSpecificInformation.applicationsInformation=[self.applicationsInformation copy];
+		
+		nApplicationSpecificInformation.backtraces=[self.backtraces WB_arrayByMappingObjectsUsingBlock:^NSString *(NSString * bBacktrace, NSUInteger bIndex) {
+			
+			NSMutableArray * tLines=[NSMutableArray array];
+			
+			[bBacktrace enumerateLinesUsingBlock:^(NSString * bLine, BOOL * bOutStop) {
+				
+				[tLines addObject:[self obfuscateStackFrame:bLine withObfuscator:inObfuscator]];
+			}];
+			
+			return [tLines componentsJoinedByString:@"\n"];
+		}];
+		
+		nApplicationSpecificInformation.signatures=[self.signatures copy];
+	}
+	
+	return nApplicationSpecificInformation;
 }
 
 @end

@@ -15,11 +15,11 @@
 
 @interface IPSCrashSummary : IPSSummary
 
-    @property (readonly,copy) NSString * applicationName;
+	@property (readonly,copy) NSString * applicationName;
 
-    @property (readonly,copy) NSString * applicationVersion;
+	@property (readonly,copy) NSString * applicationVersion;
 
-    @property (readonly,copy) NSString * applicationBuildVersion;
+	@property (readonly,copy) NSString * applicationBuildVersion;
 
 @end
 

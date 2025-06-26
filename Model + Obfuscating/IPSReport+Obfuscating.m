@@ -20,8 +20,8 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    return [[IPSReport alloc] initWithSummary:[((IPSCrashSummary *)self.summary) obfuscateWithObfuscator:inObfuscator]
-                                     incident:[self.incident obfuscateWithObfuscator:inObfuscator]];
+	return [[IPSReport alloc] initWithSummary:[((IPSCrashSummary *)self.summary) obfuscateWithObfuscator:inObfuscator]
+									 incident:[self.incident obfuscateWithObfuscator:inObfuscator]];
 }
 
 @end

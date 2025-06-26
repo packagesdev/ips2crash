@@ -17,9 +17,9 @@
 
 @interface IPSReport ()
 
-    @property (readwrite) IPSSummary * summary;
+	@property (readwrite) IPSSummary * summary;
 
-    @property (readwrite) IPSIncident * incident;
+	@property (readwrite) IPSIncident * incident;
 
 @end
 
@@ -27,222 +27,222 @@
 
 - (instancetype)initWithSummary:(IPSSummary *)inSummary incident:(IPSIncident *)inIncident
 {
-    if ([inSummary isKindOfClass:IPSSummary.class]==NO ||
-        [inIncident isKindOfClass:IPSIncident.class]==NO)
-        return nil;
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        _summary=inSummary;
-        _incident=inIncident;
-    }
-    
-    return self;
+	if ([inSummary isKindOfClass:IPSSummary.class]==NO ||
+		[inIncident isKindOfClass:IPSIncident.class]==NO)
+		return nil;
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		_summary=inSummary;
+		_incident=inIncident;
+	}
+	
+	return self;
 }
 
 - (instancetype)initWithContentsOfURL:(NSURL *)inURL error:(out NSError **)outError
 {
-    if ([inURL isKindOfClass:NSURL.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
-        
-        return nil;
-    }
-    
-    NSError * tError=nil;
-    NSData * tData=[NSData dataWithContentsOfURL:inURL options:0 error:&tError];
-    
-    if (tData==nil)
-    {
-        if (outError!=NULL)
-            *outError=tError;
-        
-        return nil;
-    }
-    
-    return [self initWithData:tData error:outError];
+	if ([inURL isKindOfClass:NSURL.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
+		
+		return nil;
+	}
+	
+	NSError * tError=nil;
+	NSData * tData=[NSData dataWithContentsOfURL:inURL options:0 error:&tError];
+	
+	if (tData==nil)
+	{
+		if (outError!=NULL)
+			*outError=tError;
+		
+		return nil;
+	}
+	
+	return [self initWithData:tData error:outError];
 }
 
 - (instancetype)initWithContentsOfFile:(NSString *)inPath error:(out NSError **)outError
 {
-    if ([inPath isKindOfClass:NSString.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
-        
-        return nil;
-    }
-    
-    NSError * tError=nil;
-    NSData * tData=[NSData dataWithContentsOfFile:inPath options:0 error:&tError];
-    
-    if (tData==nil)
-    {
-        if (outError!=NULL)
-            *outError=tError;
-        
-        return nil;
-    }
-    
-    return [self initWithData:tData error:outError];
+	if ([inPath isKindOfClass:NSString.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
+		
+		return nil;
+	}
+	
+	NSError * tError=nil;
+	NSData * tData=[NSData dataWithContentsOfFile:inPath options:0 error:&tError];
+	
+	if (tData==nil)
+	{
+		if (outError!=NULL)
+			*outError=tError;
+		
+		return nil;
+	}
+	
+	return [self initWithData:tData error:outError];
 }
 
 - (instancetype)initWithData:(NSData *)inData error:(out NSError **)outError;
 {
-    if ([inData isKindOfClass:NSData.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
-        
-        return nil;
-    }
-    
-    NSString * tString=[[NSString alloc] initWithData:inData encoding:NSUTF8StringEncoding];
-    
-    if (tString==nil)
-    {
-        if (outError!=NULL)
-            *outError=nil;  // A COMPLETER
-        
-        return nil;
-    }
-    
-    return [self initWithString:tString error:outError];
+	if ([inData isKindOfClass:NSData.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
+		
+		return nil;
+	}
+	
+	NSString * tString=[[NSString alloc] initWithData:inData encoding:NSUTF8StringEncoding];
+	
+	if (tString==nil)
+	{
+		if (outError!=NULL)
+			*outError=nil;  // A COMPLETER
+		
+		return nil;
+	}
+	
+	return [self initWithString:tString error:outError];
 }
 
 - (instancetype)initWithString:(NSString *)inString error:(out NSError **)outError;
 {
-    if ([inString isKindOfClass:NSString.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSError * tError=nil;
-        
-        NSRange tRange=[inString lineRangeForRange:NSMakeRange(0,1)];
-        
-        if (tRange.location==NSNotFound)
-        {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain
-                                              code:IPSSummaryReadCorruptError
-                                          userInfo:@{}];
-            
-            return nil;
-        }
-        
-        // Summary
-        
-        NSString * tFirstLine=[inString substringWithRange:tRange];
+	if ([inString isKindOfClass:NSString.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:NSPOSIXErrorDomain code:EINVAL userInfo:nil];
+		
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSError * tError=nil;
+		
+		NSRange tRange=[inString lineRangeForRange:NSMakeRange(0,1)];
+		
+		if (tRange.location==NSNotFound)
+		{
+			if (outError!=NULL)
+				*outError=[NSError errorWithDomain:IPSErrorDomain
+											  code:IPSSummaryReadCorruptError
+										  userInfo:@{}];
+			
+			return nil;
+		}
+		
+		// Summary
+		
+		NSString * tFirstLine=[inString substringWithRange:tRange];
 
-        if (tFirstLine==nil)
-        {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain
-                                              code:IPSSummaryReadCorruptError
-                                          userInfo:@{}];
-            
-            return nil;
-        }
-        
-        _summary=[IPSSummarySerialization summaryWithData:[tFirstLine dataUsingEncoding:NSUTF8StringEncoding] error:&tError];
-        
-        if (_summary==nil)
-        {
-            if (outError!=NULL)
-                *outError=tError;
-            
-            return nil;
-        }
-        
-        if (_summary.bugType!=IPSBugTypeCrash)
-        {
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain
-                                              code:IPSUnsupportedBugTypeError
-                                          userInfo:@{IPSBugTypeErrorKey:@(_summary.bugType)}];
-            
-            return nil;
-        }
-        
-        // Incident
-        
-        NSString * tIncidentString=[inString substringFromIndex:NSMaxRange(tRange)];
-        
-        if (tIncidentString==nil)
-        {
-            NSString * tPathError=@"{Summary}";
-            
-            if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
-                tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
-            
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain
-                                              code:tError.code
-                                          userInfo:@{IPSKeyPathErrorKey:tPathError}];
-            
-            return nil;
-        }
-        
-        NSData * tIncidentData=[tIncidentString dataUsingEncoding:NSUTF8StringEncoding];
-        
-        tError=nil;
-        NSDictionary * tIncidentDictionary=[NSJSONSerialization JSONObjectWithData:tIncidentData options:NSJSONReadingAllowFragments error:&tError];
-        
-        if (tIncidentDictionary==nil)
-        {
-            if (outError!=NULL)
-                *outError=tError;
-            
-            return nil;
-        }
-        
-        tError=nil;
-        _incident=[[IPSIncident alloc] initWithRepresentation:tIncidentDictionary error:&tError];
-        
-        if (_incident==nil)
-        {
-            NSString * tPathError=@"{Incident}";
-            
-            if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
-                tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
-            
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain
-                                              code:tError.code
-                                          userInfo:@{IPSKeyPathErrorKey:tPathError}];
-            
-            return nil;
-        }
-    }
-    
-    return self;
+		if (tFirstLine==nil)
+		{
+			if (outError!=NULL)
+				*outError=[NSError errorWithDomain:IPSErrorDomain
+											  code:IPSSummaryReadCorruptError
+										  userInfo:@{}];
+			
+			return nil;
+		}
+		
+		_summary=[IPSSummarySerialization summaryWithData:[tFirstLine dataUsingEncoding:NSUTF8StringEncoding] error:&tError];
+		
+		if (_summary==nil)
+		{
+			if (outError!=NULL)
+				*outError=tError;
+			
+			return nil;
+		}
+		
+		if (_summary.bugType!=IPSBugTypeCrash)
+		{
+			if (outError!=NULL)
+				*outError=[NSError errorWithDomain:IPSErrorDomain
+											  code:IPSUnsupportedBugTypeError
+										  userInfo:@{IPSBugTypeErrorKey:@(_summary.bugType)}];
+			
+			return nil;
+		}
+		
+		// Incident
+		
+		NSString * tIncidentString=[inString substringFromIndex:NSMaxRange(tRange)];
+		
+		if (tIncidentString==nil)
+		{
+			NSString * tPathError=@"{Summary}";
+			
+			if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+				tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+			
+			if (outError!=NULL)
+				*outError=[NSError errorWithDomain:IPSErrorDomain
+											  code:tError.code
+										  userInfo:@{IPSKeyPathErrorKey:tPathError}];
+			
+			return nil;
+		}
+		
+		NSData * tIncidentData=[tIncidentString dataUsingEncoding:NSUTF8StringEncoding];
+		
+		tError=nil;
+		NSDictionary * tIncidentDictionary=[NSJSONSerialization JSONObjectWithData:tIncidentData options:NSJSONReadingAllowFragments error:&tError];
+		
+		if (tIncidentDictionary==nil)
+		{
+			if (outError!=NULL)
+				*outError=tError;
+			
+			return nil;
+		}
+		
+		tError=nil;
+		_incident=[[IPSIncident alloc] initWithRepresentation:tIncidentDictionary error:&tError];
+		
+		if (_incident==nil)
+		{
+			NSString * tPathError=@"{Incident}";
+			
+			if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+				tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+			
+			if (outError!=NULL)
+				*outError=[NSError errorWithDomain:IPSErrorDomain
+											  code:tError.code
+										  userInfo:@{IPSKeyPathErrorKey:tPathError}];
+			
+			return nil;
+		}
+	}
+	
+	return self;
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSReport * nReport=[IPSReport allocWithZone:inZone];
-    
-    if (nReport!=nil)
-    {
-        nReport->_summary=[self.summary copyWithZone:inZone];
-        
-        nReport->_incident=[self.incident copyWithZone:inZone];
-    }
-    
-    return nReport;
+	IPSReport * nReport=[IPSReport allocWithZone:inZone];
+	
+	if (nReport!=nil)
+	{
+		nReport->_summary=[self.summary copyWithZone:inZone];
+		
+		nReport->_incident=[self.incident copyWithZone:inZone];
+	}
+	
+	return nReport;
 }
 
 @end

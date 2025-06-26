@@ -25,14 +25,14 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSLegacyInfo * nObfuscatedLegacyInfo=[IPSLegacyInfo alloc];
-    
-    if (nObfuscatedLegacyInfo!=nil)
-    {
-        nObfuscatedLegacyInfo.threadTriggered=[self.threadTriggered obfuscateWithObfuscator:inObfuscator];
-    }
-    
-    return nObfuscatedLegacyInfo;
+	IPSLegacyInfo * nObfuscatedLegacyInfo=[IPSLegacyInfo alloc];
+	
+	if (nObfuscatedLegacyInfo!=nil)
+	{
+		nObfuscatedLegacyInfo.threadTriggered=[self.threadTriggered obfuscateWithObfuscator:inObfuscator];
+	}
+	
+	return nObfuscatedLegacyInfo;
 }
 
 @end

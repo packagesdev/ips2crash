@@ -22,11 +22,11 @@ NSString * const IPSOperatingSystemVersionReleaseTypeKey=@"releaseType";
 
 @interface IPSOperatingSystemVersion ()
 
-    @property (readwrite,copy) NSString * train;
+	@property (readwrite,copy) NSString * train;
 
-    @property (readwrite,copy) NSString * build;
+	@property (readwrite,copy) NSString * build;
 
-    @property (readwrite,copy) NSString * releaseType;
+	@property (readwrite,copy) NSString * releaseType;
 
 @end
 
@@ -34,75 +34,75 @@ NSString * const IPSOperatingSystemVersionReleaseTypeKey=@"releaseType";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSString * tString=inRepresentation[IPSOperatingSystemVersionTrainKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSOperatingSystemVersionTrainKey);
-        
-        _train=[tString copy];
-        
-        tString=inRepresentation[IPSOperatingSystemVersionBuildKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSOperatingSystemVersionBuildKey);
-        
-        _build=[tString copy];
-        
-        tString=inRepresentation[IPSOperatingSystemVersionReleaseTypeKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSOperatingSystemVersionReleaseTypeKey);
-        
-        _releaseType=[tString copy];
-    }
-    
-    return self;
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+
+		return nil;
+	}
+
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+
+		return nil;
+	}
+
+	self=[super init];
+
+	if (self!=nil)
+	{
+		NSString * tString=inRepresentation[IPSOperatingSystemVersionTrainKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSOperatingSystemVersionTrainKey);
+
+		_train=[tString copy];
+
+		tString=inRepresentation[IPSOperatingSystemVersionBuildKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSOperatingSystemVersionBuildKey);
+
+		_build=[tString copy];
+
+		tString=inRepresentation[IPSOperatingSystemVersionReleaseTypeKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSOperatingSystemVersionReleaseTypeKey);
+
+		_releaseType=[tString copy];
+	}
+
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation {
-    
-    return @{
-             IPSOperatingSystemVersionTrainKey:self.train,
-             IPSOperatingSystemVersionBuildKey:self.build,
-             IPSOperatingSystemVersionReleaseTypeKey:self.releaseType
-             };
+	
+	return @{
+			 IPSOperatingSystemVersionTrainKey:self.train,
+			 IPSOperatingSystemVersionBuildKey:self.build,
+			 IPSOperatingSystemVersionReleaseTypeKey:self.releaseType
+			 };
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSOperatingSystemVersion * nOperatingSystemVersion=[IPSOperatingSystemVersion allocWithZone:inZone];
-    
-    if (nOperatingSystemVersion!=nil)
-    {
-        nOperatingSystemVersion->_train=[self.train copyWithZone:inZone];
-        
-        nOperatingSystemVersion->_build=[self.build copyWithZone:inZone];
-        
-        nOperatingSystemVersion->_releaseType=[self.releaseType copyWithZone:inZone];
-    }
-    
-    return nOperatingSystemVersion;
+	IPSOperatingSystemVersion * nOperatingSystemVersion=[IPSOperatingSystemVersion allocWithZone:inZone];
+
+	if (nOperatingSystemVersion!=nil)
+	{
+		nOperatingSystemVersion->_train=[self.train copyWithZone:inZone];
+
+		nOperatingSystemVersion->_build=[self.build copyWithZone:inZone];
+
+		nOperatingSystemVersion->_releaseType=[self.releaseType copyWithZone:inZone];
+	}
+	
+	return nOperatingSystemVersion;
 }
 
 @end

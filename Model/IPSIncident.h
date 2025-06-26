@@ -29,20 +29,20 @@
 
 @interface IPSIncident : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) IPSIncidentHeader * header;
+	@property (readonly) IPSIncidentHeader * header;
 
-    @property (readonly) IPSIncidentExceptionInformation * exceptionInformation;
+	@property (readonly) IPSIncidentExceptionInformation * exceptionInformation;
 
-    @property (readonly) IPSIncidentDiagnosticMessage * diagnosticMessage;
+	@property (readonly) IPSIncidentDiagnosticMessage * diagnosticMessage;
 
-    @property (readonly) NSArray<IPSThread *> * threads;
+	@property (readonly) NSArray<IPSThread *> * threads;
 
-    @property (nonatomic,readonly) IPSThreadState * threadState;
+	@property (nonatomic,readonly) IPSThreadState * threadState;
 
-    @property (readonly) NSArray<IPSImage *> * binaryImages;
+	@property (readonly) NSArray<IPSImage *> * binaryImages;
 
-    @property (readonly) IPSExternalModificationSummary * extMods;
+	@property (readonly) IPSExternalModificationSummary * extMods;
 
-    @property (readonly,copy) NSString * vmSummary;
+	@property (readonly,copy) NSString * vmSummary;
 
 @end

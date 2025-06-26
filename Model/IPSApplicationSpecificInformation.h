@@ -17,11 +17,11 @@
 
 @interface IPSApplicationSpecificInformation : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
+	@property (readonly) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
 
-    @property (readonly) NSArray<NSString *> * backtraces;
+	@property (readonly) NSArray<NSString *> * backtraces;
 
-    @property (readonly) NSArray<NSString *> * signatures;
+	@property (readonly) NSArray<NSString *> * signatures;
 
 @end
 

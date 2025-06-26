@@ -19,7 +19,7 @@
 
 @interface IPSThreadInstructionState : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) IPSThreadInstructionStream * instructionStream;
+	@property (readonly) IPSThreadInstructionStream * instructionStream;
 
 @end
 

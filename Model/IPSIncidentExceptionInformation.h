@@ -27,18 +27,18 @@
 
 @interface IPSIncidentExceptionInformation : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) NSUInteger faultingThread;
+	@property (readonly) NSUInteger faultingThread;
 
-    @property (readonly) IPSLegacyInfo * legacyInfo;
+	@property (readonly) IPSLegacyInfo * legacyInfo;
 
-    @property (readonly) IPSException * exception;
+	@property (readonly) IPSException * exception;
 
 	@property (readonly) IPSExceptionReason * exceptionReason;	// Can be nil.
 
 	@property (readonly) NSArray<IPSThreadFrame *> * lastExceptionBacktrace;	// Can be nil.
 
-    @property (readonly) IPSTermination * termination;
+	@property (readonly) IPSTermination * termination;
 
-    @property (readonly,getter=isCorpse) BOOL corpse;
+	@property (readonly,getter=isCorpse) BOOL corpse;
 
 @end

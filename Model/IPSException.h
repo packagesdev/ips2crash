@@ -17,14 +17,14 @@
 
 @interface IPSException : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly,copy) NSString * type;
+	@property (readonly,copy) NSString * type;
 
-    @property (readonly,copy) NSString * subtype;
+	@property (readonly,copy) NSString * subtype;
 
-    @property (readonly,copy) NSString * signal;
+	@property (readonly,copy) NSString * signal;
 
-    @property (readonly,copy) NSString * codes;
+	@property (readonly,copy) NSString * codes;
 
-    @property (readonly) NSArray<NSNumber *> * rawCodes;
+	@property (readonly) NSArray<NSNumber *> * rawCodes;
 
 @end

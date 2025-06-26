@@ -17,7 +17,7 @@ NSString * const IPSThreadInstructionStateInstructionStreamKey=@"instructionStre
 
 @interface IPSThreadInstructionState ()
 
-    @property (readwrite) IPSThreadInstructionStream * instructionStream;
+	@property (readwrite) IPSThreadInstructionStream * instructionStream;
 
 @end
 
@@ -26,55 +26,55 @@ NSString * const IPSThreadInstructionStateInstructionStreamKey=@"instructionStre
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSDictionary * tDictionary=inRepresentation[IPSThreadInstructionStateInstructionStreamKey];
-        
-        _instructionStream=[[IPSThreadInstructionStream alloc] initWithRepresentation:tDictionary error:NULL];
-    }
-    
-    return self;
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+		
+		return nil;
+	}
+	
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+		
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSDictionary * tDictionary=inRepresentation[IPSThreadInstructionStateInstructionStreamKey];
+		
+		_instructionStream=[[IPSThreadInstructionStream alloc] initWithRepresentation:tDictionary error:NULL];
+	}
+	
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    return @{
-             IPSThreadInstructionStateInstructionStreamKey:[self.instructionStream representation]
-             };
+	return @{
+			 IPSThreadInstructionStateInstructionStreamKey:[self.instructionStream representation]
+			 };
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSThreadInstructionState * nThreadInstructionState=[IPSThreadInstructionState allocWithZone:inZone];
-    
-    if (nThreadInstructionState!=nil)
-    {
-        nThreadInstructionState->_instructionStream=[self.instructionStream copyWithZone:inZone];
-    }
-    
-    return nThreadInstructionState;
+	IPSThreadInstructionState * nThreadInstructionState=[IPSThreadInstructionState allocWithZone:inZone];
+	
+	if (nThreadInstructionState!=nil)
+	{
+		nThreadInstructionState->_instructionStream=[self.instructionStream copyWithZone:inZone];
+	}
+	
+	return nThreadInstructionState;
 }
 
 @end

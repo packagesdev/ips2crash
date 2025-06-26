@@ -19,47 +19,65 @@
 
 #import "IPSOperatingSystemVersion.h"
 
+@interface IPSCodeSigningInfo : NSObject <IPSObjectProtocol,NSCopying>
+
+	@property (readonly,copy) NSString * identifier;	// can be nil
+
+	@property (readonly,copy) NSString * teamIdentifier;	// can be nil
+
+	@property (readonly) NSUInteger flags;
+
+	@property (readonly) NSUInteger validationCategory;
+
+	@property (readonly) NSUInteger trustLevel;
+
+	@property (readonly) NSUInteger auxiliaryInfo;
+
+@end
+
 @interface IPSIncidentHeader : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly,copy) NSString * processName;
+	@property (readonly,copy) NSString * processName;
 
-    @property (readonly) pid_t processID;
+	@property (readonly) pid_t processID;
 
-    @property (readonly,copy) NSString * processPath;
+	@property (readonly,copy) NSString * processPath;
 
-    @property (readonly) IPSBundleInfo * bundleInfo;
+	@property (readonly) IPSBundleInfo * bundleInfo;
 
-    @property (readonly,copy) NSString * cpuType;
+	@property (readonly,copy) NSString * cpuType;
 
-    @property (readonly) BOOL translated;
+	@property (readonly) BOOL translated;
 
-    @property (readonly,copy) NSString * parentProcessName;
+	@property (readonly,copy) NSString * parentProcessName;
 
-    @property (readonly) pid_t parentProcessID;
+	@property (readonly) pid_t parentProcessID;
 
-    @property (readonly,copy) NSString * responsibleProcessName;    // can be nil
+	@property (readonly,copy) NSString * responsibleProcessName;	// can be nil
 
-    @property (readonly) pid_t responsibleProcessID;
+	@property (readonly) pid_t responsibleProcessID;
 
-    @property (readonly) uid_t userID;
+	@property (readonly) IPSCodeSigningInfo * codeSigningInfo;
 
-
-    @property (readonly) NSDate * captureTime;
-
-    @property (readonly) IPSOperatingSystemVersion * operatingSystemVersion;
-
-    @property (readonly) NSUInteger reportVersion;
-
-    @property (readonly) NSUUID * crashReporterKey;
+	@property (readonly) uid_t userID;
 
 
-    @property (readonly) NSUUID * sleepWakeUUID;
+	@property (readonly) NSDate * captureTime;
+
+	@property (readonly) IPSOperatingSystemVersion * operatingSystemVersion;
+
+	@property (readonly) NSUInteger reportVersion;
+
+	@property (readonly) NSUUID * crashReporterKey;
 
 
-    @property (readonly) NSUInteger uptime;
+	@property (readonly) NSUUID * sleepWakeUUID;
+
+
+	@property (readonly) NSUInteger uptime;
 
 
 
-    @property (readonly) BOOL systemIntegrityProtectionEnable;
+	@property (readonly) BOOL systemIntegrityProtectionEnable;
 
 @end

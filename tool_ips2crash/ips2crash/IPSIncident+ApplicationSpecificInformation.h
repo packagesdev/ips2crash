@@ -15,7 +15,7 @@
 
 @interface IPSIncident (ApplicationSpecificInformation)
 
-- (NSArray<NSString *> *)applicationSpecificInformationMessage;    // Can be nil
+- (NSArray<NSString *> *)applicationSpecificInformationMessage;	// Can be nil
 
 @end
 

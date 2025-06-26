@@ -31,20 +31,20 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSImage * nImage=[self copy];
-    
-    if (nImage.isUserCode==YES)
-    {
-        nImage.name=[inObfuscator obfuscatedStringWithString:nImage.name family:IPSStringFamilyBinary];
-        
-        nImage.bundleIdentifier=[inObfuscator obfuscatedStringWithString:nImage.bundleIdentifier family:IPSStringFamilyBundleIdentifier];
-        
-        nImage.path=[inObfuscator obfuscatedStringWithString:nImage.path family:IPSStringFamilyPath];
-        
-        nImage.UUID=[NSUUID UUID];
-    }
-    
-    return nImage;
+	IPSImage * nImage=[self copy];
+	
+	if (nImage.isUserCode==YES)
+	{
+		nImage.name=[inObfuscator obfuscatedStringWithString:nImage.name family:IPSStringFamilyBinary];
+		
+		nImage.bundleIdentifier=[inObfuscator obfuscatedStringWithString:nImage.bundleIdentifier family:IPSStringFamilyBundleIdentifier];
+		
+		nImage.path=[inObfuscator obfuscatedStringWithString:nImage.path family:IPSStringFamilyPath];
+		
+		nImage.UUID=[NSUUID UUID];
+	}
+	
+	return nImage;
 }
 
 @end

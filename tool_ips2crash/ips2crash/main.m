@@ -26,234 +26,234 @@ void usage(void);
 
 void usage(void)
 {
-    (void)fprintf(stderr, "%s\n","Usage: ips2crash [OPTIONS] file\n"
-                  "\n"
-                  "Options:\n"
-                  "  --obfuscate -O       obfuscate user code symbols, binaries and paths\n"
-                  "  --output, -o PATH    specify a file path to write the converted crash report to\n");
-    
-    exit(EXIT_FAILURE);
+	(void)fprintf(stderr, "%s\n","Usage: ips2crash [OPTIONS] file\n"
+				  "\n"
+				  "Options:\n"
+				  "  --obfuscate -O	   obfuscate user code symbols, binaries and paths\n"
+				  "  --output, -o PATH	specify a file path to write the converted crash report to\n");
+	
+	exit(EXIT_FAILURE);
 }
 
 int main(int argc, const char * argv[])
 {
-    @autoreleasepool
-    {
-        char * tCOutputPath=NULL;
-        BOOL tObfuscate=NO;
-        int c;
-        
-        static struct option tLongOptions[] =
-        {
-            {"verbose",                        no_argument,        0,    'v'},
-            
-            {"obfuscate", no_argument,          0,    'O'},
-            {"output",    required_argument,    0,    'o'},
-            
-            {0, 0, 0, 0}
-        };
-        
-        while (1)
-        {
-            int tOptionIndex = 0;
-            
-            c = getopt_long (argc, (char **) argv, "Oo:",tLongOptions, &tOptionIndex);
-            
-            /* Detect the end of the options. */
-            if (c == -1)
-                break;
-            
-            switch (c)
-            {
-                case 'O':
-                    
-                    tObfuscate=YES;
-                    
-                    break;
-                
-                case 'o':
-                    
-                    tCOutputPath=optarg;
-                    
-                    break;
-                    
-                case '?':
-                default:
-                    usage();
-                    
-                    return EXIT_FAILURE;
-            }
-        }
-        
-        argv+=optind;
-        argc-=optind;
-        
-        NSString * tIPSFile=nil;
-        NSString * tOutputCrashFile=nil;
-        
-        NSFileManager * tFileManager=[NSFileManager defaultManager];
-        
-        NSString * tCurrentDirectory=[tFileManager currentDirectoryPath];
-        
-        if (tCOutputPath!=NULL)
-        {
-            tOutputCrashFile=[[NSString stringWithUTF8String:tCOutputPath] stringByStandardizingPath];
-            
-            if ([tOutputCrashFile characterAtIndex:0]!='/')
-                tOutputCrashFile=[tCurrentDirectory stringByAppendingPathComponent:tOutputCrashFile];
-        }
-        
-        if (argc==0 && tOutputCrashFile==nil)
-        {
-            usage();
-            
-            return EXIT_FAILURE;
-        }
-        
-        tIPSFile=[NSString stringWithUTF8String:argv[0]];
-        
-        argv++;
-        argc--;
-        
-        if (argc>0)
-        {
-            (void)fprintf(stderr, "An error occurred while parsing %s: too many arguments.\n",*argv);
-            usage();
-            
-            return EXIT_FAILURE;
-        }
-        
-        
-        NSError * tError=nil;
-        IPSReport * tReport=[[IPSReport alloc] initWithContentsOfFile:tIPSFile error:&tError];
-        
-        if (tReport==nil)
-        {
-            if ([tError.domain isEqualToString:NSCocoaErrorDomain]==YES)
-            {
-                switch(tError.code)
-                {
-                    case NSFileReadNoSuchFileError:
-                        
-                        (void)fprintf(stderr, "'%s': No such file.\n",tIPSFile.fileSystemRepresentation);
-                        
-                        break;
-                    
-                    case NSFileReadNoPermissionError:
-                        
-                        (void)fprintf(stderr, "'%s': Permission denied.\n",tIPSFile.fileSystemRepresentation);
-                        
-                        break;
-                        
-                    default:
-                        
-                        (void)fprintf(stderr, "'%s': Unable to read file.\n",tIPSFile.fileSystemRepresentation);
-                        
-                        break;
-                }
-            }
-            else if ([tError.domain isEqualToString:IPSErrorDomain]==YES)
-            {
-                (void)fprintf(stderr, "'%s': An error occurred when reading the .ips file.\n",tIPSFile.fileSystemRepresentation);
-                
-                NSString * tKeyPath=tError.userInfo[IPSKeyPathErrorKey];
-                
-                switch(tError.code)
-                {
-                    case IPSRepresentationNilRepresentationError:
-                        
-                        (void)fprintf(stderr, "Missing value for key: %s.\n",tKeyPath.UTF8String);
-                        
-                        break;
-                        
-                    case IPSRepresentationInvalidTypeOfValueError:
-                        
-                        (void)fprintf(stderr, "Invalid type of value for key: %s.\n",tKeyPath.UTF8String);
-                        
-                        break;
-                        
-                    case IPSRepresentationInvalidValueError:
-                        
-                        (void)fprintf(stderr, "Invalid value for key: %s.\n",tKeyPath.UTF8String);
-                        
-                        break;
-                        
-                    case IPSSummaryReadCorruptError:
-                        
-                        (void)fprintf(stderr, "Corrupted ips file.\n");
-                        
-                        break;
-                    
-                    case IPSUnsupportedBugTypeError:
-                        
-                        (void)fprintf(stderr, "Unsupported type of .ips report: %ld.\n",[tError.userInfo[IPSBugTypeErrorKey] integerValue]);
-                        
-                        break;
-                }
-            }
-            else
-            {
-                (void)fprintf(stderr, "%s\n",tError.description.UTF8String);
-            }
-            
-            return EXIT_FAILURE;
-        }
-        
-        if (tObfuscate==YES)
-        {
-            IPSObfuscator * tObfuscator=[IPSObfuscator new];
-            
-            tReport=[tReport obfuscateWithObfuscator:tObfuscator];
-        }
-        
-        NSString * tString=[tReport crashTextualRepresentation];
-        
-        if (tOutputCrashFile==nil)
-        {
-            (void)fprintf(stdout,"%s",tString.UTF8String);
-            
-            return EXIT_SUCCESS;
-        }
-        
-        if ([tString writeToFile:tOutputCrashFile atomically:YES encoding:NSUTF8StringEncoding error:&tError]==YES)
-            return EXIT_SUCCESS;
-        
-        (void)fprintf(stderr, "'%s': An error occurred when writing the file.\n",tOutputCrashFile.fileSystemRepresentation);
-        
-        if ([tError.domain isEqualToString:NSCocoaErrorDomain]==YES)
-        {
-            switch(tError.code)
-            {
-                case NSFileWriteNoPermissionError:
-                    
-                    (void)fprintf(stderr, "Permission denied.\n");
-                    
-                    break;
-                    
-                case NSFileWriteOutOfSpaceError:
-                    
-                    (void)fprintf(stderr, "No more space available on volume.\n");
-                    
-                    break;
-                    
-                case NSFileWriteVolumeReadOnlyError:
-                    
-                    (void)fprintf(stderr, "Volume is readonly.\n");
-                    
-                    break;
-                    
-                default:
-                    
-                    (void)fprintf(stderr, "%s\n",tError.description.UTF8String);
-                    
-                    break;
-            }
-        }
-        else
-        {
-            (void)fprintf(stderr, "%s\n",tError.description.UTF8String);
-        }
-    }
-    
-    return EXIT_FAILURE;
+	@autoreleasepool
+	{
+		char * tCOutputPath=NULL;
+		BOOL tObfuscate=NO;
+		int c;
+		
+		static struct option tLongOptions[] =
+		{
+			{"verbose",						no_argument,		0,	'v'},
+			
+			{"obfuscate", no_argument,		  0,	'O'},
+			{"output",	required_argument,	0,	'o'},
+			
+			{0, 0, 0, 0}
+		};
+		
+		while (1)
+		{
+			int tOptionIndex = 0;
+			
+			c = getopt_long (argc, (char **) argv, "Oo:",tLongOptions, &tOptionIndex);
+			
+			/* Detect the end of the options. */
+			if (c == -1)
+				break;
+			
+			switch (c)
+			{
+				case 'O':
+					
+					tObfuscate=YES;
+					
+					break;
+				
+				case 'o':
+					
+					tCOutputPath=optarg;
+					
+					break;
+					
+				case '?':
+				default:
+					usage();
+					
+					return EXIT_FAILURE;
+			}
+		}
+		
+		argv+=optind;
+		argc-=optind;
+		
+		NSString * tIPSFile=nil;
+		NSString * tOutputCrashFile=nil;
+		
+		NSFileManager * tFileManager=[NSFileManager defaultManager];
+		
+		NSString * tCurrentDirectory=[tFileManager currentDirectoryPath];
+		
+		if (tCOutputPath!=NULL)
+		{
+			tOutputCrashFile=[[NSString stringWithUTF8String:tCOutputPath] stringByStandardizingPath];
+			
+			if ([tOutputCrashFile characterAtIndex:0]!='/')
+				tOutputCrashFile=[tCurrentDirectory stringByAppendingPathComponent:tOutputCrashFile];
+		}
+		
+		if (argc==0 && tOutputCrashFile==nil)
+		{
+			usage();
+			
+			return EXIT_FAILURE;
+		}
+		
+		tIPSFile=[NSString stringWithUTF8String:argv[0]];
+		
+		argv++;
+		argc--;
+		
+		if (argc>0)
+		{
+			(void)fprintf(stderr, "An error occurred while parsing %s: too many arguments.\n",*argv);
+			usage();
+			
+			return EXIT_FAILURE;
+		}
+		
+		
+		NSError * tError=nil;
+		IPSReport * tReport=[[IPSReport alloc] initWithContentsOfFile:tIPSFile error:&tError];
+		
+		if (tReport==nil)
+		{
+			if ([tError.domain isEqualToString:NSCocoaErrorDomain]==YES)
+			{
+				switch(tError.code)
+				{
+					case NSFileReadNoSuchFileError:
+						
+						(void)fprintf(stderr, "'%s': No such file.\n",tIPSFile.fileSystemRepresentation);
+						
+						break;
+					
+					case NSFileReadNoPermissionError:
+						
+						(void)fprintf(stderr, "'%s': Permission denied.\n",tIPSFile.fileSystemRepresentation);
+						
+						break;
+						
+					default:
+						
+						(void)fprintf(stderr, "'%s': Unable to read file.\n",tIPSFile.fileSystemRepresentation);
+						
+						break;
+				}
+			}
+			else if ([tError.domain isEqualToString:IPSErrorDomain]==YES)
+			{
+				(void)fprintf(stderr, "'%s': An error occurred when reading the .ips file.\n",tIPSFile.fileSystemRepresentation);
+				
+				NSString * tKeyPath=tError.userInfo[IPSKeyPathErrorKey];
+				
+				switch(tError.code)
+				{
+					case IPSRepresentationNilRepresentationError:
+						
+						(void)fprintf(stderr, "Missing value for key: %s.\n",tKeyPath.UTF8String);
+						
+						break;
+						
+					case IPSRepresentationInvalidTypeOfValueError:
+						
+						(void)fprintf(stderr, "Invalid type of value for key: %s.\n",tKeyPath.UTF8String);
+						
+						break;
+						
+					case IPSRepresentationInvalidValueError:
+						
+						(void)fprintf(stderr, "Invalid value for key: %s.\n",tKeyPath.UTF8String);
+						
+						break;
+						
+					case IPSSummaryReadCorruptError:
+						
+						(void)fprintf(stderr, "Corrupted ips file.\n");
+						
+						break;
+					
+					case IPSUnsupportedBugTypeError:
+						
+						(void)fprintf(stderr, "Unsupported type of .ips report: %ld.\n",[tError.userInfo[IPSBugTypeErrorKey] integerValue]);
+						
+						break;
+				}
+			}
+			else
+			{
+				(void)fprintf(stderr, "%s\n",tError.description.UTF8String);
+			}
+			
+			return EXIT_FAILURE;
+		}
+		
+		if (tObfuscate==YES)
+		{
+			IPSObfuscator * tObfuscator=[IPSObfuscator new];
+			
+			tReport=[tReport obfuscateWithObfuscator:tObfuscator];
+		}
+		
+		NSString * tString=[tReport crashTextualRepresentation];
+		
+		if (tOutputCrashFile==nil)
+		{
+			(void)fprintf(stdout,"%s",tString.UTF8String);
+			
+			return EXIT_SUCCESS;
+		}
+		
+		if ([tString writeToFile:tOutputCrashFile atomically:YES encoding:NSUTF8StringEncoding error:&tError]==YES)
+			return EXIT_SUCCESS;
+		
+		(void)fprintf(stderr, "'%s': An error occurred when writing the file.\n",tOutputCrashFile.fileSystemRepresentation);
+		
+		if ([tError.domain isEqualToString:NSCocoaErrorDomain]==YES)
+		{
+			switch(tError.code)
+			{
+				case NSFileWriteNoPermissionError:
+					
+					(void)fprintf(stderr, "Permission denied.\n");
+					
+					break;
+					
+				case NSFileWriteOutOfSpaceError:
+					
+					(void)fprintf(stderr, "No more space available on volume.\n");
+					
+					break;
+					
+				case NSFileWriteVolumeReadOnlyError:
+					
+					(void)fprintf(stderr, "Volume is readonly.\n");
+					
+					break;
+					
+				default:
+					
+					(void)fprintf(stderr, "%s\n",tError.description.UTF8String);
+					
+					break;
+			}
+		}
+		else
+		{
+			(void)fprintf(stderr, "%s\n",tError.description.UTF8String);
+		}
+	}
+	
+	return EXIT_FAILURE;
 }

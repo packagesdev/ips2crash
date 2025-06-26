@@ -21,11 +21,11 @@ NSString * const IPSBundleInfoBundleIdentifierKey=@"CFBundleIdentifier";
 
 @interface IPSBundleInfo ()
 
-    @property (readwrite,copy) NSString * bundleShortVersionString;
+	@property (readwrite,copy) NSString * bundleShortVersionString;
 
-    @property (readwrite,copy) NSString * bundleVersion;
+	@property (readwrite,copy) NSString * bundleVersion;
 
-    @property (readwrite,copy) NSString * bundleIdentifier;
+	@property (readwrite,copy) NSString * bundleIdentifier;
 
 @end
 
@@ -33,91 +33,91 @@ NSString * const IPSBundleInfoBundleIdentifierKey=@"CFBundleIdentifier";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSString * tString=inRepresentation[IPSBundleInfoBundleShortVersionStringKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSBundleInfoBundleShortVersionStringKey);
-            
-            _bundleShortVersionString=[tString copy];
-        }
-        
-        tString=inRepresentation[IPSBundleInfoBundleVersionKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSBundleInfoBundleVersionKey);
-            
-            _bundleVersion=[tString copy];
-        }
-        
-        tString=inRepresentation[IPSBundleInfoBundleIdentifierKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSBundleInfoBundleIdentifierKey);
-            
-            _bundleIdentifier=[tString copy];
-        }
-    }
-    
-    return self;
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+
+		return nil;
+	}
+
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+
+		return nil;
+	}
+
+	self=[super init];
+
+	if (self!=nil)
+	{
+		NSString * tString=inRepresentation[IPSBundleInfoBundleShortVersionStringKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSBundleInfoBundleShortVersionStringKey);
+
+			_bundleShortVersionString=[tString copy];
+		}
+
+		tString=inRepresentation[IPSBundleInfoBundleVersionKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSBundleInfoBundleVersionKey);
+
+			_bundleVersion=[tString copy];
+		}
+
+		tString=inRepresentation[IPSBundleInfoBundleIdentifierKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSBundleInfoBundleIdentifierKey);
+
+			_bundleIdentifier=[tString copy];
+		}
+	}
+
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionary];
-    
-    if (self.bundleShortVersionString!=nil)
-        tMutableDictionary[IPSBundleInfoBundleShortVersionStringKey]=self.bundleShortVersionString;
-    
-    if (self.bundleVersion!=nil)
-        tMutableDictionary[IPSBundleInfoBundleVersionKey]=self.bundleVersion;
-    
-    if (self.bundleIdentifier!=nil)
-        tMutableDictionary[IPSBundleInfoBundleIdentifierKey]=self.bundleIdentifier;
-    
-    return [tMutableDictionary copy];
+	NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionary];
+
+	if (self.bundleShortVersionString!=nil)
+		tMutableDictionary[IPSBundleInfoBundleShortVersionStringKey]=self.bundleShortVersionString;
+
+	if (self.bundleVersion!=nil)
+		tMutableDictionary[IPSBundleInfoBundleVersionKey]=self.bundleVersion;
+
+	if (self.bundleIdentifier!=nil)
+		tMutableDictionary[IPSBundleInfoBundleIdentifierKey]=self.bundleIdentifier;
+
+	return [tMutableDictionary copy];
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSBundleInfo * nBundleInfo=[IPSBundleInfo allocWithZone:inZone];
-    
-    if (nBundleInfo!=nil)
-    {
-        nBundleInfo->_bundleShortVersionString=[self.bundleShortVersionString copyWithZone:inZone];
-        
-        nBundleInfo->_bundleVersion=[self.bundleVersion copyWithZone:inZone];
-        
-        nBundleInfo->_bundleIdentifier=[self.bundleIdentifier copyWithZone:inZone];
-    }
-    
-    return nBundleInfo;
+	IPSBundleInfo * nBundleInfo=[IPSBundleInfo allocWithZone:inZone];
+
+	if (nBundleInfo!=nil)
+	{
+		nBundleInfo->_bundleShortVersionString=[self.bundleShortVersionString copyWithZone:inZone];
+
+		nBundleInfo->_bundleVersion=[self.bundleVersion copyWithZone:inZone];
+
+		nBundleInfo->_bundleIdentifier=[self.bundleIdentifier copyWithZone:inZone];
+	}
+
+	return nBundleInfo;
 }
 
 @end

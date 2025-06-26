@@ -23,11 +23,11 @@ NSString * const IPSApplicationSpecificInformationAsiSignaturesKey=@"asiSignatur
 
 @interface IPSApplicationSpecificInformation ()
 
-    @property (readwrite) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
+	@property (readwrite) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
 
-    @property (readwrite) NSArray<NSString *> * backtraces;
+	@property (readwrite) NSArray<NSString *> * backtraces;
 
-    @property (readwrite) NSArray<NSString *> * signatures;
+	@property (readwrite) NSArray<NSString *> * signatures;
 
 @end
 
@@ -36,90 +36,90 @@ NSString * const IPSApplicationSpecificInformationAsiSignaturesKey=@"asiSignatur
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError *__autoreleasing *)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSDictionary * tDictionary=inRepresentation[IPSApplicationSpecificInformationAsiKey];
-        
-        IPSFullCheckDictionaryValueForKey(tDictionary,IPSApplicationSpecificInformationAsiKey);
-        
-        _applicationsInformation=tDictionary;
-        
-        NSArray * tArray=inRepresentation[IPSApplicationSpecificInformationAsiBacktracesKey];
-        
-         if (tArray!=nil)
-         {
-             IPSClassCheckArrayValueForKey(tArray,IPSApplicationSpecificInformationAsiBacktracesKey);
-        
-            _backtraces=tArray;
-         }
-        
-        tArray=inRepresentation[IPSApplicationSpecificInformationAsiSignaturesKey];
-        
-        if (tArray!=nil)
-        {
-            IPSClassCheckArrayValueForKey(tArray,IPSApplicationSpecificInformationAsiSignaturesKey);
-            
-            _signatures=tArray;
-        }
-    }
-    
-    return self;
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+		
+		return nil;
+	}
+	
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+		
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSDictionary * tDictionary=inRepresentation[IPSApplicationSpecificInformationAsiKey];
+		
+		IPSFullCheckDictionaryValueForKey(tDictionary,IPSApplicationSpecificInformationAsiKey);
+		
+		_applicationsInformation=tDictionary;
+		
+		NSArray * tArray=inRepresentation[IPSApplicationSpecificInformationAsiBacktracesKey];
+		
+		 if (tArray!=nil)
+		 {
+			 IPSClassCheckArrayValueForKey(tArray,IPSApplicationSpecificInformationAsiBacktracesKey);
+		
+			_backtraces=tArray;
+		 }
+		
+		tArray=inRepresentation[IPSApplicationSpecificInformationAsiSignaturesKey];
+		
+		if (tArray!=nil)
+		{
+			IPSClassCheckArrayValueForKey(tArray,IPSApplicationSpecificInformationAsiSignaturesKey);
+			
+			_signatures=tArray;
+		}
+	}
+	
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    NSMutableDictionary * tMutableRepresentation=[NSMutableDictionary dictionary];
-    
-    tMutableRepresentation[IPSApplicationSpecificInformationAsiKey]=self.applicationsInformation;
-    
-    if (self.backtraces!=nil)
-        tMutableRepresentation[IPSApplicationSpecificInformationAsiBacktracesKey]=self.backtraces;
-    
-    if (self.signatures!=nil)
-        tMutableRepresentation[IPSApplicationSpecificInformationAsiSignaturesKey]=self.signatures;
-    
-    return [tMutableRepresentation copy];
+	NSMutableDictionary * tMutableRepresentation=[NSMutableDictionary dictionary];
+	
+	tMutableRepresentation[IPSApplicationSpecificInformationAsiKey]=self.applicationsInformation;
+	
+	if (self.backtraces!=nil)
+		tMutableRepresentation[IPSApplicationSpecificInformationAsiBacktracesKey]=self.backtraces;
+	
+	if (self.signatures!=nil)
+		tMutableRepresentation[IPSApplicationSpecificInformationAsiSignaturesKey]=self.signatures;
+	
+	return [tMutableRepresentation copy];
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSApplicationSpecificInformation * nApplicationSpecificInformation=[IPSApplicationSpecificInformation allocWithZone:inZone];
-    
-    if (nApplicationSpecificInformation!=nil)
-    {
-        nApplicationSpecificInformation->_applicationsInformation=[self.applicationsInformation WB_dictionaryByMappingObjectsUsingBlock:^NSArray<NSString *> *(id bKey, NSArray<NSString *> * bObject) {
-            
-            return [bObject copyWithZone:inZone];
-        }];
-        
-        nApplicationSpecificInformation->_backtraces=[self.backtraces copyWithZone:inZone];
-        
-        nApplicationSpecificInformation->_signatures=[self.signatures copyWithZone:inZone];
-    }
-    
-    return nApplicationSpecificInformation;
+	IPSApplicationSpecificInformation * nApplicationSpecificInformation=[IPSApplicationSpecificInformation allocWithZone:inZone];
+	
+	if (nApplicationSpecificInformation!=nil)
+	{
+		nApplicationSpecificInformation->_applicationsInformation=[self.applicationsInformation WB_dictionaryByMappingObjectsUsingBlock:^NSArray<NSString *> *(id bKey, NSArray<NSString *> * bObject) {
+			
+			return [bObject copyWithZone:inZone];
+		}];
+		
+		nApplicationSpecificInformation->_backtraces=[self.backtraces copyWithZone:inZone];
+		
+		nApplicationSpecificInformation->_signatures=[self.signatures copyWithZone:inZone];
+	}
+	
+	return nApplicationSpecificInformation;
 }
 
 @end

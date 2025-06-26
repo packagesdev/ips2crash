@@ -19,11 +19,11 @@ NSString * const IPSThreadInstructionStreamOffsetKey=@"offset";
 
 @interface IPSThreadInstructionStream ()
 
-    @property (readwrite) uint8_t * bytes;
+	@property (readwrite) uint8_t * bytes;
 
-    @property (readwrite) NSUInteger bytesCount;
+	@property (readwrite) NSUInteger bytesCount;
 
-    @property (readwrite) NSUInteger offset;
+	@property (readwrite) NSUInteger offset;
 
 @end
 
@@ -31,84 +31,84 @@ NSString * const IPSThreadInstructionStreamOffsetKey=@"offset";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSNumber * tNumber=inRepresentation[IPSThreadInstructionStreamOffsetKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSThreadInstructionStreamOffsetKey);
-        
-        _offset=[tNumber unsignedIntegerValue];
-        
-        NSArray * tArray=inRepresentation[IPSThreadInstructionStreamBytesKey];
-        
-        IPSFullCheckArrayValueForKey(tArray,IPSThreadInstructionStreamBytesKey);
-        
-        _bytesCount=tArray.count;
-        
-        uint8_t * tBytes=(uint8_t *)malloc(_bytesCount*sizeof(uint8_t));
-        
-        [tArray enumerateObjectsUsingBlock:^(NSNumber * bByteNumber, NSUInteger bIndex, BOOL * bOutStop) {
-            
-            tBytes[bIndex]=[bByteNumber unsignedCharValue];
-            
-        }];
-        
-        _bytes=tBytes;
-    }
-    
-    return self;
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+		
+		return nil;
+	}
+	
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+		
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSNumber * tNumber=inRepresentation[IPSThreadInstructionStreamOffsetKey];
+		
+		IPSFullCheckNumberValueForKey(tNumber,IPSThreadInstructionStreamOffsetKey);
+		
+		_offset=[tNumber unsignedIntegerValue];
+		
+		NSArray * tArray=inRepresentation[IPSThreadInstructionStreamBytesKey];
+		
+		IPSFullCheckArrayValueForKey(tArray,IPSThreadInstructionStreamBytesKey);
+		
+		_bytesCount=tArray.count;
+		
+		uint8_t * tBytes=(uint8_t *)malloc(_bytesCount*sizeof(uint8_t));
+		
+		[tArray enumerateObjectsUsingBlock:^(NSNumber * bByteNumber, NSUInteger bIndex, BOOL * bOutStop) {
+			
+			tBytes[bIndex]=[bByteNumber unsignedCharValue];
+			
+		}];
+		
+		_bytes=tBytes;
+	}
+	
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionaryWithDictionary:@{
-                                                                                             IPSThreadInstructionStreamOffsetKey:@(self.offset)
-                                                                                             }];
-    
-    return [tMutableDictionary copy];
+	NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionaryWithDictionary:@{
+																							 IPSThreadInstructionStreamOffsetKey:@(self.offset)
+																							 }];
+	
+	return [tMutableDictionary copy];
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSThreadInstructionStream * nThreadInstructionStream=[IPSThreadInstructionStream allocWithZone:inZone];
-    
-    if (nThreadInstructionStream!=nil)
-    {
-        nThreadInstructionStream->_bytes=(uint8_t *)malloc(self.bytesCount*sizeof(uint8_t));
-        
-        if (nThreadInstructionStream->_bytes==NULL)
-            return nil;
-        
-        memcpy(nThreadInstructionStream->_bytes,self.bytes, self.bytesCount);
-        
-        nThreadInstructionStream->_bytesCount=self.bytesCount;
-        
-        nThreadInstructionStream->_offset=self.offset;
-    }
-    
-    return nThreadInstructionStream;
+	IPSThreadInstructionStream * nThreadInstructionStream=[IPSThreadInstructionStream allocWithZone:inZone];
+	
+	if (nThreadInstructionStream!=nil)
+	{
+		nThreadInstructionStream->_bytes=(uint8_t *)malloc(self.bytesCount*sizeof(uint8_t));
+		
+		if (nThreadInstructionStream->_bytes==NULL)
+			return nil;
+		
+		memcpy(nThreadInstructionStream->_bytes,self.bytes, self.bytesCount);
+		
+		nThreadInstructionStream->_bytesCount=self.bytesCount;
+		
+		nThreadInstructionStream->_offset=self.offset;
+	}
+	
+	return nThreadInstructionStream;
 }
 
 @end

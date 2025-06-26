@@ -25,16 +25,16 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSRegisterState * nRegisterState=[self copy];
-    
-    if (nRegisterState!=nil)
-    {
-        nRegisterState.symbol=nil;
-            
-        nRegisterState.sourceFile=nil;
-    }
-    
-    return nRegisterState;
+	IPSRegisterState * nRegisterState=[self copy];
+	
+	if (nRegisterState!=nil)
+	{
+		nRegisterState.symbol=nil;
+			
+		nRegisterState.sourceFile=nil;
+	}
+	
+	return nRegisterState;
 }
 
 @end

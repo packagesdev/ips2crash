@@ -19,13 +19,13 @@
 
 @interface IPSExternalModificationSummary : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) IPSExternalModificationStatistics * caller;
+	@property (readonly) IPSExternalModificationStatistics * caller;
 
-    @property (readonly) IPSExternalModificationStatistics * system;
+	@property (readonly) IPSExternalModificationStatistics * system;
 
-    @property (readonly) IPSExternalModificationStatistics * targeted;
+	@property (readonly) IPSExternalModificationStatistics * targeted;
 
-    @property (readonly) NSUInteger warnings;
+	@property (readonly) NSUInteger warnings;
 
 @end
 

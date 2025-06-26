@@ -17,10 +17,10 @@
 
 @interface IPSBundleInfo : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly,copy) NSString * bundleShortVersionString;  // can be nil
+	@property (readonly,copy) NSString * bundleShortVersionString;  // can be nil
 
-    @property (readonly,copy) NSString * bundleVersion;             // can be nil
+	@property (readonly,copy) NSString * bundleVersion;			 // can be nil
 
-    @property (readonly,copy) NSString * bundleIdentifier;          // can be nil
+	@property (readonly,copy) NSString * bundleIdentifier;		  // can be nil
 
 @end

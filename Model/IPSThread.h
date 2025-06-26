@@ -23,18 +23,18 @@
 
 @interface IPSThread : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly,copy) NSString * queue;     // can be nil
+	@property (readonly,copy) NSString * queue;	 // can be nil
 
-    @property (readonly) NSUInteger ID;
+	@property (readonly) NSUInteger ID;
 
-    @property (readonly,copy) NSString * name;     // can be nil
+	@property (readonly,copy) NSString * name;	 // can be nil
 
-    @property (readonly) NSArray<IPSThreadFrame *> * frames;
+	@property (readonly) NSArray<IPSThreadFrame *> * frames;
 
-    @property (readonly) BOOL triggered;
+	@property (readonly) BOOL triggered;
 
-    @property (readonly) IPSThreadState * threadState;  // can be nil
+	@property (readonly) IPSThreadState * threadState;  // can be nil
 
-    @property (readonly) IPSThreadInstructionState * instructionState;  // can be nil
+	@property (readonly) IPSThreadInstructionState * instructionState;  // can be nil
 
 @end

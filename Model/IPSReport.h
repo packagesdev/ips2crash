@@ -19,9 +19,9 @@
 
 @interface IPSReport : NSObject <NSCopying>
 
-    @property (readonly) IPSSummary * summary;
+	@property (readonly) IPSSummary * summary;
 
-    @property (readonly) IPSIncident * incident;
+	@property (readonly) IPSIncident * incident;
 
 - (instancetype)initWithSummary:(IPSSummary *)inSummary incident:(IPSIncident *)inIncident;
 

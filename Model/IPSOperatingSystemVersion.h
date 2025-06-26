@@ -17,10 +17,10 @@
 
 @interface IPSOperatingSystemVersion : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly,copy) NSString * train;
+	@property (readonly,copy) NSString * train;
 
-    @property (readonly,copy) NSString * build;
+	@property (readonly,copy) NSString * build;
 
-    @property (readonly,copy) NSString * releaseType;
+	@property (readonly,copy) NSString * releaseType;
 
 @end

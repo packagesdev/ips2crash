@@ -29,9 +29,9 @@ NSString * const IPSThreadStateXKey=@"x";
 
 @interface IPSThreadState ()
 
-    @property (readwrite,copy) NSString * flavor;
+	@property (readwrite,copy) NSString * flavor;
 
-    @property (readwrite) NSDictionary<NSString *,IPSRegisterState *> * registersStates;
+	@property (readwrite) NSDictionary<NSString *,IPSRegisterState *> * registersStates;
 
 @end
 
@@ -39,108 +39,108 @@ NSString * const IPSThreadStateXKey=@"x";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSString * tString=inRepresentation[IPSThreadStateFlavorKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSThreadStateFlavorKey);
-        
-        _flavor=[tString copy];
-        
-        __block BOOL tDidFail=NO;
-        __block NSError * tError=nil;
-        
-        _registersStates=[inRepresentation WB_dictionaryByMappingObjectsLenientlyUsingBlock:^IPSRegisterState *(NSString * bKey, NSDictionary * bThreadStateRepresentation) {
-            
-            if (tDidFail==YES)
-                return nil;
-            
-            if ([bKey isEqualToString:IPSThreadStateFlavorKey]==YES)
-                return nil;
-            
-            if ([bKey isEqualToString:IPSThreadStateXKey]==YES)
-                return nil;
-            
-            IPSRegisterState * tRegisterState=[[IPSRegisterState alloc] initWithRepresentation:bThreadStateRepresentation error:&tError];
-            
-            tDidFail=(tRegisterState==nil);
-            
-            return tRegisterState;
-        }];
-        
-        if (tDidFail==YES)
-        {
-            if (outError!=NULL)
-                *outError=tError;
-            
-            return nil;
-        }
-        
-        NSArray * tArray=inRepresentation[IPSThreadStateXKey];
-        
-        if (tArray!=nil)
-        {
-            NSMutableDictionary * tMutableDictionary=[_registersStates mutableCopy];
-            
-            [tArray enumerateObjectsUsingBlock:^(NSDictionary * bThreadStateRepresentation, NSUInteger bRegisterIndex, BOOL * bOutStop) {
-            
-                IPSRegisterState * tRegisterState=[[IPSRegisterState alloc] initWithRepresentation:bThreadStateRepresentation error:&tError];
-                
-                if (tRegisterState!=nil)
-                {
-                    tMutableDictionary[[NSString stringWithFormat:@"x%u",(unsigned int)bRegisterIndex]]=tRegisterState;
-                }
-            }];
-            
-            _registersStates=[tMutableDictionary copy];
-        }
-    }
-    
-    return self;
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+		
+		return nil;
+	}
+	
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+		
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSString * tString=inRepresentation[IPSThreadStateFlavorKey];
+		
+		IPSFullCheckStringValueForKey(tString,IPSThreadStateFlavorKey);
+		
+		_flavor=[tString copy];
+		
+		__block BOOL tDidFail=NO;
+		__block NSError * tError=nil;
+		
+		_registersStates=[inRepresentation WB_dictionaryByMappingObjectsLenientlyUsingBlock:^IPSRegisterState *(NSString * bKey, NSDictionary * bThreadStateRepresentation) {
+			
+			if (tDidFail==YES)
+				return nil;
+			
+			if ([bKey isEqualToString:IPSThreadStateFlavorKey]==YES)
+				return nil;
+			
+			if ([bKey isEqualToString:IPSThreadStateXKey]==YES)
+				return nil;
+			
+			IPSRegisterState * tRegisterState=[[IPSRegisterState alloc] initWithRepresentation:bThreadStateRepresentation error:&tError];
+			
+			tDidFail=(tRegisterState==nil);
+			
+			return tRegisterState;
+		}];
+		
+		if (tDidFail==YES)
+		{
+			if (outError!=NULL)
+				*outError=tError;
+			
+			return nil;
+		}
+		
+		NSArray * tArray=inRepresentation[IPSThreadStateXKey];
+		
+		if (tArray!=nil)
+		{
+			NSMutableDictionary * tMutableDictionary=[_registersStates mutableCopy];
+			
+			[tArray enumerateObjectsUsingBlock:^(NSDictionary * bThreadStateRepresentation, NSUInteger bRegisterIndex, BOOL * bOutStop) {
+			
+				IPSRegisterState * tRegisterState=[[IPSRegisterState alloc] initWithRepresentation:bThreadStateRepresentation error:&tError];
+				
+				if (tRegisterState!=nil)
+				{
+					tMutableDictionary[[NSString stringWithFormat:@"x%u",(unsigned int)bRegisterIndex]]=tRegisterState;
+				}
+			}];
+			
+			_registersStates=[tMutableDictionary copy];
+		}
+	}
+	
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    return @{};
+	return @{};
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSThreadState * nThreadState=[IPSThreadState allocWithZone:inZone];
-    
-    if (nThreadState!=nil)
-    {
-        nThreadState->_flavor=[self.flavor copyWithZone:inZone];
-        
-        nThreadState->_registersStates=[self.registersStates WB_dictionaryByMappingObjectsUsingBlock:^IPSRegisterState *(id bKey, IPSRegisterState * bRegisterState) {
-            
-            return [bRegisterState copyWithZone:inZone];
-        }];
-    }
-    
-    return nThreadState;
+	IPSThreadState * nThreadState=[IPSThreadState allocWithZone:inZone];
+	
+	if (nThreadState!=nil)
+	{
+		nThreadState->_flavor=[self.flavor copyWithZone:inZone];
+		
+		nThreadState->_registersStates=[self.registersStates WB_dictionaryByMappingObjectsUsingBlock:^IPSRegisterState *(id bKey, IPSRegisterState * bRegisterState) {
+			
+			return [bRegisterState copyWithZone:inZone];
+		}];
+	}
+	
+	return nThreadState;
 }
 
 @end

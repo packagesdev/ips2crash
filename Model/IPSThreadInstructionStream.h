@@ -17,10 +17,10 @@
 
 @interface IPSThreadInstructionStream : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) uint8_t * bytes;
+	@property (readonly) uint8_t * bytes;
 
-    @property (readonly) NSUInteger bytesCount;
+	@property (readonly) NSUInteger bytesCount;
 
-    @property (readonly) NSUInteger offset;
+	@property (readonly) NSUInteger offset;
 
 @end

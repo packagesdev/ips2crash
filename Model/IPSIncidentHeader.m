@@ -35,6 +35,20 @@ NSString * const IPSIncidentHeaderResponsibleProcessNameKey=@"responsibleProc";
 
 NSString * const IPSIncidentHeaderResponsibleProcessIDKey=@"responsiblePid";
 
+
+NSString * const IPSIncidentHeaderCodeSigningIDKey=@"codeSigningID";
+
+NSString * const IPSIncidentHeaderCodeSigningTeamIDKey=@"codeSigningTeamID";
+
+NSString * const IPSIncidentHeaderCodeSigningFlagsKey=@"codeSigningFlags";
+
+NSString * const IPSIncidentHeaderCodeSigningValidationCategoryKey=@"codeSigningValidationCategory";
+
+NSString * const IPSIncidentHeaderCodeSigningTrustLevelKey=@"codeSigningTrustLevel";
+
+NSString * const IPSIncidentHeaderCodeSigningAuxiliaryInfoKey=@"codeSigningAuxiliaryInfo";
+
+
 NSString * const IPSIncidentHeaderUserIDKey=@"userID";
 
 
@@ -54,47 +68,67 @@ NSString * const IPSIncidentHeaderUptimeKey=@"uptime";
 
 NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
+
+@interface IPSCodeSigningInfo ()
+
+	@property (readwrite,copy) NSString * identifier;	// can be nil
+
+	@property (readwrite,copy) NSString * teamIdentifier;	// can be nil
+
+	@property (readwrite) NSUInteger flags;
+
+	@property (readwrite) NSUInteger validationCategory;
+
+	@property (readwrite) NSUInteger trustLevel;
+
+	@property (readwrite) NSUInteger auxiliaryInfo;
+
+@end
+
+
 @interface IPSIncidentHeader ()
 
-    @property (readwrite,copy) NSString * processName;
+	@property (readwrite,copy) NSString * processName;
 
-    @property (readwrite) pid_t processID;
+	@property (readwrite) pid_t processID;
 
-    @property (readwrite,copy) NSString * processPath;
+	@property (readwrite,copy) NSString * processPath;
 
-    @property (readwrite) IPSBundleInfo * bundleInfo;
+	@property (readwrite) IPSBundleInfo * bundleInfo;
 
-    @property (readwrite,copy) NSString * cpuType;
+	@property (readwrite,copy) NSString * cpuType;
 
-    @property (readwrite) BOOL translated;
+	@property (readwrite) BOOL translated;
 
-    @property (readwrite,copy) NSString * parentProcessName;
+	@property (readwrite,copy) NSString * parentProcessName;
 
-    @property (readwrite) pid_t parentProcessID;
+	@property (readwrite) pid_t parentProcessID;
 
-    @property (readwrite,copy) NSString * responsibleProcessName;    // can be nil
+	@property (readwrite,copy) NSString * responsibleProcessName;	// can be nil
 
-    @property (readwrite) pid_t responsibleProcessID;
+	@property (readwrite) pid_t responsibleProcessID;
 
-    @property (readwrite) uid_t userID;
+	@property (readwrite) IPSCodeSigningInfo * codeSigningInfo;	// can be nil
 
-
-    @property (readwrite) NSDate * captureTime;
-
-    @property (readwrite) IPSOperatingSystemVersion * operatingSystemVersion;
-
-    @property (readwrite) NSUInteger reportVersion;
-
-    @property (readwrite) NSUUID * crashReporterKey;
+	@property (readwrite) uid_t userID;
 
 
-    @property (readwrite) NSUUID * sleepWakeUUID;
+	@property (readwrite) NSDate * captureTime;
+
+	@property (readwrite) IPSOperatingSystemVersion * operatingSystemVersion;
+
+	@property (readwrite) NSUInteger reportVersion;
+
+	@property (readwrite) NSUUID * crashReporterKey;
 
 
-    @property (readwrite) NSUInteger uptime;
+	@property (readwrite) NSUUID * sleepWakeUUID;
 
 
-    @property (readwrite) BOOL systemIntegrityProtectionEnable;
+	@property (readwrite) NSUInteger uptime;
+
+
+	@property (readwrite) BOOL systemIntegrityProtectionEnable;
 
 @end
 
@@ -102,237 +136,385 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSString * tString=inRepresentation[IPSIncidentHeaderProcessNameKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderProcessNameKey);
-        
-        _processName=[tString copy];
-        
-        NSNumber * tNumber=inRepresentation[IPSIncidentHeaderProcessIDKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderProcessIDKey);
-        
-        _processID=[tNumber intValue];
-        
-        tString=inRepresentation[IPSIncidentHeaderProcessPathKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderProcessPathKey);
-        
-        _processPath=[tString copy];
-        
-        NSError * tError=nil;
-        NSDictionary * tDictionary=inRepresentation[IPSIncidentHeaderBundleInfoKey];
-        
-        if (tDictionary!=nil)
-        {
-            _bundleInfo=[[IPSBundleInfo alloc] initWithRepresentation:tDictionary error:&tError];
-            
-            if (_bundleInfo==nil)
-            {
-                NSString * tPathError=IPSIncidentHeaderOperatingSystemVersionKey;
-                
-                if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
-                    tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
 
-                if (outError!=NULL)
-                    *outError=[NSError errorWithDomain:IPSErrorDomain
-                                                  code:tError.code
-                                              userInfo:@{IPSKeyPathErrorKey:tPathError}];
-                
-                return nil;
-            }
-        }
-        
-        tString=inRepresentation[IPSIncidentHeaderCPUTypeKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderCPUTypeKey);
-        
-        _cpuType=[tString copy];
-        
-        tNumber=inRepresentation[IPSIncidentHeaderTranslatedKey];
-        
-        if (tNumber!=nil)
-        {
-            IPSClassCheckNumberValueForKey(tNumber,IPSIncidentHeaderTranslatedKey);
-        
-            _translated=[tNumber boolValue];
-        }
-        
-        tString=inRepresentation[IPSIncidentHeaderParentProcessNameKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderParentProcessNameKey);
-        
-        _parentProcessName=[tString copy];
-        
-        tNumber=inRepresentation[IPSIncidentHeaderParentProcessIDKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderParentProcessIDKey);
-        
-        _parentProcessID=[tNumber intValue];
-        
-        
-        tString=inRepresentation[IPSIncidentHeaderResponsibleProcessNameKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderResponsibleProcessNameKey);
-            
-            _responsibleProcessName=[tString copy];
-            
-            tNumber=inRepresentation[IPSIncidentHeaderResponsibleProcessIDKey];
-            
-            IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderResponsibleProcessIDKey);
-            
-            _responsibleProcessID=[tNumber intValue];
-        }
-        
-        tNumber=inRepresentation[IPSIncidentHeaderUserIDKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderUserIDKey);
-        
-        _userID=[tNumber unsignedIntValue];
-        
-        
-        
-        tString=inRepresentation[IPSIncidentHeaderCaptureTimeKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderCaptureTimeKey);
-        
-        _captureTime=[[IPSDateFormatter sharedFormatter] dateFromString:tString];
-        
-        
-        tDictionary=inRepresentation[IPSIncidentHeaderOperatingSystemVersionKey];
-        
-        
-        tError=nil;
-        _operatingSystemVersion=[[IPSOperatingSystemVersion alloc] initWithRepresentation:tDictionary error:&tError];
-        
-        if (_operatingSystemVersion==nil)
-        {
-            NSString * tPathError=IPSIncidentHeaderOperatingSystemVersionKey;
-            
-            if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
-                tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
-            
-            if (outError!=NULL)
-                *outError=[NSError errorWithDomain:IPSErrorDomain
-                                              code:tError.code
-                                          userInfo:@{IPSKeyPathErrorKey:tPathError}];
-            
-            return nil;
-        }
-        
-        tString=inRepresentation[IPSIncidentHeaderCrashReporterKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderCrashReporterKey);
-        
-        _crashReporterKey=[[NSUUID alloc] initWithUUIDString:tString];
-        
-        
-        
-        tString=inRepresentation[IPSIncidentHeaderSleepWakeUUIDKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderSleepWakeUUIDKey);
-            
-            _sleepWakeUUID=[[NSUUID alloc] initWithUUIDString:tString];
-        }
-        
-        
-        tNumber=inRepresentation[IPSIncidentHeaderUptimeKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderUptimeKey);
-        
-        _uptime=[tNumber unsignedIntegerValue];
-        
-        
-        tString=inRepresentation[IPSIncidentHeaderSystemIntegrityProtectionKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderSystemIntegrityProtectionKey);
-            
-            _systemIntegrityProtectionEnable=[tString isEqualToString:@"enabled"];
-        }
-    }
-    
-    return self;
+		return nil;
+	}
+	
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+
+		return nil;
+	}
+
+	self=[super init];
+
+	if (self!=nil)
+	{
+		NSString * tString=inRepresentation[IPSIncidentHeaderProcessNameKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderProcessNameKey);
+
+		_processName=[tString copy];
+
+		NSNumber * tNumber=inRepresentation[IPSIncidentHeaderProcessIDKey];
+
+		IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderProcessIDKey);
+
+		_processID=[tNumber intValue];
+
+		tString=inRepresentation[IPSIncidentHeaderProcessPathKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderProcessPathKey);
+
+		_processPath=[tString copy];
+
+		NSError * tError=nil;
+		NSDictionary * tDictionary=inRepresentation[IPSIncidentHeaderBundleInfoKey];
+
+		if (tDictionary!=nil)
+		{
+			_bundleInfo=[[IPSBundleInfo alloc] initWithRepresentation:tDictionary error:&tError];
+
+			if (_bundleInfo==nil)
+			{
+				NSString * tPathError=IPSIncidentHeaderOperatingSystemVersionKey;
+	
+				if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+					tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+
+				if (outError!=NULL)
+					*outError=[NSError errorWithDomain:IPSErrorDomain
+												  code:tError.code
+											  userInfo:@{IPSKeyPathErrorKey:tPathError}];
+
+				return nil;
+			}
+		}
+
+		tString=inRepresentation[IPSIncidentHeaderCPUTypeKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderCPUTypeKey);
+
+		_cpuType=[tString copy];
+
+		tNumber=inRepresentation[IPSIncidentHeaderTranslatedKey];
+
+		if (tNumber!=nil)
+		{
+			IPSClassCheckNumberValueForKey(tNumber,IPSIncidentHeaderTranslatedKey);
+
+			_translated=[tNumber boolValue];
+		}
+
+		tString=inRepresentation[IPSIncidentHeaderParentProcessNameKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderParentProcessNameKey);
+
+		_parentProcessName=[tString copy];
+
+		tNumber=inRepresentation[IPSIncidentHeaderParentProcessIDKey];
+
+		IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderParentProcessIDKey);
+
+		_parentProcessID=[tNumber intValue];
+
+
+		tString=inRepresentation[IPSIncidentHeaderResponsibleProcessNameKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderResponsibleProcessNameKey);
+
+			_responsibleProcessName=[tString copy];
+
+			tNumber=inRepresentation[IPSIncidentHeaderResponsibleProcessIDKey];
+
+			IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderResponsibleProcessIDKey);
+
+			_responsibleProcessID=[tNumber intValue];
+		}
+	
+		IPSCodeSigningInfo *codeSigningInfo = [[IPSCodeSigningInfo alloc] initWithRepresentation:inRepresentation error:&tError];
+		
+		if (codeSigningInfo==nil)
+		{
+			if (outError!=NULL && tError!=nil)
+				*outError=tError;
+
+			return nil;
+		}
+
+		tNumber=inRepresentation[IPSIncidentHeaderUserIDKey];
+
+		IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderUserIDKey);
+
+		_userID=[tNumber unsignedIntValue];
+
+
+
+		tString=inRepresentation[IPSIncidentHeaderCaptureTimeKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderCaptureTimeKey);
+
+		_captureTime=[[IPSDateFormatter sharedFormatter] dateFromString:tString];
+
+
+		tDictionary=inRepresentation[IPSIncidentHeaderOperatingSystemVersionKey];
+
+
+		tError=nil;
+		_operatingSystemVersion=[[IPSOperatingSystemVersion alloc] initWithRepresentation:tDictionary error:&tError];
+
+		if (_operatingSystemVersion==nil)
+		{
+			NSString * tPathError=IPSIncidentHeaderOperatingSystemVersionKey;
+
+			if (tError.userInfo[IPSKeyPathErrorKey]!=nil)
+				tPathError=[tPathError stringByAppendingPathComponent:tError.userInfo[IPSKeyPathErrorKey]];
+
+			if (outError!=NULL)
+				*outError=[NSError errorWithDomain:IPSErrorDomain
+											  code:tError.code
+										  userInfo:@{IPSKeyPathErrorKey:tPathError}];
+
+			return nil;
+		}
+
+		tString=inRepresentation[IPSIncidentHeaderCrashReporterKey];
+	
+		IPSFullCheckStringValueForKey(tString,IPSIncidentHeaderCrashReporterKey);
+	
+		_crashReporterKey=[[NSUUID alloc] initWithUUIDString:tString];
+
+
+
+		tString=inRepresentation[IPSIncidentHeaderSleepWakeUUIDKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderSleepWakeUUIDKey);
+
+			_sleepWakeUUID=[[NSUUID alloc] initWithUUIDString:tString];
+		}
+
+
+		tNumber=inRepresentation[IPSIncidentHeaderUptimeKey];
+
+		IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderUptimeKey);
+
+		_uptime=[tNumber unsignedIntegerValue];
+
+
+		tString=inRepresentation[IPSIncidentHeaderSystemIntegrityProtectionKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderSystemIntegrityProtectionKey);
+
+			_systemIntegrityProtectionEnable=[tString isEqualToString:@"enabled"];
+		}
+	}
+	
+	return self;
 }
-
-#pragma mark -
 
 - (NSDictionary *)representation
 {
-    return @{};
+	NSMutableDictionary * tMutableRepresentation=[NSMutableDictionary dictionary];
+
+	// A COMPLETER
+
+	[tMutableRepresentation addEntriesFromDictionary:[self.codeSigningInfo representation]];
+
+	return [tMutableRepresentation copy];
 }
 
 #pragma mark -
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSIncidentHeader * nIncidentHeader=[IPSIncidentHeader allocWithZone:inZone];
-    
-    if (nIncidentHeader!=nil)
-    {
-        nIncidentHeader->_processName=[self.processName copyWithZone:inZone];
-        
-        nIncidentHeader->_processID=self.processID;
-        
-        nIncidentHeader->_processPath=[self.processPath copyWithZone:inZone];
-        
-        nIncidentHeader->_bundleInfo=[self.bundleInfo copyWithZone:inZone];
-        
-        nIncidentHeader->_cpuType=self.cpuType;
-        
-        nIncidentHeader->_translated=self.translated;
-        
-        nIncidentHeader->_parentProcessName=[self.parentProcessName copyWithZone:inZone];
-        
-        nIncidentHeader->_parentProcessID=self.parentProcessID;
-        
-        nIncidentHeader->_responsibleProcessName=[self.responsibleProcessName copyWithZone:inZone];
-        
-        nIncidentHeader->_responsibleProcessID=self.responsibleProcessID;
-        
-        nIncidentHeader->_userID=self.userID;
-        
-        nIncidentHeader->_captureTime=self.captureTime;
-        
-        nIncidentHeader->_operatingSystemVersion=[self.operatingSystemVersion copyWithZone:inZone];
-        
-        nIncidentHeader->_reportVersion=self.reportVersion;
-        
-        nIncidentHeader.crashReporterKey=self.crashReporterKey;
-        
-        nIncidentHeader.sleepWakeUUID=self.sleepWakeUUID;
-        
-        nIncidentHeader.uptime=self.uptime;
-        
-        nIncidentHeader.systemIntegrityProtectionEnable=self.systemIntegrityProtectionEnable;
-    }
-    
-    return nIncidentHeader;
+	IPSIncidentHeader * nIncidentHeader=[IPSIncidentHeader allocWithZone:inZone];
+
+	if (nIncidentHeader!=nil)
+	{
+		nIncidentHeader->_processName=[self.processName copyWithZone:inZone];
+	
+		nIncidentHeader->_processID=self.processID;
+
+		nIncidentHeader->_processPath=[self.processPath copyWithZone:inZone];
+
+		nIncidentHeader->_bundleInfo=[self.bundleInfo copyWithZone:inZone];
+
+		nIncidentHeader->_cpuType=self.cpuType;
+
+		nIncidentHeader->_translated=self.translated;
+
+		nIncidentHeader->_parentProcessName=[self.parentProcessName copyWithZone:inZone];
+
+		nIncidentHeader->_parentProcessID=self.parentProcessID;
+
+		nIncidentHeader->_responsibleProcessName=[self.responsibleProcessName copyWithZone:inZone];
+
+		nIncidentHeader->_responsibleProcessID=self.responsibleProcessID;
+
+		nIncidentHeader->_codeSigningInfo=[self.codeSigningInfo copyWithZone:inZone];
+
+		nIncidentHeader->_userID=self.userID;
+
+		nIncidentHeader->_captureTime=self.captureTime;
+
+		nIncidentHeader->_operatingSystemVersion=[self.operatingSystemVersion copyWithZone:inZone];
+
+		nIncidentHeader->_reportVersion=self.reportVersion;
+
+		nIncidentHeader.crashReporterKey=self.crashReporterKey;
+
+		nIncidentHeader.sleepWakeUUID=self.sleepWakeUUID;
+
+		nIncidentHeader.uptime=self.uptime;
+
+		nIncidentHeader.systemIntegrityProtectionEnable=self.systemIntegrityProtectionEnable;
+	}
+
+	return nIncidentHeader;
+}
+
+@end
+
+
+@implementation IPSCodeSigningInfo
+
+#pragma mark -
+
+- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+{
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+
+		return nil;
+	}
+	
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSString * tString=inRepresentation[IPSIncidentHeaderCodeSigningIDKey];
+	
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderCodeSigningIDKey);
+
+			if (tString.length>0)
+				_identifier=[tString copy];
+		}
+
+		tString=inRepresentation[IPSIncidentHeaderCodeSigningTeamIDKey];
+		
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSIncidentHeaderCodeSigningTeamIDKey);
+			
+			if (tString.length>0)
+				_teamIdentifier=[tString copy];
+		}
+	
+		NSNumber * tNumber=inRepresentation[IPSIncidentHeaderCodeSigningFlagsKey];
+		
+		if (tNumber!=nil)
+		{
+			IPSClassCheckNumberValueForKey(tNumber,IPSIncidentHeaderCodeSigningFlagsKey);
+
+			_flags=tNumber.unsignedIntegerValue;
+		}
+
+		tNumber=inRepresentation[IPSIncidentHeaderCodeSigningValidationCategoryKey];
+
+		if (tNumber!=nil)
+		{
+			IPSClassCheckNumberValueForKey(tNumber,IPSIncidentHeaderCodeSigningValidationCategoryKey);
+
+			_validationCategory=tNumber.unsignedIntegerValue;
+		}
+
+		tNumber=inRepresentation[IPSIncidentHeaderCodeSigningTrustLevelKey];
+		
+		if (tNumber!=nil)
+		{
+			IPSClassCheckNumberValueForKey(tNumber,IPSIncidentHeaderCodeSigningTrustLevelKey);
+
+			_trustLevel=tNumber.unsignedIntegerValue;
+		}
+
+		tNumber=inRepresentation[IPSIncidentHeaderCodeSigningAuxiliaryInfoKey];
+		
+		if (tNumber!=nil)
+		{
+			IPSClassCheckNumberValueForKey(tNumber,IPSIncidentHeaderCodeSigningAuxiliaryInfoKey);
+
+			_auxiliaryInfo=tNumber.unsignedIntegerValue;
+		}
+	}
+
+	return self;
+}
+
+#pragma mark -
+
+- (NSDictionary *)representation
+{
+	if (self.identifier==nil && self.teamIdentifier==nil)
+		return @{};
+
+	NSMutableDictionary *tMutableRepresentation=[NSMutableDictionary dictionary];
+
+	tMutableRepresentation[IPSIncidentHeaderCodeSigningIDKey]=self.identifier;
+	tMutableRepresentation[IPSIncidentHeaderCodeSigningTeamIDKey]=self.teamIdentifier;
+	tMutableRepresentation[IPSIncidentHeaderCodeSigningFlagsKey]=@(self.flags);
+	tMutableRepresentation[IPSIncidentHeaderCodeSigningValidationCategoryKey]=@(self.validationCategory);
+	tMutableRepresentation[IPSIncidentHeaderCodeSigningTrustLevelKey]=@(self.trustLevel);
+	tMutableRepresentation[IPSIncidentHeaderCodeSigningAuxiliaryInfoKey]=@(self.auxiliaryInfo);
+
+	return [tMutableRepresentation copy];
+}
+
+#pragma mark -
+
+- (id)copyWithZone:(NSZone *)inZone
+{
+	IPSCodeSigningInfo * nCodeSigningInfo=[IPSCodeSigningInfo allocWithZone:inZone];
+	
+	if (nCodeSigningInfo!=nil)
+	{
+		nCodeSigningInfo->_identifier=[self.identifier copyWithZone:inZone];
+
+		nCodeSigningInfo->_teamIdentifier=[self.teamIdentifier copyWithZone:inZone];
+
+		nCodeSigningInfo->_flags=self.flags;
+
+		nCodeSigningInfo->_validationCategory=self.validationCategory;
+
+		nCodeSigningInfo->_trustLevel=self.trustLevel;
+
+		nCodeSigningInfo->_auxiliaryInfo=self.auxiliaryInfo;
+	}
+
+	return nCodeSigningInfo;
 }
 
 @end

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -16,23 +16,23 @@
 #import "IPSObjectProtocol.h"
 
 typedef NS_ENUM(NSUInteger, IPSBugType)
-{                                   // 2nd part format:
-    IPSBugTypeReserved1=58,         // tar.gz
-    IPSBugTypeReserved2=193,        // XML plist
-    IPSBugTypeKernelPanic=210,      // JSON
-    IPSBugTypeReserved3=211,
-    IPSBugTypeCrash=309,            // JSON
+{									// 2nd part format:
+	IPSBugTypeReserved1=58,			// tar.gz
+	IPSBugTypeReserved2=193,		// XML plist
+	IPSBugTypeKernelPanic=210,		// JSON
+	IPSBugTypeReserved3=211,
+	IPSBugTypeCrash=309,			// JSON
 };
 
 @interface IPSSummary : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) IPSBugType bugType;
+	@property (readonly) IPSBugType bugType;
 
-    @property (readonly) NSUUID * incidentID;
+	@property (readonly) NSUUID * incidentID;
 
-    @property (readonly,copy) NSString * operatingSystemVersion;
+	@property (readonly,copy) NSString * operatingSystemVersion;
 
-    @property (readonly) NSDate * timeStamp;
+	@property (readonly) NSDate * timeStamp;
 
 - (instancetype)initWithSummary:(IPSSummary *)inSummary;
 

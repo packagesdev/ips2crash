@@ -17,39 +17,39 @@
 
 - (NSArray<NSString *> *)applicationSpecificInformationMessage
 {
-    IPSIncidentDiagnosticMessage * tDiagnosticMessage=self.diagnosticMessage;
-    IPSExceptionReason * tExceptionReason=self.exceptionInformation.exceptionReason;
-    
-    if (tDiagnosticMessage.asi==nil && tExceptionReason==nil)
-        return nil;
-    
-    NSMutableArray<NSString *> * tMutableArray=[NSMutableArray array];
-    
-    if (tExceptionReason != nil)
-    {
-        NSMutableString * tMutableString=[NSMutableString stringWithFormat:@"*** Terminating app due to uncaught exception '%@'",tExceptionReason.name];
-        
-        NSString * tDetailedReason=tExceptionReason.composed_message;
-        
-        if ([tDetailedReason hasPrefix:@"*** "] == YES)
-            tDetailedReason = [tDetailedReason substringFromIndex:4];
-        
-        [tMutableString appendFormat:@", reason: '%@'",tDetailedReason];
-        
-        [tMutableArray addObject:tMutableString];
-    }
-    
-    [tDiagnosticMessage.asi.applicationsInformation enumerateKeysAndObjectsUsingBlock:^(NSString * bProcess, NSArray * bInformation, BOOL * bOutStop) {
-        
-        [tMutableArray addObjectsFromArray:bInformation];
-    }];
-        
-    if (tExceptionReason!=nil)
-    {
-        [tMutableArray addObject:[NSString stringWithFormat:@"terminating with uncaught exception of type %@",tExceptionReason.className]];
-    }
-    
-    return [tMutableArray copy];
+	IPSIncidentDiagnosticMessage * tDiagnosticMessage=self.diagnosticMessage;
+	IPSExceptionReason * tExceptionReason=self.exceptionInformation.exceptionReason;
+	
+	if (tDiagnosticMessage.asi==nil && tExceptionReason==nil)
+		return nil;
+	
+	NSMutableArray<NSString *> * tMutableArray=[NSMutableArray array];
+	
+	if (tExceptionReason != nil)
+	{
+		NSMutableString * tMutableString=[NSMutableString stringWithFormat:@"*** Terminating app due to uncaught exception '%@'",tExceptionReason.name];
+		
+		NSString * tDetailedReason=tExceptionReason.composed_message;
+		
+		if ([tDetailedReason hasPrefix:@"*** "] == YES)
+			tDetailedReason = [tDetailedReason substringFromIndex:4];
+		
+		[tMutableString appendFormat:@", reason: '%@'",tDetailedReason];
+		
+		[tMutableArray addObject:tMutableString];
+	}
+	
+	[tDiagnosticMessage.asi.applicationsInformation enumerateKeysAndObjectsUsingBlock:^(NSString * bProcess, NSArray * bInformation, BOOL * bOutStop) {
+		
+		[tMutableArray addObjectsFromArray:bInformation];
+	}];
+		
+	if (tExceptionReason!=nil)
+	{
+		[tMutableArray addObject:[NSString stringWithFormat:@"terminating with uncaught exception of type %@",tExceptionReason.className]];
+	}
+	
+	return [tMutableArray copy];
 }
 
 @end

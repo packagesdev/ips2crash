@@ -29,19 +29,19 @@ NSString * const IPSRegisterStateDescriptionKey=@"description";
 
 @interface IPSRegisterState ()
 
-    @property (readwrite) NSUInteger value;
+	@property (readwrite) NSUInteger value;
 
-    @property (readwrite,copy) NSString * symbol;    // can be nil
+	@property (readwrite,copy) NSString * symbol;	// can be nil
 
-    @property (readwrite) NSUInteger symbolLocation;
+	@property (readwrite) NSUInteger symbolLocation;
 
-    @property (readwrite,copy) NSString * sourceFile;    // can be nil
+	@property (readwrite,copy) NSString * sourceFile;	// can be nil
 
-    @property (readwrite) NSUInteger sourceLine;
+	@property (readwrite) NSUInteger sourceLine;
 
-    @property (readwrite) BOOL matchesCrashFrame;
+	@property (readwrite) BOOL matchesCrashFrame;
 
-    @property (readwrite,copy) NSString * r_description;    // can be nil
+	@property (readwrite,copy) NSString * r_description;	// can be nil
 
 @end
 
@@ -49,115 +49,115 @@ NSString * const IPSRegisterStateDescriptionKey=@"description";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSNumber * tNumber=inRepresentation[IPSRegisterStateValueKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSRegisterStateValueKey);
-        
-        _value=[tNumber unsignedIntegerValue];
-        
-        NSString * tString=inRepresentation[IPSRegisterStateSymbolKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSRegisterStateSymbolKey);
-            
-            _symbol=[tString copy];
-            
-            tNumber=inRepresentation[IPSRegisterStateSymbolLocationKey];
-            
-            IPSFullCheckNumberValueForKey(tNumber,IPSRegisterStateSymbolLocationKey);
-            
-            _symbolLocation=[tNumber unsignedIntegerValue];
-        }
-        
-        tString=inRepresentation[IPSRegisterStateSourceFileKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSRegisterStateSourceFileKey);
-            
-            _sourceFile=[tString copy];
-            
-            tNumber=inRepresentation[IPSRegisterStateSourceLineKey];
-            
-            IPSFullCheckNumberValueForKey(tNumber,IPSRegisterStateSourceLineKey);
-            
-            _sourceLine=[tNumber unsignedIntegerValue];
-        }
-        
-        tNumber=inRepresentation[IPSRegisterStateMatchesCrashFrameKey];
-        
-        if (tNumber!=nil)
-        {
-            IPSClassCheckNumberValueForKey(tNumber,IPSRegisterStateMatchesCrashFrameKey);
-            
-            _matchesCrashFrame=[tNumber boolValue];
-        }
-        
-        tString=inRepresentation[IPSRegisterStateDescriptionKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSRegisterStateDescriptionKey);
-            
-            _r_description=[tString copy];
-        }
-    }
-    
-    return self;
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+		
+		return nil;
+	}
+	
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+		
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSNumber * tNumber=inRepresentation[IPSRegisterStateValueKey];
+		
+		IPSFullCheckNumberValueForKey(tNumber,IPSRegisterStateValueKey);
+		
+		_value=[tNumber unsignedIntegerValue];
+		
+		NSString * tString=inRepresentation[IPSRegisterStateSymbolKey];
+		
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSRegisterStateSymbolKey);
+			
+			_symbol=[tString copy];
+			
+			tNumber=inRepresentation[IPSRegisterStateSymbolLocationKey];
+			
+			IPSFullCheckNumberValueForKey(tNumber,IPSRegisterStateSymbolLocationKey);
+			
+			_symbolLocation=[tNumber unsignedIntegerValue];
+		}
+		
+		tString=inRepresentation[IPSRegisterStateSourceFileKey];
+		
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSRegisterStateSourceFileKey);
+			
+			_sourceFile=[tString copy];
+			
+			tNumber=inRepresentation[IPSRegisterStateSourceLineKey];
+			
+			IPSFullCheckNumberValueForKey(tNumber,IPSRegisterStateSourceLineKey);
+			
+			_sourceLine=[tNumber unsignedIntegerValue];
+		}
+		
+		tNumber=inRepresentation[IPSRegisterStateMatchesCrashFrameKey];
+		
+		if (tNumber!=nil)
+		{
+			IPSClassCheckNumberValueForKey(tNumber,IPSRegisterStateMatchesCrashFrameKey);
+			
+			_matchesCrashFrame=[tNumber boolValue];
+		}
+		
+		tString=inRepresentation[IPSRegisterStateDescriptionKey];
+		
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSRegisterStateDescriptionKey);
+			
+			_r_description=[tString copy];
+		}
+	}
+	
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    return @{};
+	return @{};
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSRegisterState * nRegisterState=[IPSRegisterState allocWithZone:inZone];
-    
-    if (nRegisterState!=nil)
-    {
-        nRegisterState->_value=self.value;
-        
-        nRegisterState->_symbol=[self.symbol copyWithZone:inZone];
-        
-        nRegisterState->_symbolLocation=self.symbolLocation;
-        
-        nRegisterState->_sourceFile=[self.sourceFile copyWithZone:inZone];
-        
-        nRegisterState->_sourceLine=self.sourceLine;
-        
-        nRegisterState->_matchesCrashFrame=self.matchesCrashFrame;
-        
-        nRegisterState->_r_description=[self.r_description copyWithZone:inZone];
-    }
-    
-    return nRegisterState;
+	IPSRegisterState * nRegisterState=[IPSRegisterState allocWithZone:inZone];
+	
+	if (nRegisterState!=nil)
+	{
+		nRegisterState->_value=self.value;
+		
+		nRegisterState->_symbol=[self.symbol copyWithZone:inZone];
+		
+		nRegisterState->_symbolLocation=self.symbolLocation;
+		
+		nRegisterState->_sourceFile=[self.sourceFile copyWithZone:inZone];
+		
+		nRegisterState->_sourceLine=self.sourceLine;
+		
+		nRegisterState->_matchesCrashFrame=self.matchesCrashFrame;
+		
+		nRegisterState->_r_description=[self.r_description copyWithZone:inZone];
+	}
+	
+	return nRegisterState;
 }
 
 @end

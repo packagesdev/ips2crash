@@ -23,13 +23,13 @@ NSString * const IPSExternalModificationSummaryWarningsKey=@"warnings";
 
 @interface IPSExternalModificationSummary ()
 
-    @property (readwrite) IPSExternalModificationStatistics * caller;
+	@property (readwrite) IPSExternalModificationStatistics * caller;
 
-    @property (readwrite) IPSExternalModificationStatistics * system;
+	@property (readwrite) IPSExternalModificationStatistics * system;
 
-    @property (readwrite) IPSExternalModificationStatistics * targeted;
+	@property (readwrite) IPSExternalModificationStatistics * targeted;
 
-    @property (readwrite) NSUInteger warnings;
+	@property (readwrite) NSUInteger warnings;
 
 @end
 
@@ -37,78 +37,78 @@ NSString * const IPSExternalModificationSummaryWarningsKey=@"warnings";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSDictionary * tDictionary=inRepresentation[IPSExternalModificationSummaryCallerKey];
-        
-        _caller=[[IPSExternalModificationStatistics alloc] initWithRepresentation:tDictionary error:NULL];
-        
-        tDictionary=inRepresentation[IPSExternalModificationSummarySystemKey];
-        
-        _system=[[IPSExternalModificationStatistics alloc] initWithRepresentation:tDictionary error:NULL];
-        
-        tDictionary=inRepresentation[IPSExternalModificationSummaryTargeted];
-        
-        _targeted=[[IPSExternalModificationStatistics alloc] initWithRepresentation:tDictionary error:NULL];
-        
-        NSNumber * tNumber=inRepresentation[IPSExternalModificationSummaryWarningsKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSExternalModificationSummaryWarningsKey);
-        
-        _warnings=[tNumber unsignedIntegerValue];
-    }
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+		
+		return nil;
+	}
+	
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+		
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSDictionary * tDictionary=inRepresentation[IPSExternalModificationSummaryCallerKey];
+		
+		_caller=[[IPSExternalModificationStatistics alloc] initWithRepresentation:tDictionary error:NULL];
+		
+		tDictionary=inRepresentation[IPSExternalModificationSummarySystemKey];
+		
+		_system=[[IPSExternalModificationStatistics alloc] initWithRepresentation:tDictionary error:NULL];
+		
+		tDictionary=inRepresentation[IPSExternalModificationSummaryTargeted];
+		
+		_targeted=[[IPSExternalModificationStatistics alloc] initWithRepresentation:tDictionary error:NULL];
+		
+		NSNumber * tNumber=inRepresentation[IPSExternalModificationSummaryWarningsKey];
+		
+		IPSFullCheckNumberValueForKey(tNumber,IPSExternalModificationSummaryWarningsKey);
+		
+		_warnings=[tNumber unsignedIntegerValue];
+	}
 
-    return self;
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    return @{
-             IPSExternalModificationSummaryCallerKey:[self.caller representation],
-             IPSExternalModificationSummarySystemKey:[self.system representation],
-             IPSExternalModificationSummaryTargeted:[self.targeted representation],
-             IPSExternalModificationSummaryWarningsKey:@(self.warnings)
-             };
+	return @{
+			 IPSExternalModificationSummaryCallerKey:[self.caller representation],
+			 IPSExternalModificationSummarySystemKey:[self.system representation],
+			 IPSExternalModificationSummaryTargeted:[self.targeted representation],
+			 IPSExternalModificationSummaryWarningsKey:@(self.warnings)
+			 };
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSExternalModificationSummary * nExternalModificationSummary=[IPSExternalModificationSummary allocWithZone:inZone];
-    
-    if (nExternalModificationSummary!=nil)
-    {
-        nExternalModificationSummary->_caller=[self.caller copyWithZone:inZone];
-        
-        nExternalModificationSummary->_system=[self.system copyWithZone:inZone];
-        
-        nExternalModificationSummary->_targeted=[self.targeted copyWithZone:inZone];
-        
-        nExternalModificationSummary->_warnings=self.warnings;
-    }
-    
-    return nExternalModificationSummary;
+	IPSExternalModificationSummary * nExternalModificationSummary=[IPSExternalModificationSummary allocWithZone:inZone];
+	
+	if (nExternalModificationSummary!=nil)
+	{
+		nExternalModificationSummary->_caller=[self.caller copyWithZone:inZone];
+		
+		nExternalModificationSummary->_system=[self.system copyWithZone:inZone];
+		
+		nExternalModificationSummary->_targeted=[self.targeted copyWithZone:inZone];
+		
+		nExternalModificationSummary->_warnings=self.warnings;
+	}
+	
+	return nExternalModificationSummary;
 }
 
 @end

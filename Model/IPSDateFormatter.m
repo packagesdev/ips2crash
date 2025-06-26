@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -17,29 +17,29 @@
 
 + (IPSDateFormatter *)sharedFormatter
 {
-    static IPSDateFormatter * sDateFormatter=nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        sDateFormatter=[IPSDateFormatter new];
-    });
-    
-    return sDateFormatter;
+	static IPSDateFormatter * sDateFormatter=nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+
+		sDateFormatter=[IPSDateFormatter new];
+	});
+
+	return sDateFormatter;
 }
 
 #pragma mark -
 
 - (instancetype)init
 {
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        self.locale=[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];    // Technical Q&A QA1480
-        self.dateFormat=@"yyyy-MM-dd HH:mm:ss.SSS ZZZZZ";
-    }
-    
-    return self;
+	self=[super init];
+
+	if (self!=nil)
+	{
+		self.locale=[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];	// Technical Q&A QA1480
+	self.dateFormat=@"yyyy-MM-dd HH:mm:ss.SSS ZZZZZ";
+	}
+
+	return self;
 }
 
 @end

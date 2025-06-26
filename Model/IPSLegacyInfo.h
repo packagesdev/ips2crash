@@ -19,7 +19,7 @@
 
 @interface IPSLegacyInfo : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) IPSThread * threadTriggered;   // Can be nil.
+	@property (readonly) IPSThread * threadTriggered;   // Can be nil.
 
 @property (readonly) NSInteger threadHighlighted;   // -1 : not defined in .ips report
 

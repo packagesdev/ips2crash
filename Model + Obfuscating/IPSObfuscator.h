@@ -15,13 +15,13 @@
 
 typedef NS_ENUM(NSUInteger, IPSStringFamily)
 {
-    IPSStringFamilyNone,
-    IPSStringFamilyBinary,
-    IPSStringFamilyBundleIdentifier,
-    IPSStringFamilyPath,
-    IPSStringFamilyQueue,
-    IPSStringFamilyThreadName,
-    IPSStringFamilySymbol
+	IPSStringFamilyNone,
+	IPSStringFamilyBinary,
+	IPSStringFamilyBundleIdentifier,
+	IPSStringFamilyPath,
+	IPSStringFamilyQueue,
+	IPSStringFamilyThreadName,
+	IPSStringFamilySymbol
 };
 
 @interface IPSObfuscator : NSObject

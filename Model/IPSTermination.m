@@ -27,17 +27,17 @@ NSString * const IPSTerminationByPidKey=@"byPid";
 
 @interface IPSTermination ()
 
-    @property (readwrite) NSUInteger code;
+	@property (readwrite) NSUInteger code;
 
-    @property (readwrite) NSUInteger flags;
+	@property (readwrite) NSUInteger flags;
 
-    @property (readwrite,copy) NSString * indicator;
+	@property (readwrite,copy) NSString * indicator;
 
-    @property (readwrite,copy) NSString * namespace;
+	@property (readwrite,copy) NSString * namespace;
 
-    @property (readwrite,copy) NSString * byProc;
+	@property (readwrite,copy) NSString * byProc;
 
-    @property (readwrite) pid_t byPid;
+	@property (readwrite) pid_t byPid;
 
 @end
 
@@ -45,116 +45,116 @@ NSString * const IPSTerminationByPidKey=@"byPid";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if (inRepresentation==nil)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-        
-        return nil;
-    }
-    
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        if (outError!=NULL)
-            *outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-        
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSNumber * tNumber=inRepresentation[IPSTerminationCodeKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSTerminationCodeKey);
-        
-        _code=[tNumber unsignedIntegerValue];
-        
-        tNumber=inRepresentation[IPSTerminationFlagsKey];
-        
-        IPSFullCheckNumberValueForKey(tNumber,IPSTerminationFlagsKey);
-        
-        _flags=[tNumber unsignedIntegerValue];
-        
-        NSString * tString=inRepresentation[IPSTerminationIndicatorKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSTerminationIndicatorKey);
-        
-            _indicator=[tString copy];
-        }
-        
-        tString=inRepresentation[IPSTerminationNamespaceKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSTerminationNamespaceKey);
-        
-        _namespace=[tString copy];
-        
-        tString=inRepresentation[IPSTerminationByProcKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSTerminationByProcKey);
-            
-            _byProc=[tString copy];
-            
-            tNumber=inRepresentation[IPSTerminationByPidKey];
-            
-            IPSFullCheckNumberValueForKey(tNumber,IPSTerminationByPidKey);
-            
-            _byPid=[tNumber intValue];
-        }
-    }
-    
-    return self;
+	if (inRepresentation==nil)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
+
+		return nil;
+	}
+
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		if (outError!=NULL)
+			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
+
+		return nil;
+	}
+
+	self=[super init];
+
+	if (self!=nil)
+	{
+		NSNumber * tNumber=inRepresentation[IPSTerminationCodeKey];
+
+		IPSFullCheckNumberValueForKey(tNumber,IPSTerminationCodeKey);
+
+		_code=[tNumber unsignedIntegerValue];
+
+		tNumber=inRepresentation[IPSTerminationFlagsKey];
+
+		IPSFullCheckNumberValueForKey(tNumber,IPSTerminationFlagsKey);
+
+		_flags=[tNumber unsignedIntegerValue];
+
+		NSString * tString=inRepresentation[IPSTerminationIndicatorKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSTerminationIndicatorKey);
+
+			_indicator=[tString copy];
+		}
+
+		tString=inRepresentation[IPSTerminationNamespaceKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSTerminationNamespaceKey);
+
+		_namespace=[tString copy];
+
+		tString=inRepresentation[IPSTerminationByProcKey];
+
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSTerminationByProcKey);
+
+			_byProc=[tString copy];
+
+			tNumber=inRepresentation[IPSTerminationByPidKey];
+
+			IPSFullCheckNumberValueForKey(tNumber,IPSTerminationByPidKey);
+
+			_byPid=[tNumber intValue];
+		}
+	}
+
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionaryWithDictionary:@{
-                                                                                             IPSTerminationCodeKey:@(self.code),
-                                                                                             IPSTerminationFlagsKey:@(self.flags),
-                                                                                             IPSTerminationNamespaceKey:self.namespace
-                                                                                             }];
-    
-    if (self.byProc!=nil)
-    {
-        tMutableDictionary[IPSTerminationByProcKey]=self.byProc;
-        tMutableDictionary[IPSTerminationByPidKey]=@(self.byPid);
-    }
-    
-    if (self.indicator!=nil)
-        tMutableDictionary[IPSTerminationIndicatorKey]=self.indicator;
-    
-    return [tMutableDictionary copy];
+	NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionaryWithDictionary:@{
+																							 IPSTerminationCodeKey:@(self.code),
+																							 IPSTerminationFlagsKey:@(self.flags),
+																							 IPSTerminationNamespaceKey:self.namespace
+																							 }];
+	
+	if (self.byProc!=nil)
+	{
+		tMutableDictionary[IPSTerminationByProcKey]=self.byProc;
+		tMutableDictionary[IPSTerminationByPidKey]=@(self.byPid);
+	}
+
+	if (self.indicator!=nil)
+		tMutableDictionary[IPSTerminationIndicatorKey]=self.indicator;
+
+	return [tMutableDictionary copy];
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSTermination * nTermination=[IPSTermination allocWithZone:inZone];
-    
-    if (nTermination!=nil)
-    {
-        nTermination->_code=self.code;
-        
-        nTermination->_flags=self.flags;
-        
-        nTermination->_indicator=[self.indicator copyWithZone:inZone];
-        
-        nTermination->_namespace=[self.namespace copyWithZone:inZone];
-        
-        nTermination->_byProc=[self.byProc copyWithZone:inZone];
-        
-        nTermination->_byPid=self.byPid;
-    }
-    
-    return nTermination;
+	IPSTermination * nTermination=[IPSTermination allocWithZone:inZone];
+
+	if (nTermination!=nil)
+	{
+		nTermination->_code=self.code;
+
+		nTermination->_flags=self.flags;
+
+		nTermination->_indicator=[self.indicator copyWithZone:inZone];
+
+		nTermination->_namespace=[self.namespace copyWithZone:inZone];
+
+		nTermination->_byProc=[self.byProc copyWithZone:inZone];
+
+		nTermination->_byPid=self.byPid;
+	}
+
+	return nTermination;
 }
 
 @end

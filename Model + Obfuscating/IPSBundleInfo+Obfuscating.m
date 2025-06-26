@@ -23,14 +23,14 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSBundleInfo * nObfuscatedBundleInfo=[self copy];
-    
-    if (nObfuscatedBundleInfo!=nil)
-    {
-        nObfuscatedBundleInfo.bundleIdentifier=[inObfuscator obfuscatedStringWithString:self.bundleIdentifier family:IPSStringFamilyBundleIdentifier];
-    }
-    
-    return nObfuscatedBundleInfo;
+	IPSBundleInfo * nObfuscatedBundleInfo=[self copy];
+	
+	if (nObfuscatedBundleInfo!=nil)
+	{
+		nObfuscatedBundleInfo.bundleIdentifier=[inObfuscator obfuscatedStringWithString:self.bundleIdentifier family:IPSStringFamilyBundleIdentifier];
+	}
+	
+	return nObfuscatedBundleInfo;
 }
 
 @end

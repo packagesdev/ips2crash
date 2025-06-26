@@ -21,11 +21,11 @@ NSString * const IPSReportSummaryBuildVersionKey=@"build_version";
 
 @interface IPSCrashSummary ()
 
-    @property (readwrite,copy) NSString * applicationName;
+	@property (readwrite,copy) NSString * applicationName;
 
-    @property (readwrite,copy) NSString * applicationVersion;
+	@property (readwrite,copy) NSString * applicationVersion;
 
-    @property (readwrite,copy) NSString * applicationBuildVersion;
+	@property (readwrite,copy) NSString * applicationBuildVersion;
 
 @end
 
@@ -33,57 +33,57 @@ NSString * const IPSReportSummaryBuildVersionKey=@"build_version";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    self=[super initWithRepresentation:inRepresentation error:outError];
-    
-    if (self!=nil)
-    {
-        NSString * tString=inRepresentation[IPSReportSummaryApplicationNameKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSReportSummaryApplicationNameKey);
-        
-        _applicationName=[tString copy];
-        
-        tString=inRepresentation[IPSReportSummaryVersionKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSReportSummaryVersionKey);
-        
-        _applicationVersion=[tString copy];
-        
-        tString=inRepresentation[IPSReportSummaryBuildVersionKey];
-        
-        IPSFullCheckStringValueForKey(tString,IPSReportSummaryBuildVersionKey);
-        
-        _applicationBuildVersion=[tString copy];
-    }
-    
-    return self;
+	self=[super initWithRepresentation:inRepresentation error:outError];
+	
+	if (self!=nil)
+	{
+		NSString * tString=inRepresentation[IPSReportSummaryApplicationNameKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSReportSummaryApplicationNameKey);
+
+		_applicationName=[tString copy];
+
+		tString=inRepresentation[IPSReportSummaryVersionKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSReportSummaryVersionKey);
+
+		_applicationVersion=[tString copy];
+		
+		tString=inRepresentation[IPSReportSummaryBuildVersionKey];
+
+		IPSFullCheckStringValueForKey(tString,IPSReportSummaryBuildVersionKey);
+
+		_applicationBuildVersion=[tString copy];
+	}
+
+	return self;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    NSMutableDictionary * tMutableRepresentation=[[super representation] mutableCopy];
-    
-    return [tMutableRepresentation copy];
+	NSMutableDictionary * tMutableRepresentation=[[super representation] mutableCopy];
+
+	return [tMutableRepresentation copy];
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSCrashSummary * nSummary=[[IPSCrashSummary allocWithZone:inZone] initWithSummary:self];
-    
-    if (nSummary!=nil)
-    {
-        nSummary->_applicationName=[self.applicationName copyWithZone:inZone];
-        
-        nSummary->_applicationVersion=[self.applicationVersion copyWithZone:inZone];
-        
-        nSummary->_applicationBuildVersion=[self.applicationBuildVersion copyWithZone:inZone];
-    }
-    
-    return nSummary;
+	IPSCrashSummary * nSummary=[[IPSCrashSummary allocWithZone:inZone] initWithSummary:self];
+
+	if (nSummary!=nil)
+	{
+		nSummary->_applicationName=[self.applicationName copyWithZone:inZone];
+
+		nSummary->_applicationVersion=[self.applicationVersion copyWithZone:inZone];
+
+		nSummary->_applicationBuildVersion=[self.applicationBuildVersion copyWithZone:inZone];
+	}
+
+	return nSummary;
 }
 
 @end

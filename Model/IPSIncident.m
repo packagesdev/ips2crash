@@ -25,19 +25,19 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
 
 @interface IPSIncident ()
 
-    @property (readwrite) IPSIncidentHeader * header;
+	@property (readwrite) IPSIncidentHeader * header;
 
-    @property (readwrite) IPSIncidentExceptionInformation * exceptionInformation;
+	@property (readwrite) IPSIncidentExceptionInformation * exceptionInformation;
 
-    @property (readwrite) IPSIncidentDiagnosticMessage * diagnosticMessage;
+	@property (readwrite) IPSIncidentDiagnosticMessage * diagnosticMessage;
 
-    @property (readwrite) NSArray<IPSThread *> * threads;
+	@property (readwrite) NSArray<IPSThread *> * threads;
 
-    @property (readwrite) NSArray<IPSImage *> * binaryImages;
+	@property (readwrite) NSArray<IPSImage *> * binaryImages;
 
-    @property (readwrite) IPSExternalModificationSummary * extMods;
+	@property (readwrite) IPSExternalModificationSummary * extMods;
 
-    @property (readwrite,copy) NSString * vmSummary;
+	@property (readwrite,copy) NSString * vmSummary;
 
 @end
 
@@ -45,63 +45,63 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-    if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-    {
-        return nil;
-    }
-    
-    self=[super init];
-    
-    if (self!=nil)
-    {
-        NSError * tError=nil;
-        
-        _header=[[IPSIncidentHeader alloc] initWithRepresentation:inRepresentation error:&tError];
-        
-        if (_header==nil)
-        {
-            if (outError!=NULL)
-                *outError=tError;
-            
-            return nil;
-        }
-        
-        tError=nil;
-        _exceptionInformation=[[IPSIncidentExceptionInformation alloc] initWithRepresentation:inRepresentation error:&tError];
-        
-        if (_exceptionInformation==nil)
-        {
-            if (outError!=NULL)
-                *outError=tError;
-            
-            return nil;
-        }
-        
-        tError=nil;
-        _diagnosticMessage=[[IPSIncidentDiagnosticMessage alloc] initWithRepresentation:inRepresentation error:&tError];
-        
-        NSArray * tArray=inRepresentation[IPCIncidentThreadsKey];
-        
-        if ([tArray isKindOfClass:NSArray.class]==NO)
-        {
-            if ([tArray isKindOfClass:NSArray.class]==NO)
-            {
-                if (outError!=NULL)
-                    *outError=[NSError errorWithDomain:IPSErrorDomain
-                                                  code:IPSRepresentationInvalidTypeOfValueError
-                                              userInfo:@{IPSKeyPathErrorKey:(IPCIncidentThreadsKey)}];
-                
-                return nil;
-            }
-        }
+	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
+	{
+		return nil;
+	}
+	
+	self=[super init];
+	
+	if (self!=nil)
+	{
+		NSError * tError=nil;
+		
+		_header=[[IPSIncidentHeader alloc] initWithRepresentation:inRepresentation error:&tError];
+		
+		if (_header==nil)
+		{
+			if (outError!=NULL)
+				*outError=tError;
+			
+			return nil;
+		}
+		
+		tError=nil;
+		_exceptionInformation=[[IPSIncidentExceptionInformation alloc] initWithRepresentation:inRepresentation error:&tError];
+		
+		if (_exceptionInformation==nil)
+		{
+			if (outError!=NULL)
+				*outError=tError;
+			
+			return nil;
+		}
+		
+		tError=nil;
+		_diagnosticMessage=[[IPSIncidentDiagnosticMessage alloc] initWithRepresentation:inRepresentation error:&tError];
+		
+		NSArray * tArray=inRepresentation[IPCIncidentThreadsKey];
+		
+		if ([tArray isKindOfClass:NSArray.class]==NO)
+		{
+			if ([tArray isKindOfClass:NSArray.class]==NO)
+			{
+				if (outError!=NULL)
+					*outError=[NSError errorWithDomain:IPSErrorDomain
+												  code:IPSRepresentationInvalidTypeOfValueError
+											  userInfo:@{IPSKeyPathErrorKey:(IPCIncidentThreadsKey)}];
+				
+				return nil;
+			}
+		}
 		
 		__block NSError * tThreadError = nil;
 		_threads=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSThread *(NSDictionary * bBThreadRepresentation, NSUInteger bIndex) {
-            
+			
 			NSError * tError = nil;
 			
 			IPSThread * tThread=[[IPSThread alloc] initWithRepresentation:bBThreadRepresentation error:&tError];
-            
+			
 			if (tThread == nil)
 			{
 				NSString * tPathError=IPCIncidentThreadsKey;
@@ -119,9 +119,9 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
 				return nil;
 			}
 			
-            return tThread;
-        }];
-        
+			return tThread;
+		}];
+		
 		if (_threads==nil)
 		{
 			if (outError!=NULL)
@@ -130,104 +130,104 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
 			return nil;
 		}
 		
-        tArray=inRepresentation[IPSIncidentUsedImagesKey];
-        
-        if (tArray!=nil)
-        {
-            if ([tArray isKindOfClass:NSArray.class]==NO)
-            {
-                if (outError!=NULL)
-                    *outError=[NSError errorWithDomain:IPSErrorDomain
-                                                  code:IPSRepresentationInvalidTypeOfValueError
-                                              userInfo:@{IPSKeyPathErrorKey:(IPSIncidentUsedImagesKey)}];
-                
-                return nil;
-            }
-            
-            _binaryImages=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSImage *(NSDictionary * bBinaryImageRepresentation, NSUInteger bIndex) {
-                
-                IPSImage * tBinaryImage=[[IPSImage alloc] initWithRepresentation:bBinaryImageRepresentation error:NULL];
-                
-                return tBinaryImage;
-            }];
-        }
-        
-        NSDictionary * tDictionary=inRepresentation[IPSIncidentExtModsKey];
-        
-        tError=nil;
-        _extMods=[[IPSExternalModificationSummary alloc] initWithRepresentation:tDictionary error:&tError];
-        
-        NSString * tString=inRepresentation[IPSIncidentVMSummaryKey];
-        
-        if (tString!=nil)
-        {
-            IPSClassCheckStringValueForKey(tString,IPSIncidentVMSummaryKey);
-        
-            _vmSummary=[tString copy];
-        }
-    }
-    
-    return self;
+		tArray=inRepresentation[IPSIncidentUsedImagesKey];
+		
+		if (tArray!=nil)
+		{
+			if ([tArray isKindOfClass:NSArray.class]==NO)
+			{
+				if (outError!=NULL)
+					*outError=[NSError errorWithDomain:IPSErrorDomain
+												  code:IPSRepresentationInvalidTypeOfValueError
+											  userInfo:@{IPSKeyPathErrorKey:(IPSIncidentUsedImagesKey)}];
+				
+				return nil;
+			}
+			
+			_binaryImages=[tArray WB_arrayByMappingObjectsUsingBlock:^IPSImage *(NSDictionary * bBinaryImageRepresentation, NSUInteger bIndex) {
+				
+				IPSImage * tBinaryImage=[[IPSImage alloc] initWithRepresentation:bBinaryImageRepresentation error:NULL];
+				
+				return tBinaryImage;
+			}];
+		}
+		
+		NSDictionary * tDictionary=inRepresentation[IPSIncidentExtModsKey];
+		
+		tError=nil;
+		_extMods=[[IPSExternalModificationSummary alloc] initWithRepresentation:tDictionary error:&tError];
+		
+		NSString * tString=inRepresentation[IPSIncidentVMSummaryKey];
+		
+		if (tString!=nil)
+		{
+			IPSClassCheckStringValueForKey(tString,IPSIncidentVMSummaryKey);
+		
+			_vmSummary=[tString copy];
+		}
+	}
+	
+	return self;
 }
 
 #pragma mark -
 
 - (IPSThreadState *)threadState
 {
-    IPSIncidentExceptionInformation * tExceptionInformation=self.exceptionInformation;
-    
-    if (tExceptionInformation==nil)
-        return nil;
-    
-    NSUInteger tFaultingThread=tExceptionInformation.faultingThread;
-    
-    NSArray * tThreads=self.threads;
-    
-    if (tFaultingThread>=tThreads.count)
-        return nil;
-    
-    IPSThread * tCrashedThread=tThreads[tFaultingThread];
-    
-    return tCrashedThread.threadState;
+	IPSIncidentExceptionInformation * tExceptionInformation=self.exceptionInformation;
+	
+	if (tExceptionInformation==nil)
+		return nil;
+	
+	NSUInteger tFaultingThread=tExceptionInformation.faultingThread;
+	
+	NSArray * tThreads=self.threads;
+	
+	if (tFaultingThread>=tThreads.count)
+		return nil;
+	
+	IPSThread * tCrashedThread=tThreads[tFaultingThread];
+	
+	return tCrashedThread.threadState;
 }
 
 #pragma mark -
 
 - (NSDictionary *)representation
 {
-    return @{};
+	return @{};
 }
 
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)inZone
 {
-    IPSIncident * nIncident=[IPSIncident allocWithZone:inZone];
-    
-    if (nIncident!=nil)
-    {
-        nIncident->_header=[self.header copyWithZone:inZone];
-        
-        nIncident->_exceptionInformation=[self.exceptionInformation copyWithZone:inZone];
-        
-        nIncident->_diagnosticMessage=[self.diagnosticMessage copyWithZone:inZone];
-        
-        nIncident->_threads=[self.threads WB_arrayByMappingObjectsUsingBlock:^IPSThread *(IPSThread * bThread, NSUInteger bIndex) {
-          
-            return [bThread copyWithZone:inZone];
-        }];
-        
-        nIncident->_binaryImages=[self.binaryImages WB_arrayByMappingObjectsUsingBlock:^IPSImage *(IPSImage * bBinaryImage, NSUInteger bIndex) {
-            
-            return [bBinaryImage copyWithZone:inZone];
-        }];
-        
-        nIncident->_extMods=[self.extMods copyWithZone:inZone];
-        
-        nIncident->_vmSummary=[self.vmSummary copyWithZone:inZone];
-    }
-    
-    return nIncident;
+	IPSIncident * nIncident=[IPSIncident allocWithZone:inZone];
+	
+	if (nIncident!=nil)
+	{
+		nIncident->_header=[self.header copyWithZone:inZone];
+		
+		nIncident->_exceptionInformation=[self.exceptionInformation copyWithZone:inZone];
+		
+		nIncident->_diagnosticMessage=[self.diagnosticMessage copyWithZone:inZone];
+		
+		nIncident->_threads=[self.threads WB_arrayByMappingObjectsUsingBlock:^IPSThread *(IPSThread * bThread, NSUInteger bIndex) {
+		  
+			return [bThread copyWithZone:inZone];
+		}];
+		
+		nIncident->_binaryImages=[self.binaryImages WB_arrayByMappingObjectsUsingBlock:^IPSImage *(IPSImage * bBinaryImage, NSUInteger bIndex) {
+			
+			return [bBinaryImage copyWithZone:inZone];
+		}];
+		
+		nIncident->_extMods=[self.extMods copyWithZone:inZone];
+		
+		nIncident->_vmSummary=[self.vmSummary copyWithZone:inZone];
+	}
+	
+	return nIncident;
 }
 
 @end

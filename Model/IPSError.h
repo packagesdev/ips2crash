@@ -17,13 +17,13 @@ extern NSString * const IPSErrorDomain;
 
 typedef NS_ENUM(NSUInteger, IPSError)
 {
-    IPSRepresentationNilRepresentationError=0,        // Only set when the representation is nil, use IPSRepresentationInvalidValueError otherwise if nil is not an accepted value
-    IPSRepresentationInvalidTypeOfValueError=1,
-    IPSRepresentationInvalidValueError=2,
-    
-    IPSSummaryReadCorruptError=100,
-    
-    IPSUnsupportedBugTypeError=200,
+	IPSRepresentationNilRepresentationError=0,		// Only set when the representation is nil, use IPSRepresentationInvalidValueError otherwise if nil is not an accepted value
+	IPSRepresentationInvalidTypeOfValueError=1,
+	IPSRepresentationInvalidValueError=2,
+
+	IPSSummaryReadCorruptError=100,
+
+	IPSUnsupportedBugTypeError=200,
 };
 
 extern NSString * const IPSKeyPathErrorKey;

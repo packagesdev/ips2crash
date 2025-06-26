@@ -17,16 +17,16 @@
 
 @interface IPSTermination : NSObject <IPSObjectProtocol,NSCopying>
 
-    @property (readonly) NSUInteger code;
+	@property (readonly) NSUInteger code;
 
-    @property (readonly) NSUInteger flags;
+	@property (readonly) NSUInteger flags;
 
-    @property (readonly,copy) NSString * indicator;
+	@property (readonly,copy) NSString * indicator;
 
-    @property (readonly,copy) NSString * namespace;
+	@property (readonly,copy) NSString * namespace;
 
-    @property (readonly,copy) NSString * byProc;
+	@property (readonly,copy) NSString * byProc;
 
-    @property (readonly) pid_t byPid;
+	@property (readonly) pid_t byPid;
 
 @end

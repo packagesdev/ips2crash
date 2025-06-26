@@ -26,21 +26,21 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSThreadFrame * nThreadFrame=[self copy];
-    
-    if (nThreadFrame!=nil)
-    {
-        BOOL isUserCode=[[inObfuscator sharedObjectForKey:[NSString stringWithFormat:@"image_%lu",self.imageIndex]] boolValue];
-        
-        if (isUserCode==YES)
-        {
-            nThreadFrame.symbol=nil;
-        
-            nThreadFrame.sourceFile=nil;
-        }
-    }
-    
-    return nThreadFrame;
+	IPSThreadFrame * nThreadFrame=[self copy];
+	
+	if (nThreadFrame!=nil)
+	{
+		BOOL isUserCode=[[inObfuscator sharedObjectForKey:[NSString stringWithFormat:@"image_%lu",self.imageIndex]] boolValue];
+		
+		if (isUserCode==YES)
+		{
+			nThreadFrame.symbol=nil;
+		
+			nThreadFrame.sourceFile=nil;
+		}
+	}
+	
+	return nThreadFrame;
 }
 
 @end

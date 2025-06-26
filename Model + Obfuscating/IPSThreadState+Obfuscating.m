@@ -28,19 +28,19 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSThreadState * nThreadState=[IPSThreadState alloc];
-    
-    if (nThreadState!=nil)
-    {
-        nThreadState.flavor=[self.flavor copy];
-        
-        nThreadState.registersStates=[self.registersStates WB_dictionaryByMappingObjectsUsingBlock:^id(id bKey, IPSRegisterState * bRegisterState) {
-            
-            return [bRegisterState obfuscateWithObfuscator:inObfuscator];
-        }];
-    }
-    
-    return nThreadState;
+	IPSThreadState * nThreadState=[IPSThreadState alloc];
+	
+	if (nThreadState!=nil)
+	{
+		nThreadState.flavor=[self.flavor copy];
+		
+		nThreadState.registersStates=[self.registersStates WB_dictionaryByMappingObjectsUsingBlock:^id(id bKey, IPSRegisterState * bRegisterState) {
+			
+			return [bRegisterState obfuscateWithObfuscator:inObfuscator];
+		}];
+	}
+	
+	return nThreadState;
 }
 
 @end

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Stephane Sudre
+ Copyright (c) 2022-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -15,6 +15,16 @@
 
 #import "IPSBundleInfo+Obfuscating.h"
 
+
+@interface IPSCodeSigningInfo (Private) <IPSObfuscating>
+
+- (void)setIdentifier:(NSString *)inIdentifier;
+
+- (void)setTeamIdentifier:(NSString *)inProcessPath;
+
+@end
+
+
 @interface IPSIncidentHeader (Private)
 
 - (void)setProcessName:(NSString *)inProcessName;
@@ -22,6 +32,8 @@
 - (void)setProcessPath:(NSString *)inProcessPath;
 
 - (void)setBundleInfo:(IPSBundleInfo *)inBundleInfo;
+
+- (void)setCodeSigningInfo:(IPSCodeSigningInfo *)inCodeSigningInfo;
 
 - (void)setParentProcessName:(NSString *)inParentProcessName;
 
@@ -33,22 +45,43 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-    IPSIncidentHeader * nIncidentHeader=[self copy];
-    
-    if (nIncidentHeader!=nil)
-    {
-        nIncidentHeader.processName=[inObfuscator obfuscatedStringWithString:self.processName family:IPSStringFamilyBinary];
-        
-        nIncidentHeader.processPath=[inObfuscator obfuscatedStringWithString:self.processPath family:IPSStringFamilyPath];
-        
-        nIncidentHeader.bundleInfo=[self.bundleInfo obfuscateWithObfuscator:inObfuscator];
-        
-        nIncidentHeader.parentProcessName=[inObfuscator obfuscatedStringWithString:self.parentProcessName family:IPSStringFamilyBinary];
-        
-        nIncidentHeader.responsibleProcessName=[inObfuscator obfuscatedStringWithString:self.responsibleProcessName family:IPSStringFamilyBinary];
-    }
-    
-    return nIncidentHeader;
+	IPSIncidentHeader * nIncidentHeader=[self copy];
+	
+	if (nIncidentHeader!=nil)
+	{
+		nIncidentHeader.processName=[inObfuscator obfuscatedStringWithString:self.processName family:IPSStringFamilyBinary];
+		
+		nIncidentHeader.processPath=[inObfuscator obfuscatedStringWithString:self.processPath family:IPSStringFamilyPath];
+		
+		nIncidentHeader.codeSigningInfo=[self.codeSigningInfo obfuscateWithObfuscator:inObfuscator];
+		
+		nIncidentHeader.bundleInfo=[self.bundleInfo obfuscateWithObfuscator:inObfuscator];
+		
+		nIncidentHeader.parentProcessName=[inObfuscator obfuscatedStringWithString:self.parentProcessName family:IPSStringFamilyBinary];
+		
+		nIncidentHeader.responsibleProcessName=[inObfuscator obfuscatedStringWithString:self.responsibleProcessName family:IPSStringFamilyBinary];
+	}
+	
+	return nIncidentHeader;
+}
+
+@end
+
+
+@implementation IPSCodeSigningInfo (Obfuscating)
+
+- (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
+{
+	IPSCodeSigningInfo * nCodeSigningInfo=[self copy];
+	
+	if (nCodeSigningInfo!=nil)
+	{
+		nCodeSigningInfo.identifier=[inObfuscator obfuscatedStringWithString:self.identifier family:IPSStringFamilyBundleIdentifier];
+		
+		nCodeSigningInfo.teamIdentifier=[inObfuscator obfuscatedStringWithString:self.teamIdentifier family:IPSStringFamilyNone];
+	}
+	
+	return nCodeSigningInfo;
 }
 
 @end
