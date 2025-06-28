@@ -29,7 +29,7 @@
 	
 	NSUInteger tLength=tString.length;
 	
-	NSString * tSpaceString=@"				  ";
+	NSString * tSpaceString=@"                  ";
 	
 	return [[tSpaceString substringFromIndex:tLength] stringByAppendingString:tString];
 }
@@ -38,9 +38,9 @@
 {
 	NSMutableString * tMutableString=[NSMutableString string];
 	
-	[tMutableString appendFormat:@"	task_for_pid: %ld\n",(long)inObject.taskForPid];
-	[tMutableString appendFormat:@"	thread_create: %ld\n",(long)inObject.threadCreate];
-	[tMutableString appendFormat:@"	thread_set_state: %ld\n",(long)inObject.threadSetState];
+	[tMutableString appendFormat:@"    task_for_pid: %ld\n",(long)inObject.taskForPid];
+	[tMutableString appendFormat:@"    thread_create: %ld\n",(long)inObject.threadCreate];
+	[tMutableString appendFormat:@"    thread_set_state: %ld\n",(long)inObject.threadSetState];
 	
 	return [tMutableString copy];
 }
@@ -112,7 +112,7 @@
 		
 		NSString * tFrameIndexString=[NSString stringWithFormat:@"%lu",(unsigned long)bFrameIndex];
 		
-		NSString * tIndexSpace=[@"	" substringFromIndex:tFrameIndexString.length];
+		NSString * tIndexSpace=[@"    " substringFromIndex:tFrameIndexString.length];
 		
 		[tMutableString appendFormat:@"%@%@",tFrameIndexString,tIndexSpace];
 		
@@ -129,11 +129,11 @@
 		
 		if ((tImageNameLength+4)>BINARYIMAGENAME_AND_SPACE_MAXLEN)
 		{
-			[tMutableString appendFormat:@"%@	",tImageIdentifier];
+			[tMutableString appendFormat:@"%@    ",tImageIdentifier];
 		}
 		else
 		{
-			NSString * tImageSpace=[@"								  " substringFromIndex:tImageNameLength];
+			NSString * tImageSpace=[@"                                  " substringFromIndex:tImageNameLength];
 			
 			[tMutableString appendFormat:@"%@%@",tImageIdentifier,tImageSpace];
 		}
@@ -166,19 +166,19 @@
 	
 	IPSIncidentHeader * tHeader=tIncident.header;
 	
-	[tMutableString appendFormat:@"Process:			   %@ [%d]\n",tHeader.processName,tHeader.processID];
+	[tMutableString appendFormat:@"Process:               %@ [%d]\n",tHeader.processName,tHeader.processID];
 	
-	[tMutableString appendFormat:@"Path:				  %@\n",tHeader.processPath];
+	[tMutableString appendFormat:@"Path:                  %@\n",tHeader.processPath];
 	
 	IPSBundleInfo * tBundleInfo=tHeader.bundleInfo;
 	
 	if (tBundleInfo.bundleIdentifier!=nil)
 	{
-		[tMutableString appendFormat:@"Identifier:			%@\n",tBundleInfo.bundleIdentifier];
+		[tMutableString appendFormat:@"Identifier:            %@\n",tBundleInfo.bundleIdentifier];
 	}
 	else
 	{
-		[tMutableString appendFormat:@"Identifier:			%@\n",tHeader.processName];
+		[tMutableString appendFormat:@"Identifier:            %@\n",tHeader.processName];
 	}
 	
 	if (tBundleInfo.bundleShortVersionString!=nil)
@@ -187,7 +187,7 @@
 	}
 	else
 	{
-		[tMutableString appendFormat:@"Version:			   %@",@"???"];
+		[tMutableString appendFormat:@"Version:               %@",@"???"];
 	}
 	
 	if (tBundleInfo.bundleVersion!=nil)
@@ -199,31 +199,31 @@
 		[tMutableString appendString:@"\n"];
 	}
 	
-	[tMutableString appendFormat:@"Code Type:			 %@ (%@)\n",tHeader.cpuType,(tHeader.translated==NO) ? @"Native" : @"Translated"];
+	[tMutableString appendFormat:@"Code Type:             %@ (%@)\n",tHeader.cpuType,(tHeader.translated==NO) ? @"Native" : @"Translated"];
 	
-	[tMutableString appendFormat:@"Parent Process:		%@ [%d]\n",tHeader.parentProcessName,tHeader.parentProcessID];
+	[tMutableString appendFormat:@"Parent Process:        %@ [%d]\n",tHeader.parentProcessName,tHeader.parentProcessID];
 	
 	if (tHeader.responsibleProcessName!=nil)
-		[tMutableString appendFormat:@"Responsible:		   %@ [%d]\n",tHeader.responsibleProcessName,tHeader.responsibleProcessID];
+		[tMutableString appendFormat:@"Responsible:           %@ [%d]\n",tHeader.responsibleProcessName,tHeader.responsibleProcessID];
 	
-	[tMutableString appendFormat:@"User ID:			   %d\n",tHeader.userID];
+	[tMutableString appendFormat:@"User ID:               %d\n",tHeader.userID];
 	
 	[tMutableString appendString:@"\n"];
 	
 	
-	[tMutableString appendFormat:@"Date/Time:			 %@\n",[[IPSDateFormatter sharedFormatter] stringFromDate:tHeader.captureTime]];
+	[tMutableString appendFormat:@"Date/Time:             %@\n",[[IPSDateFormatter sharedFormatter] stringFromDate:tHeader.captureTime]];
 	
-	[tMutableString appendFormat:@"OS Version:			%@ (%@)\n",tHeader.operatingSystemVersion.train,tHeader.operatingSystemVersion.build];
+	[tMutableString appendFormat:@"OS Version:            %@ (%@)\n",tHeader.operatingSystemVersion.train,tHeader.operatingSystemVersion.build];
 	
-	[tMutableString appendString:@"Report Version:		12\n"];
+	[tMutableString appendString:@"Report Version:        12\n"];
 	
-	[tMutableString appendFormat:@"Anonymous UUID:		%@\n",tHeader.crashReporterKey];
+	[tMutableString appendFormat:@"Anonymous UUID:        %@\n",tHeader.crashReporterKey];
 	
 	[tMutableString appendString:@"\n"];
 	
 	if (tHeader.sleepWakeUUID!=nil)
 	{
-		[tMutableString appendFormat:@"Sleep/Wake UUID:	   %@\n",tHeader.sleepWakeUUID];
+		[tMutableString appendFormat:@"Sleep/Wake UUID:       %@\n",tHeader.sleepWakeUUID];
 		[tMutableString appendString:@"\n"];
 	}
 	
@@ -239,7 +239,7 @@
 	
 	IPSIncidentExceptionInformation * tExceptionInformation=tIncident.exceptionInformation;
 	
-	[tMutableString appendFormat:@"Crashed Thread:		%lu",(unsigned long)tExceptionInformation.faultingThread];
+	[tMutableString appendFormat:@"Crashed Thread:        %lu",(unsigned long)tExceptionInformation.faultingThread];
 	
 	IPSLegacyInfo * tLegacyInfo=tExceptionInformation.legacyInfo;
 	
@@ -256,7 +256,7 @@
 	
 	[tMutableString appendString:@"\n"];
 	
-	[tMutableString appendFormat:@"Exception Type:		%@",tException.type];
+	[tMutableString appendFormat:@"Exception Type:        %@",tException.type];
 	
 	if (tException.signal!=nil)
 	{
@@ -267,17 +267,17 @@
 	
 	if (tException.subtype!=nil)
 	{
-		[tMutableString appendFormat:@"Exception Codes:	   %@\n",tException.subtype];
+		[tMutableString appendFormat:@"Exception Codes:       %@\n",tException.subtype];
 	}
 	else
 	{
-		[tMutableString appendFormat:@"Exception Codes:	   %@\n",tException.codes];
+		[tMutableString appendFormat:@"Exception Codes:       %@\n",tException.codes];
 	}
 	
 	
 	
 	if (tExceptionInformation.isCorpse==YES)
-		[tMutableString appendString:@"Exception Note:		EXC_CORPSE_NOTIFY\n"];
+		[tMutableString appendString:@"Exception Note:        EXC_CORPSE_NOTIFY\n"];
 	
 	[tMutableString appendString:@"\n"];
 	
@@ -285,7 +285,7 @@
 	
 	if (tTermination!=nil)
 	{
-		[tMutableString appendFormat:@"Termination Reason:	Namespace %@, Code 0x%lx\n",tTermination.namespace,(unsigned long)tTermination.code];
+		[tMutableString appendFormat:@"Termination Reason:    Namespace %@, Code 0x%lx\n",tTermination.namespace,(unsigned long)tTermination.code];
 		
 		if (tTermination.byProc!=nil)
 			[tMutableString appendFormat:@"Terminating Process:   %@ [%d]\n",tTermination.byProc,tTermination.byPid];
@@ -429,11 +429,11 @@
 		{
 			[tMutableString appendString:@"\n"];
 			
-			[tMutableString appendFormat:@"Logical CPU:	 %lu\n",tRegisterState.value];
+			[tMutableString appendFormat:@"Logical CPU:     %lu\n",tRegisterState.value];
 			
 			tRegisterState=tCrashedThreadState.registersStates[IPSThreadStateErrKey];
 			
-			[tMutableString appendFormat:@"Error Code:	  %08lx",tRegisterState.value];
+			[tMutableString appendFormat:@"Error Code:      %08lx",tRegisterState.value];
 			
 			tRegisterState=tCrashedThreadState.registersStates[IPSThreadStateTrapKey];
 			
@@ -442,7 +442,7 @@
 			
 			[tMutableString appendString:@"\n"];
 			
-			[tMutableString appendFormat:@"Trap Number:	 %lu\n",tRegisterState.value];
+			[tMutableString appendFormat:@"Trap Number:     %lu\n",tRegisterState.value];
 		}
 		
 		[tMutableString appendString:@"\n"];
@@ -501,7 +501,7 @@
 				[tMutableString appendFormat:@"  %s",tASCIIRepresentation];
 				
 				if (tByteIndex==tOffset)
-					[tMutableString appendString:@"	<=="];
+					[tMutableString appendString:@"    <=="];
 				
 				[tMutableString appendString:@"\n"];
 				

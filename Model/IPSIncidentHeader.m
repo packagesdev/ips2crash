@@ -240,16 +240,16 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 			_responsibleProcessID=[tNumber intValue];
 		}
 	
-		IPSCodeSigningInfo *codeSigningInfo = [[IPSCodeSigningInfo alloc] initWithRepresentation:inRepresentation error:&tError];
+		_codeSigningInfo = [[IPSCodeSigningInfo alloc] initWithRepresentation:inRepresentation error:&tError];
 		
-		if (codeSigningInfo==nil)
+		if (_codeSigningInfo==nil)
 		{
 			if (outError!=NULL && tError!=nil)
 				*outError=tError;
 
 			return nil;
 		}
-
+        
 		tNumber=inRepresentation[IPSIncidentHeaderUserIDKey];
 
 		IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderUserIDKey);
