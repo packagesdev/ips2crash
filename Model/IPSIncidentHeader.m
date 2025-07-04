@@ -77,7 +77,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 	@property (readwrite) NSUInteger flags;
 
-	@property (readwrite) NSUInteger validationCategory;
+	@property (readwrite) IPSCodeSigningValidationCategory validationCategory;
 
 	@property (readwrite) NSUInteger trustLevel;
 

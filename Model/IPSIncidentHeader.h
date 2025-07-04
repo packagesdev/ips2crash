@@ -19,6 +19,19 @@
 
 #import "IPSOperatingSystemVersion.h"
 
+typedef NS_ENUM(NSUInteger, IPSCodeSigningValidationCategory)
+{
+	IPSCodeSigningValidationCategoryPlatform = 1,
+	IPSCodeSigningValidationCategoryTestFlight = 2,
+	IPSCodeSigningValidationCategoryDevelopment = 3,
+	IPSCodeSigningValidationCategoryAppStore = 4,
+	IPSCodeSigningValidationCategoryEnterprise = 5,
+	IPSCodeSigningValidationCategoryDeveloperID = 6,
+	
+	IPSCodeSigningValidationCategoryNone = 10
+};
+
+
 @interface IPSCodeSigningInfo : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly,copy) NSString * identifier;	// can be nil
@@ -27,7 +40,7 @@
 
 	@property (readonly) NSUInteger flags;
 
-	@property (readonly) NSUInteger validationCategory;
+	@property (readonly) IPSCodeSigningValidationCategory validationCategory;
 
 	@property (readonly) NSUInteger trustLevel;
 
