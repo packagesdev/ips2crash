@@ -70,7 +70,7 @@ typedef NS_ENUM(NSUInteger, IPSCodeSigningValidationCategory)
 
 	@property (readonly) pid_t responsibleProcessID;
 
-	@property (readonly) IPSCodeSigningInfo * codeSigningInfo;
+	@property (readonly) IPSCodeSigningInfo * codeSigningInfo;  // can be nil
 
 	@property (readonly) uid_t userID;
 

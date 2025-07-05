@@ -242,14 +242,14 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 	
 		_codeSigningInfo = [[IPSCodeSigningInfo alloc] initWithRepresentation:inRepresentation error:&tError];
 		
-		if (_codeSigningInfo==nil)
+		if (_codeSigningInfo==nil && tError!=nil)
 		{
-			if (outError!=NULL && tError!=nil)
+			if (outError!=NULL)
 				*outError=tError;
 
 			return nil;
 		}
-        
+
 		tNumber=inRepresentation[IPSIncidentHeaderUserIDKey];
 
 		IPSFullCheckNumberValueForKey(tNumber,IPSIncidentHeaderUserIDKey);
@@ -330,7 +330,8 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 	// A COMPLETER
 
-	[tMutableRepresentation addEntriesFromDictionary:[self.codeSigningInfo representation]];
+	if (self.codeSigningInfo!=nil)
+		[tMutableRepresentation addEntriesFromDictionary:[self.codeSigningInfo representation]];
 
 	return [tMutableRepresentation copy];
 }
@@ -394,22 +395,6 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 - (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
 {
-	if (inRepresentation==nil)
-	{
-		if (outError!=NULL)
-			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationNilRepresentationError userInfo:nil];
-
-		return nil;
-	}
-	
-	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
-	{
-		if (outError!=NULL)
-			*outError=[NSError errorWithDomain:IPSErrorDomain code:IPSRepresentationInvalidTypeOfValueError userInfo:nil];
-
-		return nil;
-	}
-	
 	self=[super init];
 	
 	if (self!=nil)
@@ -434,6 +419,15 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 				_teamIdentifier=[tString copy];
 		}
 	
+		if (_identifier==nil && _teamIdentifier==nil)
+		{
+			// No codesigning identifier => no codesigning info. Which is fine.
+			if (outError!=NULL)
+				*outError=nil;
+
+			return nil;
+		}
+
 		NSNumber * tNumber=inRepresentation[IPSIncidentHeaderCodeSigningFlagsKey];
 		
 		if (tNumber!=nil)

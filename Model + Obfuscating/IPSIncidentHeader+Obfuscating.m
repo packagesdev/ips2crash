@@ -53,7 +53,8 @@
 		
 		nIncidentHeader.processPath=[inObfuscator obfuscatedStringWithString:self.processPath family:IPSStringFamilyPath];
 		
-		nIncidentHeader.codeSigningInfo=[self.codeSigningInfo obfuscateWithObfuscator:inObfuscator];
+		if (self.codeSigningInfo!=nil)
+			nIncidentHeader.codeSigningInfo=[self.codeSigningInfo obfuscateWithObfuscator:inObfuscator];
 		
 		nIncidentHeader.bundleInfo=[self.bundleInfo obfuscateWithObfuscator:inObfuscator];
 		
