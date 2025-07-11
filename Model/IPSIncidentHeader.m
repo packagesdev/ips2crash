@@ -75,7 +75,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 	@property (readwrite,copy) NSString * teamIdentifier;	// can be nil
 
-	@property (readwrite) NSUInteger flags;
+	@property (readwrite) IPSCodeSigningFlags flags;
 
 	@property (readwrite) IPSCodeSigningValidationCategory validationCategory;
 
@@ -434,7 +434,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 		{
 			IPSClassCheckNumberValueForKey(tNumber,IPSIncidentHeaderCodeSigningFlagsKey);
 
-			_flags=tNumber.unsignedIntegerValue;
+			_flags=tNumber.unsignedIntValue;
 		}
 
 		tNumber=inRepresentation[IPSIncidentHeaderCodeSigningValidationCategoryKey];

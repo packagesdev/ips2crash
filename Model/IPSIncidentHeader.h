@@ -31,6 +31,29 @@ typedef NS_ENUM(NSUInteger, IPSCodeSigningValidationCategory)
 	IPSCodeSigningValidationCategoryNone = 10
 };
 
+typedef NS_OPTIONS(uint32_t, IPSCodeSigningFlags)
+{
+	IPSCodeSigningFlagDynamicallyValid 			= 0x00000001,
+	IPSCodeSigningFlagAdHocSigned 				= 0x00000002,
+	IPSCodeSigningFlagGetTaskAllow 				= 0x00000004,
+	IPSCodeSigningFlagInstaller 				= 0x00000008,
+	IPSCodeSigningFlagForcedLibraryValidation 	= 0x00000010,
+	IPSCodeSigningFlagInvalidAllowed 			= 0x00000020,
+	IPSCodeSigningFlagHard 						= 0x00000100,
+	IPSCodeSigningFlagKill 						= 0x00000200,
+	IPSCodeSigningFlagCheckExpiration 			= 0x00000400,
+	IPSCodeSigningFlagRestrict 					= 0x00000800,
+	IPSCodeSigningFlagEnforcement 				= 0x00001000,
+	IPSCodeSigningFlagRequireLibraryValidation 	= 0x00002000,
+	
+	IPSCodeSigningFlagHardenedRuntimeEnforced 	= 0x00010000,
+	IPSCodeSigningFlagLinkerSigned 				= 0x00020000,
+	
+	IPSCodeSigningFlagPlatformSigned 			= 0x04000000,
+	
+	IPSCodeSigningFlagDebugged 					= 0x10000000,
+	IPSCodeSigningFlagSigned 					= 0x20000000,
+};
 
 @interface IPSCodeSigningInfo : NSObject <IPSObjectProtocol,NSCopying>
 
@@ -38,7 +61,7 @@ typedef NS_ENUM(NSUInteger, IPSCodeSigningValidationCategory)
 
 	@property (readonly,copy) NSString * teamIdentifier;	// can be nil
 
-	@property (readonly) NSUInteger flags;
+	@property (readonly) IPSCodeSigningFlags flags;
 
 	@property (readonly) IPSCodeSigningValidationCategory validationCategory;
 
