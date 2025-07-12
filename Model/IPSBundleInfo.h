@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -15,12 +15,16 @@
 
 #import "IPSObjectProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSBundleInfo : NSObject <IPSObjectProtocol,NSCopying>
 
-	@property (readonly,copy) NSString * bundleShortVersionString;  // can be nil
+	@property (nullable,readonly,copy) NSString * bundleShortVersionString;
 
-	@property (readonly,copy) NSString * bundleVersion;			 // can be nil
+	@property (nullable,readonly,copy) NSString * bundleVersion;
 
-	@property (readonly,copy) NSString * bundleIdentifier;		  // can be nil
+	@property (nullable,readonly,copy) NSString * bundleIdentifier;
 
 @end
+
+NS_ASSUME_NONNULL_END

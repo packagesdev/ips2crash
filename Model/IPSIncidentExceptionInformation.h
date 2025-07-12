@@ -25,6 +25,8 @@
 
 #import "IPSThreadFrame.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSIncidentExceptionInformation : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly) NSUInteger faultingThread;
@@ -33,12 +35,14 @@
 
 	@property (readonly) IPSException * exception;
 
-	@property (readonly) IPSExceptionReason * exceptionReason;	// Can be nil.
+	@property (nullable,readonly) IPSExceptionReason * exceptionReason;
 
-	@property (readonly) NSArray<IPSThreadFrame *> * lastExceptionBacktrace;	// Can be nil.
+	@property (nullable,readonly) NSArray<IPSThreadFrame *> * lastExceptionBacktrace;
 
 	@property (readonly) IPSTermination * termination;
 
 	@property (readonly,getter=isCorpse) BOOL corpse;
 
 @end
+
+NS_ASSUME_NONNULL_END

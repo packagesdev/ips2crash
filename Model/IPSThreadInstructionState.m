@@ -24,7 +24,7 @@ NSString * const IPSThreadInstructionStateInstructionStreamKey=@"instructionStre
 
 @implementation IPSThreadInstructionState
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

@@ -17,9 +17,12 @@
 
 #import "IPSObjectProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSThreadInstructionState : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly) IPSThreadInstructionStream * instructionStream;
 
 @end
 
+NS_ASSUME_NONNULL_END

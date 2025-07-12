@@ -15,8 +15,12 @@
 
 #import "IPSSummary.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSSummarySerialization : NSObject
 
-+ (IPSSummary *)summaryWithData:(NSData *)inData error:(out NSError **)outError;
++ (nullable IPSSummary *)summaryWithData:(NSData *)inData error:(out NSError **)outError;
 
 @end
+
+NS_ASSUME_NONNULL_END

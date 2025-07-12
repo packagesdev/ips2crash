@@ -19,15 +19,15 @@ NSString * const IPSIncidentDiagnosticMessageVmregioninfoKey=@"vmregioninfo";
 
 @interface IPSIncidentDiagnosticMessage ()
 
-	@property (readwrite) IPSApplicationSpecificInformation * asi;
+	@property (nullable,readwrite) IPSApplicationSpecificInformation * asi;
 
-	@property (readwrite,copy) NSString *vmregioninfo;
+	@property (nullable,readwrite,copy) NSString *vmregioninfo;
 
 @end
 
 @implementation IPSIncidentDiagnosticMessage
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

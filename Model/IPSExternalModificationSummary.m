@@ -35,7 +35,7 @@ NSString * const IPSExternalModificationSummaryWarningsKey=@"warnings";
 
 @implementation IPSExternalModificationSummary
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

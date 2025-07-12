@@ -27,19 +27,19 @@ NSString * const IPSExceptionRawCodesKey=@"rawCodes";
 
 	@property (readwrite,copy) NSString * type;
 
-	@property (readwrite,copy) NSString * subtype;
+	@property (nullable,readwrite,copy) NSString * subtype;
 
-	@property (readwrite,copy) NSString * signal;
+	@property (nullable,readwrite,copy) NSString * signal;
 
 	@property (readwrite,copy) NSString * codes;
 
-	@property (readwrite) NSArray<NSNumber *> * rawCodes;
+	@property (nullable,readwrite) NSArray<NSNumber *> * rawCodes;
 
 @end
 
 @implementation IPSException
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{
@@ -110,9 +110,11 @@ NSString * const IPSExceptionRawCodesKey=@"rawCodes";
 {
 	NSMutableDictionary * tMutableDictionary=[NSMutableDictionary dictionaryWithDictionary:@{
 																							 IPSExceptionTypeKey:self.type,
-																							 IPSExceptionSignalKey:self.signal,
 																							 IPSExceptionCodesKey:self.codes,
 																							 }];
+	
+	if (self.signal!=nil)
+		tMutableDictionary[IPSExceptionSignalKey]=self.signal;
 	
 	if (self.subtype!=nil)
 		tMutableDictionary[IPSExceptionSubtypeKey]=self.subtype;

@@ -17,6 +17,8 @@
 
 #import "IPSRegisterState.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString * const IPSThreadStateCpuKey;
 
 extern NSString * const IPSThreadStateErrKey;
@@ -30,3 +32,5 @@ extern NSString * const IPSThreadStateTrapKey;
 	@property (readonly) NSDictionary<NSString *,IPSRegisterState *> * registersStates;
 
 @end
+
+NS_ASSUME_NONNULL_END

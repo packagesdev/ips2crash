@@ -36,7 +36,7 @@
 	if (self!=nil)
 	{
 		self.locale=[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];	// Technical Q&A QA1480
-	self.dateFormat=@"yyyy-MM-dd HH:mm:ss.SSS ZZZZZ";
+		self.dateFormat=@"yyyy-MM-dd HH:mm:ss.SSS ZZZZZ";
 	}
 
 	return self;

@@ -106,7 +106,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
 	return tObfuscatedString;
 }
 
-- (NSString *)obfuscatedBinaryWithBinary:(NSString *)inBinary
+- (nullable NSString *)obfuscatedBinaryWithBinary:(NSString *)inBinary
 {
 	if (inBinary==nil)
 		return nil;
@@ -157,7 +157,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
 	return tObfuscatedComponent;
 }
 
-- (NSString *)obfuscatedBundleIdentifierWithBundleIdentifier:(NSString *)inBundleIdentifier
+- (nullable NSString *)obfuscatedBundleIdentifierWithBundleIdentifier:(nullable NSString *)inBundleIdentifier
 {
 	if (inBundleIdentifier==nil)
 		return nil;
@@ -217,7 +217,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
 	return [tObfuscatedPathComponent stringByAppendingPathExtension:tPathExtension];
 }
 
-- (NSString *)obfuscatedPathWithPath:(NSString *)inPath
+- (nullable NSString *)obfuscatedPathWithPath:(nullable NSString *)inPath
 {
 	if (inPath==nil)
 		return nil;
@@ -231,7 +231,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
 	}]];
 }
 
-- (NSString *)obfuscatedQueueWithQueue:(NSString *)inQueue
+- (nullable NSString *)obfuscatedQueueWithQueue:(nullable NSString *)inQueue
 {
 	if (inQueue==nil)
 		return nil;
@@ -242,7 +242,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
 	return [self obfuscatedBundleIdentifierWithBundleIdentifier:inQueue];
 }
 
-- (NSString *)obfuscatedThreadNameWithThreadName:(NSString *)inThreadName
+- (nullable NSString *)obfuscatedThreadNameWithThreadName:(nullable NSString *)inThreadName
 {
 	if (inThreadName==nil)
 		return nil;
@@ -297,7 +297,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
 
 #pragma mark -
 
-- (NSString *)obfuscatedStringWithString:(NSString *)inString family:(IPSStringFamily)inFamily
+- (nullable NSString *)obfuscatedStringWithString:(nullable NSString *)inString family:(IPSStringFamily)inFamily
 {
 	switch(inFamily)
 	{
@@ -307,7 +307,7 @@ typedef NS_ENUM(NSUInteger, IPSComponentFamily)
 			
 		case IPSStringFamilyBundleIdentifier:
 			
-			return[self obfuscatedBundleIdentifierWithBundleIdentifier:inString];
+			return [self obfuscatedBundleIdentifierWithBundleIdentifier:inString];
 		
 		case IPSStringFamilyPath:
 			

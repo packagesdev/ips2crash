@@ -31,16 +31,13 @@
 {
 	IPSIncidentExceptionInformation * nIncidentExceptionInformation=[self copy];
 	
-	if (nIncidentExceptionInformation!=nil)
-	{
-		nIncidentExceptionInformation.legacyInfo=[self.legacyInfo obfuscateWithObfuscator:inObfuscator];
+	nIncidentExceptionInformation.legacyInfo=[self.legacyInfo obfuscateWithObfuscator:inObfuscator];
+	
+	nIncidentExceptionInformation.lastExceptionBacktrace=[self.lastExceptionBacktrace WB_arrayByMappingObjectsUsingBlock:^IPSThreadFrame *(IPSThreadFrame * bThreadFrame, NSUInteger bIndex) {
 		
-		nIncidentExceptionInformation.lastExceptionBacktrace=[self.lastExceptionBacktrace WB_arrayByMappingObjectsUsingBlock:^IPSThreadFrame *(IPSThreadFrame * bThreadFrame, NSUInteger bIndex) {
-		   
-			return [bThreadFrame obfuscateWithObfuscator:inObfuscator];
-			
-		}];
-	}
+		return [bThreadFrame obfuscateWithObfuscator:inObfuscator];
+		
+	}];
 	
 	return nIncidentExceptionInformation;
 }

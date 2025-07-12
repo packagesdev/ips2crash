@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -15,13 +15,16 @@
 
 #import "IPSObjectProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSApplicationSpecificInformation : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
 
-	@property (readonly) NSArray<NSString *> * backtraces;
+	@property (nullable,readonly) NSArray<NSString *> * backtraces;
 
-	@property (readonly) NSArray<NSString *> * signatures;
+	@property (nullable,readonly) NSArray<NSString *> * signatures;
 
 @end
 
+NS_ASSUME_NONNULL_END

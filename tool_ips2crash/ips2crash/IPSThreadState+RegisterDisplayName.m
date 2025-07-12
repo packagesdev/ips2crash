@@ -15,7 +15,7 @@
 
 @implementation IPSThreadState (RegisterDisplayName)
 
-+ (NSString *)displayNameForRegisterName:(NSString *)inName
++ (nullable NSString *)displayNameForRegisterName:(nullable NSString *)inName
 {
 	if (inName==nil)
 		return nil;

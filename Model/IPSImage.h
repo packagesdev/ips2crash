@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -15,23 +15,25 @@
 
 #import "IPSObjectProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSImage : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly,copy) NSString * source;
 
-	@property (readonly,copy) NSString * name;
+	@property (nullable,readonly,copy) NSString * name;
 
-	@property (readonly,copy) NSString * bundleIdentifier;
+	@property (nullable,readonly,copy) NSString * bundleIdentifier;
 
-	@property (readonly,copy) NSString * bundleVersion;
+	@property (nullable,readonly,copy) NSString * bundleVersion;
 
-	@property (readonly,copy) NSString * bundleShortVersionString;
+	@property (nullable,readonly,copy) NSString * bundleShortVersionString;
 
-	@property (readonly,copy) NSString * path;
+	@property (nullable,readonly,copy) NSString * path;
 
 	@property (readonly) NSUUID * UUID;
 
-	@property (readonly,copy) NSString * architecture;
+	@property (nullable,readonly,copy) NSString * architecture;
 
 	@property (readonly) NSUInteger loadAddress;
 
@@ -40,3 +42,5 @@
 - (NSComparisonResult)compare:(IPSImage *)otherBinaryImage;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -17,11 +17,14 @@
 
 #import "IPSApplicationSpecificInformation.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSIncidentDiagnosticMessage : NSObject <IPSObjectProtocol,NSCopying>
 
-	@property (readonly) IPSApplicationSpecificInformation * asi;
+	@property (nullable,readonly) IPSApplicationSpecificInformation * asi;
 
-	@property (readonly,copy) NSString *vmregioninfo;
+	@property (nullable,readonly,copy) NSString *vmregioninfo;
 
 @end
 
+NS_ASSUME_NONNULL_END

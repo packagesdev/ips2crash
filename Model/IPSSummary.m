@@ -38,7 +38,7 @@ NSString * const IPSReportSummaryTimestampKey=@"timestamp";
 
 @implementation IPSSummary
 
-- (instancetype)initWithSummary:(IPSSummary *)inSummary
+- (nullable instancetype)initWithSummary:(IPSSummary *)inSummary
 {
 	if ([inSummary isKindOfClass:IPSSummary.class]==NO)
 		return nil;
@@ -59,7 +59,7 @@ NSString * const IPSReportSummaryTimestampKey=@"timestamp";
 	return self;
 }
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

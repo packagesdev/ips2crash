@@ -21,17 +21,17 @@ NSString * const IPSBundleInfoBundleIdentifierKey=@"CFBundleIdentifier";
 
 @interface IPSBundleInfo ()
 
-	@property (readwrite,copy) NSString * bundleShortVersionString;
+	@property (nullable,readwrite,copy) NSString * bundleShortVersionString;
 
-	@property (readwrite,copy) NSString * bundleVersion;
+	@property (nullable,readwrite,copy) NSString * bundleVersion;
 
-	@property (readwrite,copy) NSString * bundleIdentifier;
+	@property (nullable,readwrite,copy) NSString * bundleIdentifier;
 
 @end
 
 @implementation IPSBundleInfo
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

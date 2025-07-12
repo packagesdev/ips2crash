@@ -19,6 +19,8 @@
 
 #import "IPSOperatingSystemVersion.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, IPSCodeSigningValidationCategory)
 {
 	IPSCodeSigningValidationCategoryPlatform = 1,
@@ -57,9 +59,9 @@ typedef NS_OPTIONS(uint32_t, IPSCodeSigningFlags)
 
 @interface IPSCodeSigningInfo : NSObject <IPSObjectProtocol,NSCopying>
 
-	@property (readonly,copy) NSString * identifier;	// can be nil
+	@property (nullable,readonly,copy) NSString * identifier;
 
-	@property (readonly,copy) NSString * teamIdentifier;	// can be nil
+	@property (nullable,readonly,copy) NSString * teamIdentifier;
 
 	@property (readonly) IPSCodeSigningFlags flags;
 
@@ -89,11 +91,11 @@ typedef NS_OPTIONS(uint32_t, IPSCodeSigningFlags)
 
 	@property (readonly) pid_t parentProcessID;
 
-	@property (readonly,copy) NSString * responsibleProcessName;	// can be nil
+	@property (nullable,readonly,copy) NSString * responsibleProcessName;
 
 	@property (readonly) pid_t responsibleProcessID;
 
-	@property (readonly) IPSCodeSigningInfo * codeSigningInfo;  // can be nil
+	@property (nullable,readonly) IPSCodeSigningInfo * codeSigningInfo;
 
 	@property (readonly) uid_t userID;
 
@@ -117,3 +119,5 @@ typedef NS_OPTIONS(uint32_t, IPSCodeSigningFlags)
 	@property (readonly) BOOL systemIntegrityProtectionEnable;
 
 @end
+
+NS_ASSUME_NONNULL_END

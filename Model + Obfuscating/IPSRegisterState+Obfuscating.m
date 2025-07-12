@@ -27,12 +27,9 @@
 {
 	IPSRegisterState * nRegisterState=[self copy];
 	
-	if (nRegisterState!=nil)
-	{
-		nRegisterState.symbol=nil;
-			
-		nRegisterState.sourceFile=nil;
-	}
+	nRegisterState.symbol=nil;
+	
+	nRegisterState.sourceFile=nil;
 	
 	return nRegisterState;
 }

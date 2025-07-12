@@ -71,9 +71,9 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 @interface IPSCodeSigningInfo ()
 
-	@property (readwrite,copy) NSString * identifier;	// can be nil
+	@property (nullable,readwrite,copy) NSString * identifier;
 
-	@property (readwrite,copy) NSString * teamIdentifier;	// can be nil
+	@property (nullable,readwrite,copy) NSString * teamIdentifier;
 
 	@property (readwrite) IPSCodeSigningFlags flags;
 
@@ -104,11 +104,11 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 	@property (readwrite) pid_t parentProcessID;
 
-	@property (readwrite,copy) NSString * responsibleProcessName;	// can be nil
+	@property (nullable,readwrite,copy) NSString * responsibleProcessName;
 
 	@property (readwrite) pid_t responsibleProcessID;
 
-	@property (readwrite) IPSCodeSigningInfo * codeSigningInfo;	// can be nil
+	@property (nullable,readwrite) IPSCodeSigningInfo * codeSigningInfo;
 
 	@property (readwrite) uid_t userID;
 
@@ -134,7 +134,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 @implementation IPSIncidentHeader
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{
@@ -393,7 +393,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 #pragma mark -
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	self=[super init];
 	

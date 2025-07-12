@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -21,20 +21,24 @@
 
 #import "IPSThreadInstructionState.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSThread : NSObject <IPSObjectProtocol,NSCopying>
 
-	@property (readonly,copy) NSString * queue;	 // can be nil
+	@property (nullable,readonly,copy) NSString * queue;
 
 	@property (readonly) NSUInteger ID;
 
-	@property (readonly,copy) NSString * name;	 // can be nil
+	@property (nullable,readonly,copy) NSString * name;
 
 	@property (readonly) NSArray<IPSThreadFrame *> * frames;
 
 	@property (readonly) BOOL triggered;
 
-	@property (readonly) IPSThreadState * threadState;  // can be nil
+	@property (nullable,readonly) IPSThreadState * threadState;
 
-	@property (readonly) IPSThreadInstructionState * instructionState;  // can be nil
+	@property (nullable,readonly) IPSThreadInstructionState * instructionState;
 
 @end
+
+NS_ASSUME_NONNULL_END

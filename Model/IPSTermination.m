@@ -31,11 +31,11 @@ NSString * const IPSTerminationByPidKey=@"byPid";
 
 	@property (readwrite) NSUInteger flags;
 
-	@property (readwrite,copy) NSString * indicator;
+	@property (nullable,readwrite,copy) NSString * indicator;
 
 	@property (readwrite,copy) NSString * namespace;
 
-	@property (readwrite,copy) NSString * byProc;
+	@property (nullable,readwrite,copy) NSString * byProc;
 
 	@property (readwrite) pid_t byPid;
 
@@ -43,7 +43,7 @@ NSString * const IPSTerminationByPidKey=@"byPid";
 
 @implementation IPSTermination
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

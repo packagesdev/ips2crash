@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -15,18 +15,22 @@
 
 #import "IPSObjectProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSTermination : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly) NSUInteger code;
 
 	@property (readonly) NSUInteger flags;
 
-	@property (readonly,copy) NSString * indicator;
+	@property (nullable,readonly,copy) NSString * indicator;
 
 	@property (readonly,copy) NSString * namespace;
 
-	@property (readonly,copy) NSString * byProc;
+	@property (nullable,readonly,copy) NSString * byProc;
 
 	@property (readonly) pid_t byPid;
 
 @end
+
+NS_ASSUME_NONNULL_END

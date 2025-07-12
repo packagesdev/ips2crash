@@ -31,23 +31,23 @@ NSString * const IPSRegisterStateDescriptionKey=@"description";
 
 	@property (readwrite) NSUInteger value;
 
-	@property (readwrite,copy) NSString * symbol;	// can be nil
+	@property (nullable,readwrite,copy) NSString * symbol;
 
 	@property (readwrite) NSUInteger symbolLocation;
 
-	@property (readwrite,copy) NSString * sourceFile;	// can be nil
+	@property (nullable,readwrite,copy) NSString * sourceFile;
 
 	@property (readwrite) NSUInteger sourceLine;
 
 	@property (readwrite) BOOL matchesCrashFrame;
 
-	@property (readwrite,copy) NSString * r_description;	// can be nil
+	@property (nullable,readwrite,copy) NSString * r_description;
 
 @end
 
 @implementation IPSRegisterState
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

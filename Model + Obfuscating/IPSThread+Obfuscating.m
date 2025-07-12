@@ -33,20 +33,17 @@
 {
 	IPSThread * nThread=[self copy];
 	
-	if (nThread!=nil)
-	{
-		nThread.queue=[inObfuscator obfuscatedStringWithString:self.queue family:IPSStringFamilyQueue];
+	nThread.queue=[inObfuscator obfuscatedStringWithString:self.queue family:IPSStringFamilyQueue];
+	
+	nThread.name=[inObfuscator obfuscatedStringWithString:self.name family:IPSStringFamilyThreadName];
+	
+	nThread.frames=[self.frames WB_arrayByMappingObjectsUsingBlock:^IPSThreadFrame *(IPSThreadFrame * bThreadFrame, NSUInteger bIndex) {
 		
-		nThread.name=[inObfuscator obfuscatedStringWithString:self.name family:IPSStringFamilyThreadName];
+		return [bThreadFrame obfuscateWithObfuscator:inObfuscator];
 		
-		nThread.frames=[self.frames WB_arrayByMappingObjectsUsingBlock:^IPSThreadFrame *(IPSThreadFrame * bThreadFrame, NSUInteger bIndex) {
-		   
-			return [bThreadFrame obfuscateWithObfuscator:inObfuscator];
-			
-		}];
-		
-		nThread.threadState=[self.threadState obfuscateWithObfuscator:inObfuscator];
-	}
+	}];
+	
+	nThread.threadState=[self.threadState obfuscateWithObfuscator:inObfuscator];
 	
 	return nThread;
 }

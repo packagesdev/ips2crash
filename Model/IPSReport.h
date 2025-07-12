@@ -17,20 +17,24 @@
 
 #import "IPSIncident.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSReport : NSObject <NSCopying>
 
 	@property (readonly) IPSSummary * summary;
 
 	@property (readonly) IPSIncident * incident;
 
-- (instancetype)initWithSummary:(IPSSummary *)inSummary incident:(IPSIncident *)inIncident;
+- (nullable instancetype)initWithSummary:(IPSSummary *)inSummary incident:(IPSIncident *)inIncident;
 
-- (instancetype)initWithContentsOfURL:(NSURL *)inURL error:(out NSError **)outError;
+- (nullable instancetype)initWithContentsOfURL:(NSURL *)inURL error:(out NSError **)outError;
 
-- (instancetype)initWithContentsOfFile:(NSString *)inPath error:(out NSError **)outError;
+- (nullable instancetype)initWithContentsOfFile:(NSString *)inPath error:(out NSError **)outError;
 
-- (instancetype)initWithData:(NSData *)inData error:(out NSError **)outError;
+- (nullable instancetype)initWithData:(NSData *)inData error:(out NSError **)outError;
 
-- (instancetype)initWithString:(NSString *)inString error:(out NSError **)outError;
+- (nullable instancetype)initWithString:(NSString *)inString error:(out NSError **)outError;
 
 @end
+
+NS_ASSUME_NONNULL_END

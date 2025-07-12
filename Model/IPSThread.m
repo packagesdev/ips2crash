@@ -31,25 +31,25 @@ NSString * const IPSThreadInstructionStateKey=@"instructionState";
 
 @interface IPSThread ()
 
-	@property (readwrite,copy) NSString * queue;	 // can be nil
+	@property (nullable,readwrite,copy) NSString * queue;
 
 	@property (readwrite) NSUInteger ID;
 
-	@property (readwrite,copy) NSString * name;	 // can be nil
+	@property (nullable,readwrite,copy) NSString * name;
 
 	@property (readwrite) NSArray<IPSThreadFrame *> * frames;
 
 	@property (readwrite) BOOL triggered;
 
-	@property (readwrite) IPSThreadState * threadState;  // can be nil
+	@property (nullable,readwrite) IPSThreadState * threadState;
 
-	@property (readwrite) IPSThreadInstructionState * instructionState;  // can be nil
+	@property (nullable,readwrite) IPSThreadInstructionState * instructionState;
 
 @end
 
 @implementation IPSThread
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

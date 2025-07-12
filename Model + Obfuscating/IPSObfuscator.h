@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Stephane Sudre
+ Copyright (c) 2022-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -12,6 +12,8 @@
  */
 
 #import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, IPSStringFamily)
 {
@@ -26,7 +28,7 @@ typedef NS_ENUM(NSUInteger, IPSStringFamily)
 
 @interface IPSObfuscator : NSObject
 
-- (NSString *)obfuscatedStringWithString:(NSString *)inString family:(IPSStringFamily)inFamily;
+- (nullable NSString *)obfuscatedStringWithString:(nullable NSString *)inString family:(IPSStringFamily)inFamily;
 
 @end
 
@@ -35,3 +37,5 @@ typedef NS_ENUM(NSUInteger, IPSStringFamily)
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator;
 
 @end
+
+NS_ASSUME_NONNULL_END

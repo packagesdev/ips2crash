@@ -25,7 +25,7 @@ NSString * const IPSSummarySerializationBugTypeKey=@"bug_type";
 
 #pragma mark -
 
-+ (IPSSummary *)summaryWithData:(NSData *)inData error:(out NSError **)outError
++ (nullable IPSSummary *)summaryWithData:(NSData *)inData error:(out NSError **)outError
 {
 	if ([inData isKindOfClass:NSData.class]==NO)
 	{

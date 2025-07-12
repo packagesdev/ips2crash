@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -15,19 +15,22 @@
 
 #import "IPSObjectProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSThreadFrame : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly) NSUInteger imageIndex;
 
 	@property (readonly) NSUInteger imageOffset;
 
-	@property (readonly,copy) NSString * symbol;	// can be nil
+	@property (nullable,readonly,copy) NSString * symbol;
 
 	@property (readonly) NSUInteger symbolLocation;
 
-	@property (readonly,copy) NSString * sourceFile;	// can be nil
+	@property (nullable,readonly,copy) NSString * sourceFile;
 
 	@property (readonly) NSUInteger sourceLine;
 
 @end
 
+NS_ASSUME_NONNULL_END

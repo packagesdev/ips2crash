@@ -25,16 +25,16 @@ NSString * const IPSApplicationSpecificInformationAsiSignaturesKey=@"asiSignatur
 
 	@property (readwrite) NSDictionary<NSString *,NSArray<NSString *> *> * applicationsInformation;
 
-	@property (readwrite) NSArray<NSString *> * backtraces;
+	@property (nullable,readwrite) NSArray<NSString *> * backtraces;
 
-	@property (readwrite) NSArray<NSString *> * signatures;
+	@property (nullable,readwrite) NSArray<NSString *> * signatures;
 
 @end
 
 
 @implementation IPSApplicationSpecificInformation
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError *__autoreleasing *)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError *__autoreleasing *)outError
 {
 	if (inRepresentation==nil)
 	{

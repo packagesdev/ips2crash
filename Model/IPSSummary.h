@@ -15,6 +15,8 @@
 
 #import "IPSObjectProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSUInteger, IPSBugType)
 {									// 2nd part format:
 	IPSBugTypeReserved1=58,			// tar.gz
@@ -34,6 +36,8 @@ typedef NS_ENUM(NSUInteger, IPSBugType)
 
 	@property (readonly) NSDate * timeStamp;
 
-- (instancetype)initWithSummary:(IPSSummary *)inSummary;
+- (nullable instancetype)initWithSummary:(IPSSummary *)inSummary;
 
 @end
+
+NS_ASSUME_NONNULL_END

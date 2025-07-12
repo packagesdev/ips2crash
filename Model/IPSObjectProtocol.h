@@ -16,6 +16,8 @@
 
 #import "IPSError.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 #define IPSFullCheckObjectValueForKey(class,object,key) if ((object)==nil)\
 {\
 	if (outError!=NULL)\
@@ -60,8 +62,10 @@ if ([(object) isKindOfClass:class]==NO)\
 
 @protocol IPSObjectProtocol <NSObject>
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError;
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError;
 
 - (NSDictionary *)representation;
 
 @end
+
+NS_ASSUME_NONNULL_END

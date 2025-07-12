@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Stephane Sudre
+ Copyright (c) 2022-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -28,17 +28,14 @@
 
 - (id)obfuscateWithObfuscator:(IPSObfuscator *)inObfuscator
 {
-	IPSThreadState * nThreadState=[IPSThreadState alloc];
+	IPSThreadState * nThreadState=[IPSThreadState new];
 	
-	if (nThreadState!=nil)
-	{
-		nThreadState.flavor=[self.flavor copy];
+	nThreadState.flavor=[self.flavor copy];
+	
+	nThreadState.registersStates=[self.registersStates WB_dictionaryByMappingObjectsUsingBlock:^id(id bKey, IPSRegisterState * bRegisterState) {
 		
-		nThreadState.registersStates=[self.registersStates WB_dictionaryByMappingObjectsUsingBlock:^id(id bKey, IPSRegisterState * bRegisterState) {
-			
-			return [bRegisterState obfuscateWithObfuscator:inObfuscator];
-		}];
-	}
+		return [bRegisterState obfuscateWithObfuscator:inObfuscator];
+	}];
 	
 	return nThreadState;
 }

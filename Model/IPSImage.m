@@ -37,19 +37,19 @@ NSString * const IPSImageSizeKey=@"size";
 
 	@property (readwrite,copy) NSString * source;
 
-	@property (readwrite,copy) NSString * name;
+	@property (nullable,readwrite,copy) NSString * name;
 
-	@property (readwrite,copy) NSString * bundleIdentifier;
+	@property (nullable,readwrite,copy) NSString * bundleIdentifier;
 
-	@property (readwrite,copy) NSString * bundleVersion;
+	@property (nullable,readwrite,copy) NSString * bundleVersion;
 
-	@property (readwrite,copy) NSString * bundleShortVersionString;
+	@property (nullable,readwrite,copy) NSString * bundleShortVersionString;
 
-	@property (readwrite,copy) NSString * path;
+	@property (nullable,readwrite,copy) NSString * path;
 
 	@property (readwrite) NSUUID * UUID;
 
-	@property (readwrite,copy) NSString * architecture;
+	@property (nullable,readwrite,copy) NSString * architecture;
 
 	@property (readwrite) NSUInteger loadAddress;
 
@@ -59,7 +59,7 @@ NSString * const IPSImageSizeKey=@"size";
 
 @implementation IPSImage
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

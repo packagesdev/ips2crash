@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Stephane Sudre
+ Copyright (c) 2022-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -50,40 +50,37 @@
 {
 	IPSIncident * nIncident=[self copy];
 	
-	if (nIncident!=nil)
-	{
-		nIncident.header=[self.header obfuscateWithObfuscator:inObfuscator];
+	nIncident.header=[self.header obfuscateWithObfuscator:inObfuscator];
+	
+	nIncident.exceptionInformation=[self.exceptionInformation obfuscateWithObfuscator:inObfuscator];
+	
+	NSMutableIndexSet * tMutableIndexSet=[NSMutableIndexSet indexSet];
+	
+	nIncident.binaryImages=[self.binaryImages WB_arrayByMappingObjectsUsingBlock:^IPSImage *(IPSImage * bImage, NSUInteger bIndex) {
 		
-		nIncident.exceptionInformation=[self.exceptionInformation obfuscateWithObfuscator:inObfuscator];
+		BOOL tIsUserCode=bImage.isUserCode;
 		
-		NSMutableIndexSet * tMutableIndexSet=[NSMutableIndexSet indexSet];
-		
-		nIncident.binaryImages=[self.binaryImages WB_arrayByMappingObjectsUsingBlock:^IPSImage *(IPSImage * bImage, NSUInteger bIndex) {
+		if (tIsUserCode==YES)
+		{
+			[tMutableIndexSet addIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(bImage.loadAddress,bImage.size)]];
 			
-			BOOL tIsUserCode=bImage.isUserCode;
-			
-			if (tIsUserCode==YES)
-			{
-				[tMutableIndexSet addIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(bImage.loadAddress,bImage.size)]];
-				
-				[inObfuscator setSharedObject:@(YES) forKey:[NSString stringWithFormat:@"image_%lu",bIndex]];
-			}
-			
-			return [bImage obfuscateWithObfuscator:inObfuscator];
-		}];
+			[inObfuscator setSharedObject:@(YES) forKey:[NSString stringWithFormat:@"image_%lu",bIndex]];
+		}
 		
-		[inObfuscator setSharedObject:[tMutableIndexSet copy] forKey:@"userCodeIndexSet"];
+		return [bImage obfuscateWithObfuscator:inObfuscator];
+	}];
+	
+	[inObfuscator setSharedObject:[tMutableIndexSet copy] forKey:@"userCodeIndexSet"];
+	
+	nIncident.diagnosticMessage=[self.diagnosticMessage obfuscateWithObfuscator:inObfuscator];
+	
+	nIncident.threads=[self.threads WB_arrayByMappingObjectsUsingBlock:^id(IPSThread * bThread, NSUInteger bIndex) {
 		
-		nIncident.diagnosticMessage=[self.diagnosticMessage obfuscateWithObfuscator:inObfuscator];
+		return [bThread obfuscateWithObfuscator:inObfuscator];
 		
-		nIncident.threads=[self.threads WB_arrayByMappingObjectsUsingBlock:^id(IPSThread * bThread, NSUInteger bIndex) {
-		   
-			return [bThread obfuscateWithObfuscator:inObfuscator];
-			
-		}];
-		
-		nIncident.vmSummary=self.vmSummary;
-	}
+	}];
+	
+	nIncident.vmSummary=self.vmSummary;
 	
 	return nIncident;
 }

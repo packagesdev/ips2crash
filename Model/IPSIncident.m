@@ -33,17 +33,17 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
 
 	@property (readwrite) NSArray<IPSThread *> * threads;
 
-	@property (readwrite) NSArray<IPSImage *> * binaryImages;
+	@property (nullable,readwrite) NSArray<IPSImage *> * binaryImages;
 
 	@property (readwrite) IPSExternalModificationSummary * extMods;
 
-	@property (readwrite,copy) NSString * vmSummary;
+	@property (nullable,readwrite,copy) NSString * vmSummary;
 
 @end
 
 @implementation IPSIncident
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if ([inRepresentation isKindOfClass:NSDictionary.class]==NO)
 	{
@@ -172,7 +172,7 @@ NSString * const IPSIncidentVMSummaryKey=@"vmSummary";
 
 #pragma mark -
 
-- (IPSThreadState *)threadState
+- (nullable IPSThreadState *)threadState
 {
 	IPSIncidentExceptionInformation * tExceptionInformation=self.exceptionInformation;
 	

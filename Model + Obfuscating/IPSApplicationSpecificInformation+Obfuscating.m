@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2022, Stephane Sudre
+ Copyright (c) 2022-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -132,24 +132,21 @@
 {
 	IPSApplicationSpecificInformation * nApplicationSpecificInformation=[self copy];
 	
-	if (nApplicationSpecificInformation!=nil)
-	{
-		nApplicationSpecificInformation.applicationsInformation=[self.applicationsInformation copy];
+	nApplicationSpecificInformation.applicationsInformation=[self.applicationsInformation copy];
+	
+	nApplicationSpecificInformation.backtraces=[self.backtraces WB_arrayByMappingObjectsUsingBlock:^NSString *(NSString * bBacktrace, NSUInteger bIndex) {
 		
-		nApplicationSpecificInformation.backtraces=[self.backtraces WB_arrayByMappingObjectsUsingBlock:^NSString *(NSString * bBacktrace, NSUInteger bIndex) {
+		NSMutableArray * tLines=[NSMutableArray array];
+		
+		[bBacktrace enumerateLinesUsingBlock:^(NSString * bLine, BOOL * bOutStop) {
 			
-			NSMutableArray * tLines=[NSMutableArray array];
-			
-			[bBacktrace enumerateLinesUsingBlock:^(NSString * bLine, BOOL * bOutStop) {
-				
-				[tLines addObject:[self obfuscateStackFrame:bLine withObfuscator:inObfuscator]];
-			}];
-			
-			return [tLines componentsJoinedByString:@"\n"];
+			[tLines addObject:[self obfuscateStackFrame:bLine withObfuscator:inObfuscator]];
 		}];
 		
-		nApplicationSpecificInformation.signatures=[self.signatures copy];
-	}
+		return [tLines componentsJoinedByString:@"\n"];
+	}];
+	
+	nApplicationSpecificInformation.signatures=[self.signatures copy];
 	
 	return nApplicationSpecificInformation;
 }

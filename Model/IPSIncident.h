@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2021-2022, Stephane Sudre
+ Copyright (c) 2021-2025, Stephane Sudre
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -27,6 +27,8 @@
 
 #import "IPSExternalModificationSummary.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSIncident : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly) IPSIncidentHeader * header;
@@ -37,12 +39,14 @@
 
 	@property (readonly) NSArray<IPSThread *> * threads;
 
-	@property (nonatomic,readonly) IPSThreadState * threadState;
+	@property (nullable,nonatomic,readonly) IPSThreadState * threadState;
 
-	@property (readonly) NSArray<IPSImage *> * binaryImages;
+	@property (nullable,readonly) NSArray<IPSImage *> * binaryImages;
 
 	@property (readonly) IPSExternalModificationSummary * extMods;
 
-	@property (readonly,copy) NSString * vmSummary;
+	@property (nullable,readonly,copy) NSString * vmSummary;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -25,7 +25,7 @@
 
 @implementation IPSReport
 
-- (instancetype)initWithSummary:(IPSSummary *)inSummary incident:(IPSIncident *)inIncident
+- (nullable instancetype)initWithSummary:(IPSSummary *)inSummary incident:(IPSIncident *)inIncident
 {
 	if ([inSummary isKindOfClass:IPSSummary.class]==NO ||
 		[inIncident isKindOfClass:IPSIncident.class]==NO)
@@ -42,7 +42,7 @@
 	return self;
 }
 
-- (instancetype)initWithContentsOfURL:(NSURL *)inURL error:(out NSError **)outError
+- (nullable instancetype)initWithContentsOfURL:(NSURL *)inURL error:(out NSError **)outError
 {
 	if ([inURL isKindOfClass:NSURL.class]==NO)
 	{
@@ -66,7 +66,7 @@
 	return [self initWithData:tData error:outError];
 }
 
-- (instancetype)initWithContentsOfFile:(NSString *)inPath error:(out NSError **)outError
+- (nullable instancetype)initWithContentsOfFile:(NSString *)inPath error:(out NSError **)outError
 {
 	if ([inPath isKindOfClass:NSString.class]==NO)
 	{
@@ -90,7 +90,7 @@
 	return [self initWithData:tData error:outError];
 }
 
-- (instancetype)initWithData:(NSData *)inData error:(out NSError **)outError;
+- (nullable instancetype)initWithData:(NSData *)inData error:(out NSError **)outError;
 {
 	if ([inData isKindOfClass:NSData.class]==NO)
 	{
@@ -113,7 +113,7 @@
 	return [self initWithString:tString error:outError];
 }
 
-- (instancetype)initWithString:(NSString *)inString error:(out NSError **)outError;
+- (nullable instancetype)initWithString:(NSString *)inString error:(out NSError **)outError;
 {
 	if ([inString isKindOfClass:NSString.class]==NO)
 	{

@@ -13,9 +13,12 @@
 
 #import "IPSIncident.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSIncident (ApplicationSpecificInformation)
 
-- (NSArray<NSString *> *)applicationSpecificInformationMessage;	// Can be nil
+- (nullable NSArray<NSString *> *)applicationSpecificInformationMessage;
 
 @end
 
+NS_ASSUME_NONNULL_END

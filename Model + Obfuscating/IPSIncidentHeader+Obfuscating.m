@@ -47,21 +47,18 @@
 {
 	IPSIncidentHeader * nIncidentHeader=[self copy];
 	
-	if (nIncidentHeader!=nil)
-	{
-		nIncidentHeader.processName=[inObfuscator obfuscatedStringWithString:self.processName family:IPSStringFamilyBinary];
-		
-		nIncidentHeader.processPath=[inObfuscator obfuscatedStringWithString:self.processPath family:IPSStringFamilyPath];
-		
-		if (self.codeSigningInfo!=nil)
-			nIncidentHeader.codeSigningInfo=[self.codeSigningInfo obfuscateWithObfuscator:inObfuscator];
-		
-		nIncidentHeader.bundleInfo=[self.bundleInfo obfuscateWithObfuscator:inObfuscator];
-		
-		nIncidentHeader.parentProcessName=[inObfuscator obfuscatedStringWithString:self.parentProcessName family:IPSStringFamilyBinary];
-		
-		nIncidentHeader.responsibleProcessName=[inObfuscator obfuscatedStringWithString:self.responsibleProcessName family:IPSStringFamilyBinary];
-	}
+	nIncidentHeader.processName=[inObfuscator obfuscatedStringWithString:self.processName family:IPSStringFamilyBinary];
+	
+	nIncidentHeader.processPath=[inObfuscator obfuscatedStringWithString:self.processPath family:IPSStringFamilyPath];
+	
+	if (self.codeSigningInfo!=nil)
+		nIncidentHeader.codeSigningInfo=[self.codeSigningInfo obfuscateWithObfuscator:inObfuscator];
+	
+	nIncidentHeader.bundleInfo=[self.bundleInfo obfuscateWithObfuscator:inObfuscator];
+	
+	nIncidentHeader.parentProcessName=[inObfuscator obfuscatedStringWithString:self.parentProcessName family:IPSStringFamilyBinary];
+	
+	nIncidentHeader.responsibleProcessName=[inObfuscator obfuscatedStringWithString:self.responsibleProcessName family:IPSStringFamilyBinary];
 	
 	return nIncidentHeader;
 }
@@ -75,12 +72,9 @@
 {
 	IPSCodeSigningInfo * nCodeSigningInfo=[self copy];
 	
-	if (nCodeSigningInfo!=nil)
-	{
-		nCodeSigningInfo.identifier=[inObfuscator obfuscatedStringWithString:self.identifier family:IPSStringFamilyBundleIdentifier];
+	nCodeSigningInfo.identifier=[inObfuscator obfuscatedStringWithString:self.identifier family:IPSStringFamilyBundleIdentifier];
 		
-		nCodeSigningInfo.teamIdentifier=[inObfuscator obfuscatedStringWithString:self.teamIdentifier family:IPSStringFamilyNone];
-	}
+	nCodeSigningInfo.teamIdentifier=[inObfuscator obfuscatedStringWithString:self.teamIdentifier family:IPSStringFamilyNone];
 	
 	return nCodeSigningInfo;
 }

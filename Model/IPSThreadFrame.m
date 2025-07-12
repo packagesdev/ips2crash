@@ -31,11 +31,11 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
 
 	@property (readwrite) NSUInteger imageOffset;
 
-	@property (readwrite,copy) NSString * symbol;	// can be nil
+	@property (nullable,readwrite,copy) NSString * symbol;
 
 	@property (readwrite) NSUInteger symbolLocation;
 
-	@property (readwrite,copy) NSString * sourceFile;	// can be nil
+	@property (nullable,readwrite,copy) NSString * sourceFile;
 
 	@property (readwrite) NSUInteger sourceLine;
 
@@ -43,7 +43,7 @@ NSString * const IPSThreadFrameSourceLineKey=@"sourceLine";
 
 @implementation IPSThreadFrame
 
-- (instancetype)initWithRepresentation:(NSDictionary *)inRepresentation error:(out NSError **)outError
+- (nullable instancetype)initWithRepresentation:(nullable NSDictionary *)inRepresentation error:(out NSError **)outError
 {
 	if (inRepresentation==nil)
 	{

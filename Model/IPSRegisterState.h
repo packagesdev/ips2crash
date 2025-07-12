@@ -15,21 +15,24 @@
 
 #import "IPSObjectProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSRegisterState : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly) NSUInteger value;
 
-	@property (readonly,copy) NSString * symbol;	// can be nil
+	@property (nullable,readonly,copy) NSString * symbol;
 
 	@property (readonly) NSUInteger symbolLocation;
 
-	@property (readonly,copy) NSString * sourceFile;	// can be nil
+	@property (nullable,readonly,copy) NSString * sourceFile;
 
 	@property (readonly) NSUInteger sourceLine;
 
 	@property (readonly) BOOL matchesCrashFrame;
 
-	@property (readonly,copy) NSString * r_description;	// can be nil
+	@property (nullable,readonly,copy) NSString * r_description;
 
 @end
 
+NS_ASSUME_NONNULL_END

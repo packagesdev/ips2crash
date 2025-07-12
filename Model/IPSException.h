@@ -15,16 +15,20 @@
 
 #import "IPSObjectProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IPSException : NSObject <IPSObjectProtocol,NSCopying>
 
 	@property (readonly,copy) NSString * type;
 
-	@property (readonly,copy) NSString * subtype;
+	@property (nullable,readonly,copy) NSString * subtype;
 
-	@property (readonly,copy) NSString * signal;
+	@property (nullable,readonly,copy) NSString * signal;
 
 	@property (readonly,copy) NSString * codes;
 
-	@property (readonly) NSArray<NSNumber *> * rawCodes;
+	@property (nullable,readonly) NSArray<NSNumber *> * rawCodes;
 
 @end
+
+NS_ASSUME_NONNULL_END
