@@ -67,7 +67,7 @@ typedef NS_OPTIONS(uint32_t, IPSCodeSigningFlags)
 
 	@property (readonly) IPSCodeSigningValidationCategory validationCategory;
 
-	@property (readonly) NSUInteger trustLevel;
+	@property (readonly) uint32_t trustLevel;
 
 	@property (readonly) NSUInteger auxiliaryInfo;
 

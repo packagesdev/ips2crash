@@ -79,7 +79,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 	@property (readwrite) IPSCodeSigningValidationCategory validationCategory;
 
-	@property (readwrite) NSUInteger trustLevel;
+	@property (readwrite) uint32_t trustLevel;
 
 	@property (readwrite) NSUInteger auxiliaryInfo;
 
@@ -452,7 +452,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 		{
 			IPSClassCheckNumberValueForKey(tNumber,IPSIncidentHeaderCodeSigningTrustLevelKey);
 
-			_trustLevel=tNumber.unsignedIntegerValue;
+			_trustLevel=tNumber.unsignedIntValue;
 		}
 
 		tNumber=inRepresentation[IPSIncidentHeaderCodeSigningAuxiliaryInfoKey];
@@ -496,15 +496,10 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 	if (nCodeSigningInfo!=nil)
 	{
 		nCodeSigningInfo->_identifier=[self.identifier copyWithZone:inZone];
-
 		nCodeSigningInfo->_teamIdentifier=[self.teamIdentifier copyWithZone:inZone];
-
 		nCodeSigningInfo->_flags=self.flags;
-
 		nCodeSigningInfo->_validationCategory=self.validationCategory;
-
 		nCodeSigningInfo->_trustLevel=self.trustLevel;
-
 		nCodeSigningInfo->_auxiliaryInfo=self.auxiliaryInfo;
 	}
 
