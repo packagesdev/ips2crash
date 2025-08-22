@@ -144,7 +144,7 @@
 		// Summary
 		
 		NSString * tFirstLine=[inString substringWithRange:tRange];
-
+		
 		if (tFirstLine==nil)
 		{
 			if (outError!=NULL)
@@ -194,18 +194,10 @@
 			return nil;
 		}
 		
-		NSData * tIncidentData=[tIncidentString dataUsingEncoding:NSUTF8StringEncoding];
-		
-		tError=nil;
-		NSDictionary * tIncidentDictionary=[NSJSONSerialization JSONObjectWithData:tIncidentData options:NSJSONReadingAllowFragments error:&tError];
+		NSDictionary * tIncidentDictionary=[self.class incidentDictionaryWithString:tIncidentString error:outError];
 		
 		if (tIncidentDictionary==nil)
-		{
-			if (outError!=NULL)
-				*outError=tError;
-			
 			return nil;
-		}
 		
 		tError=nil;
 		_incident=[[IPSIncident alloc] initWithRepresentation:tIncidentDictionary error:&tError];
@@ -227,6 +219,36 @@
 	}
 	
 	return self;
+}
+
++ (NSDictionary *)incidentDictionaryWithString:(NSString *)inString error:(NSError **)outError
+{
+	NSData * tIncidentData=[inString dataUsingEncoding:NSUTF8StringEncoding];
+	NSError * tError=nil;
+	NSDictionary * tIncidentDictionary=[NSJSONSerialization JSONObjectWithData:tIncidentData options:NSJSONReadingAllowFragments error:&tError];
+	
+	if (tIncidentDictionary==nil)
+	{
+		if ([tError.domain isEqualToString:NSCocoaErrorDomain]==YES && tError.code==NSPropertyListReadCorruptError)
+		{
+			// Check whether there is not a System Profile: section after the incident dictionary.
+			
+			NSRange tRange=[inString rangeOfString:@"System Profile:" options:NSBackwardsSearch];
+			
+			if (tRange.location!=NSNotFound)
+			{
+				NSLog(@"An error occurred when parsing the .ips file due to a System Profile: section at the end of the file. Trying again without this section.");
+				return [self incidentDictionaryWithString:[inString substringToIndex:tRange.location] error:outError];
+			}
+		}
+		
+		if (outError!=NULL)
+			*outError=tError;
+		
+		return nil;
+	}
+	
+	return tIncidentDictionary;
 }
 
 #pragma mark - NSCopying
