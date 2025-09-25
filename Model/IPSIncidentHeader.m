@@ -119,7 +119,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 	@property (readwrite) NSUInteger reportVersion;
 
-	@property (readwrite) NSUUID * crashReporterKey;
+	@property (readwrite, copy) id crashReporterKey; // Can be a UUID string (macOS) or a SHA-1 hash (iOS)
 
 
 	@property (readwrite) NSUUID * sleepWakeUUID;
@@ -292,6 +292,8 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 	
 		_crashReporterKey=[[NSUUID alloc] initWithUUIDString:tString];
 
+		if (_crashReporterKey==nil)
+			_crashReporterKey=[tString copy];
 
 
 		tString=inRepresentation[IPSIncidentHeaderSleepWakeUUIDKey];
@@ -374,7 +376,7 @@ NSString * const IPSIncidentHeaderSystemIntegrityProtectionKey=@"sip";
 
 		nIncidentHeader->_reportVersion=self.reportVersion;
 
-		nIncidentHeader.crashReporterKey=self.crashReporterKey;
+		nIncidentHeader.crashReporterKey=[self.crashReporterKey copyWithZone:inZone];
 
 		nIncidentHeader.sleepWakeUUID=self.sleepWakeUUID;
 
