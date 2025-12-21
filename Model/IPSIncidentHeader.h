@@ -106,7 +106,7 @@ typedef NS_OPTIONS(uint32_t, IPSCodeSigningFlags)
 
 	@property (readonly) NSUInteger reportVersion;
 
-	@property (readonly) NSUUID * crashReporterKey;
+	@property (readonly, copy) id crashReporterKey;
 
 
 	@property (readonly) NSUUID * sleepWakeUUID;

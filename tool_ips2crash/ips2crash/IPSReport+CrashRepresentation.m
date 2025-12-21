@@ -166,6 +166,9 @@
 	
 	IPSIncidentHeader * tHeader=tIncident.header;
 	
+	if ([tHeader.crashReporterKey isKindOfClass:NSString.class]==YES)
+		[tMutableString appendFormat:@"CrashReporter Key:     %@\n",tHeader.crashReporterKey];
+	
 	[tMutableString appendFormat:@"Process:               %@ [%d]\n",tHeader.processName,tHeader.processID];
 	
 	[tMutableString appendFormat:@"Path:                  %@\n",tHeader.processPath];
@@ -217,7 +220,8 @@
 	
 	[tMutableString appendString:@"Report Version:        12\n"];
 	
-	[tMutableString appendFormat:@"Anonymous UUID:        %@\n",tHeader.crashReporterKey];
+	if ([tHeader.crashReporterKey isKindOfClass:NSUUID.class]==YES)
+		[tMutableString appendFormat:@"Anonymous UUID:        %@\n",tHeader.crashReporterKey];
 	
 	[tMutableString appendString:@"\n"];
 	
