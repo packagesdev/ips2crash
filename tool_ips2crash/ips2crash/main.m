@@ -22,6 +22,9 @@
 #include <unistd.h>
 #include <getopt.h>
 
+
+#define IPS2CRASH_VERSION	"1.0.1"
+
 void usage(void);
 
 void usage(void)
@@ -45,10 +48,12 @@ int main(int argc, const char * argv[])
 		
 		static struct option tLongOptions[] =
 		{
-			{"verbose",						no_argument,		0,	'v'},
+			{"verbose",		no_argument,		0,	'v'},
 			
-			{"obfuscate", no_argument,		  0,	'O'},
-			{"output",	required_argument,	0,	'o'},
+			{"obfuscate", 	no_argument,		0,	'O'},
+			{"output",		required_argument,	0,	'o'},
+			
+			{"version",		no_argument,		0,	1},
 			
 			{0, 0, 0, 0}
 		};
@@ -76,6 +81,12 @@ int main(int argc, const char * argv[])
 					tCOutputPath=optarg;
 					
 					break;
+					
+				case 1:
+					
+					(void)fprintf(stdout, "ips2crash version %s\n", IPS2CRASH_VERSION);
+					
+					return EXIT_SUCCESS;
 					
 				case '?':
 				default:
